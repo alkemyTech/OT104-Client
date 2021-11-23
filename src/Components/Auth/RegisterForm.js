@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../FormStyles.css';
+import { Formik } from 'formik';
 
 const RegisterForm = () => {
     const [initialValues, setInitialValues] = useState({
@@ -22,11 +23,37 @@ const RegisterForm = () => {
     }
 
     return (
+     <Formik>
         <form className="form-container" onSubmit={handleSubmit}>
-            <input className="input-field" type="text" name="name" value={initialValues.name} onChange={handleChange} placeholder="Enter name"></input>
-            <input className="input-field" type="text" name="lastName" value={initialValues.lastName} onChange={handleChange} placeholder="Enter last name"></input>
+            <input className="input-field" 
+             type="text" name="name" 
+             value={initialValues.name} 
+             onChange={handleChange} placeholder="Enter name"></input>
+
+            <input className="input-field" 
+             type="text" name="lastName" 
+             value={initialValues.lastName} 
+             onChange={handleChange} placeholder="Enter last name"></input>
+
+            <input className="input-field" 
+             type="text" 
+             name="name" 
+             value={initialValues.name} 
+             onChange={handleChange} placeholder="Enter email"></input>
+            
+            <input className="input-field" 
+             type="text" name="lastName" 
+             value={initialValues.lastName} 
+             onChange={handleChange} placeholder="Enter password"></input>
+             
+            <input className="input-field" 
+              type="text" name="lastName" 
+              value={initialValues.lastName} 
+              onChange={handleChange} placeholder="Confirm password"></input>
+            
             <button className="submit-btn" type="submit">Register</button>
         </form>
+    </Formik>  
     );
 }
  
