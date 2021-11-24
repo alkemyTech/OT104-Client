@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
-import { ErrorMessage, Field, Form, Formik, FormikProvider, useFormik } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import '../FormStyles.css';
+
+const SUPPORTED_FORMATS = ['image/jpeg', 'image/jpg', 'image/png'];
+// I need the total of slides to calculate the position to edit.
+// Maybe we can fetch the slides.length to use in the select input, see orderOptions.
+const TOTAL_SLIDES = 5;
 
 const SlideSchema = Yup.object().shape({
     name: Yup.string()
@@ -21,66 +26,111 @@ const SlideSchema = Yup.object().shape({
                 message: 'Image is required.'
             });
         }
-        if (value.type !== 'image/jpg' || value.type !== 'image/png') {
-            return createError({
-                path: 'image',
-                message: 'Valid formats are jpg and png.'
-            });
+        if (value.type) {
+            if (!SUPPORTED_FORMATS.includes(value.type)) {
+                return createError({
+                    path: 'image',
+                    message: `Valid formats are ${SUPPORTED_FORMATS}`
+                });
+            }
         }
         return true;
     })
 });
 
-const InputFile = ({...props}) => {
+const InputFile = ({name, setValue, initialValue, ...props}) => {
+    const [img, setImg] = useState(initialValue);
+
+    const handleFile = (event) => {
+        setValue(name, event.currentTarget.files[0]);
+        if (event.currentTarget.files[0]) {
+            setImg(URL.createObjectURL(event.currentTarget.files[0]));
+        } else {
+            URL.revokeObjectURL(img);
+            setImg(null);
+        }
+    }
+
     return (
-        <input 
-            {...props}
-            type="file"
-            accept=".jpg, .png"
-        />
+        <>
+            {img && <img src={img} alt="" width="100%" style={{maxWidth: "300px"}} />}
+            <input 
+                {...props}
+                name={name}
+                id={name}
+                type="file"
+                accept=".jpg, .png"
+                onChange={handleFile}
+            />
+        </>
     )
 }
 
 const SlidesForm = ({slide}) => {
     
+    const defaultValues = {
+        name: '',
+        description: '',
+        order: null,
+        image: null
+    };
+
+    const orderOptions = [];
+
+    for (let i = 0; i < TOTAL_SLIDES; i++) {
+        const position = i;
+        orderOptions.push(<option key={position} value={position}>{position + 1}</option>);
+    }
+
     const handleCKEditor = (editor, setValue, name) => {
         setValue(name, editor.getData());
     }
 
     const handleSubmit = (values) =>{
-        console.log(values);
+        if (slide) {
+            // Filter changed values
+            return console.log('PATCH/Slides/:id', values);
+        }
+        return console.log('POST/Slides/create', values);
     }
 
     return (
         <div>
             <Formik
-                initialValues={slide}
+                initialValues={slide || defaultValues}
                 validationSchema={SlideSchema}
                 onSubmit={values => handleSubmit(values)}
             >
                 {({errors, setFieldValue}) => (
                     <Form className="form-container">
-                        {console.log(errors)}
+                        <label htmlFor="name">Name</label>
                         <Field
                             className="input-field"
                             type="text"
                             name="name"
                         />
+                        <ErrorMessage name="name" />
+                        <label htmlFor="description">Description</label>
                         <CKEditor
                             id="description"
                             className="input-field"
                             editor={ClassicEditor}
+                            data={slide? slide.description : ""}
                             onChange={(event, editor) => handleCKEditor(editor, setFieldValue, "description")}
                         />
+                        <ErrorMessage name="description" />
+                        <label htmlFor="image">Image</label>
                         <InputFile 
                             name="image"
-                            onChange={event => setFieldValue("image", event.currentTarget.files[0])}
+                            setValue={setFieldValue}
+                            initialValue={slide? slide.image : null}
                         />
-                         <Field name="order" component="select" className="input-field">
-                            <option value={0}>1</option>
-                            <option value={1}>2</option>
-                            <option value={2}>3</option>
+                        <ErrorMessage name="image" />
+                        <label htmlFor="order">Order</label>
+                         <Field name="order" component="select" value={slide? slide.order : TOTAL_SLIDES}>
+                            {orderOptions}
                         </Field>
+                        <ErrorMessage name="order" />
                         <button className="submit-btn" type="submit">Send</button>
                     </Form>
                 )}
@@ -90,12 +140,12 @@ const SlidesForm = ({slide}) => {
 }
 
 SlidesForm.defaultProps = {
-    slide: {
-        name: '',
-        description: '',
-        order: null,
-        image: null
-    }
+    // slide: {
+    //     name: 'Testeo',
+    //     description: '<p>Consequat fugiat non proident culpa enim fugiat dolore ullamco officia laboris. Deserunt dolor eu ad officia do ad. Ipsum duis ipsum ea excepteur eiusmod dolore labore commodo aliqua Lorem. Consectetur sit exercitation pariatur eu qui deserunt veniam enim cupidatat et est.</p>',
+    //     order: 3,
+    //     image: 'https://www.remosoftware.com/info/es/wp-content/uploads/sites/4/2021/04/JPG-vs-JPEG-1280x720.jpg'
+    // }
 }
 
 export default SlidesForm;
