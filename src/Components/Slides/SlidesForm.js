@@ -6,7 +6,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import '../FormStyles.css';
 
 const SUPPORTED_FORMATS = ['image/jpeg', 'image/jpg', 'image/png'];
-// I need the total of slides to calculate the position to edit.
+// need the total of slides to calculate the position to edit.
 // Maybe we can fetch the slides.length to use in the select input, see orderOptions.
 const TOTAL_SLIDES = 5;
 
@@ -71,7 +71,7 @@ const SlidesForm = ({slide}) => {
     const defaultValues = {
         name: '',
         description: '',
-        order: null,
+        order: TOTAL_SLIDES - 1,
         image: null
     };
 
@@ -88,7 +88,6 @@ const SlidesForm = ({slide}) => {
 
     const handleSubmit = (values) =>{
         if (slide) {
-            // Filter changed values
             return console.log('PATCH/Slides/:id', values);
         }
         return console.log('POST/Slides/create', values);
@@ -101,7 +100,7 @@ const SlidesForm = ({slide}) => {
                 validationSchema={SlideSchema}
                 onSubmit={values => handleSubmit(values)}
             >
-                {({errors, setFieldValue}) => (
+                {({setFieldValue}) => (
                     <Form className="form-container">
                         <label htmlFor="name">Name</label>
                         <Field
@@ -116,7 +115,7 @@ const SlidesForm = ({slide}) => {
                             className="input-field"
                             editor={ClassicEditor}
                             data={slide? slide.description : ""}
-                            onChange={(event, editor) => handleCKEditor(editor, setFieldValue, "description")}
+                            onChange={(_, editor) => handleCKEditor(editor, setFieldValue, "description")}
                         />
                         <ErrorMessage name="description" />
                         <label htmlFor="image">Image</label>
@@ -127,7 +126,7 @@ const SlidesForm = ({slide}) => {
                         />
                         <ErrorMessage name="image" />
                         <label htmlFor="order">Order</label>
-                         <Field name="order" component="select" value={slide? slide.order : TOTAL_SLIDES}>
+                         <Field name="order" component="select">
                             {orderOptions}
                         </Field>
                         <ErrorMessage name="order" />
@@ -137,15 +136,6 @@ const SlidesForm = ({slide}) => {
             </Formik>
         </div>
     );
-}
-
-SlidesForm.defaultProps = {
-    // slide: {
-    //     name: 'Testeo',
-    //     description: '<p>Consequat fugiat non proident culpa enim fugiat dolore ullamco officia laboris. Deserunt dolor eu ad officia do ad. Ipsum duis ipsum ea excepteur eiusmod dolore labore commodo aliqua Lorem. Consectetur sit exercitation pariatur eu qui deserunt veniam enim cupidatat et est.</p>',
-    //     order: 3,
-    //     image: 'https://www.remosoftware.com/info/es/wp-content/uploads/sites/4/2021/04/JPG-vs-JPEG-1280x720.jpg'
-    // }
 }
 
 export default SlidesForm;
