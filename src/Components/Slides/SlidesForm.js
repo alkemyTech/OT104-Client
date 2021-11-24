@@ -87,10 +87,11 @@ const SlidesForm = ({slide}) => {
     }
 
     const handleSubmit = (values) =>{
+        let form = new FormData(values);
         if (slide) {
-            return console.log('PATCH/Slides/:id', values);
+            return console.log('PATCH/Slides/:id', form);
         }
-        return console.log('POST/Slides/create', values);
+        return console.log('POST/Slides/create', form);
     }
 
     return (
