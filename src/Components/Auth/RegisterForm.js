@@ -61,7 +61,7 @@ const RegisterForm = () => {
           password:values.password
       };
          console.log(userInfo);
-        //resetForm();     
+        resetForm();     
       }}
      >
       {( {values, errors, touched, handleSubmit, handleChange, handleBlur} )=>(   
