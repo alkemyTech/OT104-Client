@@ -31,6 +31,8 @@ const RegisterForm = () => {
         //Validacion email
         if(!values.email){
             errores.email = "Por favor ingresa un email"
+          }else if  (!/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(values.email)){
+            errores.password = "El email solo puede contener letras, numeros, puntos, guiones y guion bajo"
           }
 
         //Validacion password
