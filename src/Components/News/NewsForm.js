@@ -47,11 +47,14 @@ const NewsForm = ({ newToEdit = false }) => {
 
   useEffect(() => {
     formik.setFieldValue("image", imageState);
-  }, [imageState]);
+  }, [imageState]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleFileChange = (e) => {
-    setImageState(e.target.files[0]);
-    setImgPreview(URL.createObjectURL(e.target.files[0]));
+    const file = e.target.files[0];
+    if (file) {
+      setImageState(file);
+      setImgPreview(URL.createObjectURL(file));
+    }
   };
 
   const handleEditorChange = (_, editor) => {
@@ -79,14 +82,16 @@ const NewsForm = ({ newToEdit = false }) => {
   return (
     <FormikProvider value={formik}>
       <Form className="form-container">
+        <label htmlFor="title">Título</label>
         <Field
           className="input-field"
           type="text"
           name="title"
           placeholder="Titulo"
         />
-        <ErrorMessage name="title" component="div" />
+        <ErrorMessage name="title" component="div" className="input-feedback" />
 
+        <label htmlFor="image">Imagen</label>
         {imgPreview && <img src={imgPreview} alt="preview" />}
         <input
           className="input-field"
@@ -95,8 +100,9 @@ const NewsForm = ({ newToEdit = false }) => {
           accept="image/*"
           onChange={handleFileChange}
         />
-        <ErrorMessage name="image" component="div" />
+        <ErrorMessage name="image" component="div" className="input-feedback" />
 
+        <label htmlFor="content">Contenido</label>
         <CKEditor
           name="content"
           className="input-field"
@@ -104,8 +110,13 @@ const NewsForm = ({ newToEdit = false }) => {
           editor={ClassicEditor}
           onChange={handleEditorChange}
         />
-        <ErrorMessage name="content" component="div" />
+        <ErrorMessage
+          name="content"
+          component="div"
+          className="input-feedback"
+        />
 
+        <label htmlFor="category">Categoría</label>
         <Field component="select" className="select-Fieldield" name="category">
           <option value="" disabled>
             Categoría
@@ -116,7 +127,11 @@ const NewsForm = ({ newToEdit = false }) => {
             </option>
           ))}
         </Field>
-        <ErrorMessage name="category" component="div" />
+        <ErrorMessage
+          name="category"
+          component="div"
+          className="input-feedback"
+        />
 
         <button className="submit-btn" type="submit">
           Guardar
