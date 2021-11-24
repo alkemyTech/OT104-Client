@@ -11,6 +11,12 @@ const categoriesEndPoint = [
   { id: "48e6", name: "Categoria 3" },
   { id: "6sd3", name: "Categoria 4" },
 ];
+// const newToEdit = {
+//   title: "Titulo",
+//   image: "https://via.placeholder.com/150",
+//   content: "<p>El cuerpo</p>",
+//   category: "48e6",
+// };
 
 const NewsForm = ({ newToEdit = false }) => {
   const [imgPreview, setImgPreview] = useState("");
@@ -22,21 +28,26 @@ const NewsForm = ({ newToEdit = false }) => {
     content: newToEdit.content || "",
     category: newToEdit.category || "",
   };
-
-  useEffect(() => {
-    setCategories(categoriesEndPoint);
-  }, []);
-
   const validationSchema = Yup.object().shape({
-    title: Yup.string().min(4).required("El titulo es requerido"),
+    title: Yup.string()
+      .min(4, "El título debe tener al menos 4 caracteres")
+      .required("El titulo es requerido"),
     image: Yup.string().required("La imagen es requerida"),
     content: Yup.string().required("El contenido es requerido"),
     category: Yup.string().required("La categoria es requerida"),
   });
 
   useEffect(() => {
+    setCategories(categoriesEndPoint);
+    if (initialValues.image !== "") {
+      setImgPreview(initialValues.image);
+      setImageState(initialValues.image);
+    }
+  }, [initialValues.image]);
+
+  useEffect(() => {
     formik.setFieldValue("image", imageState);
-  }, [imgPreview]);
+  }, [imageState]);
 
   const handleFileChange = (e) => {
     setImageState(e.target.files[0]);
@@ -49,7 +60,14 @@ const NewsForm = ({ newToEdit = false }) => {
   };
 
   const onSubmit = (values) => {
-    console.log("Values:", values);
+    if (newToEdit) {
+      console.log("Editando PATH /news/:id newToEdit.id");
+      console.log("Values:", values);
+    } else {
+      console.log("Creando POST /news");
+      console.log("Values:", values);
+    }
+    formik.resetForm();
   };
 
   const formik = useFormik({
@@ -82,6 +100,7 @@ const NewsForm = ({ newToEdit = false }) => {
         <CKEditor
           name="content"
           className="input-field"
+          data={initialValues.content}
           editor={ClassicEditor}
           onChange={handleEditorChange}
         />
