@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../FormStyles.css';
 import { Formik } from 'formik';
-import * as Yup from "yup";
+
 
 // test object
 const organizationInfo = {
@@ -20,6 +20,7 @@ const EditForm = (/*{organizationInfo}*/) => {
     const [shortDescription, setShortDescription] = useState(organizationInfo.shortDescription);
     const [longDescription, setLongDescription] = useState(organizationInfo.longDescription);
     const [link, setLink] = useState(organizationInfo.link);
+    
 
     return (
         <Formik
@@ -38,6 +39,11 @@ const EditForm = (/*{organizationInfo}*/) => {
         if(!values.name){
           errores.name = "Please instert name"
         }
+
+        //Validacion name
+        if(!values.logo.includes(".jpg") | values.logo.includes(".png")){
+            errores.logo = "Only .jpg and .png extensions are allowed"
+          }
   
         //Validacion short description
         if(!values.shortDescription){
@@ -58,9 +64,16 @@ const EditForm = (/*{organizationInfo}*/) => {
       }}
 
       onSubmit={(values) =>{
-          
-        // empty method for future API request   
-        console.log("form enviado");   
+        let newInfo = {
+            name: values.name,
+            logo: values.logo,
+            shortDescription: values.shortDescription,
+            longDescription: values.longDescription,
+            link: values.link,
+        }
+        // empty method for future API request 
+         
+        console.log(newInfo);   
       }}
      >
        
@@ -85,7 +98,7 @@ const EditForm = (/*{organizationInfo}*/) => {
              placeholder="Enter new logo"
              onChange={handleChange}
              onBlur={handleBlur} required></input>
-            {touched.repassword && errors.repassword && <div className="error">{errors.repassword}</div>}
+            {touched.logo && errors.logo && <div className="error">{errors.logo}</div>}
              
             <label htmlFor="content">{shortDescription}</label>
             <input className="input-field" 
