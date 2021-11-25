@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import '../FormStyles.css';
@@ -86,12 +87,40 @@ const SlidesForm = ({slide}) => {
         setValue(name, editor.getData());
     }
 
-    const handleSubmit = (values) =>{
-        let form = new FormData(values);
-        if (slide) {
-            return console.log('PATCH/Slides/:id', form);
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
+    const handleSubmit = async (values) =>{
+        try {
+            let formToSend = {};
+            let { image, ...rest } = values;
+
+            if (typeof image === 'object') {
+                image = await toBase64(image);
+                formToSend = {
+                    image,
+                    ...rest
+                }
+            } else {
+                formToSend = {...rest}
+            }
+
+            let SlidesSubmit = axios.create({
+                baseURL: 'http://ongapi.alkemy.org/api/'
+            });
+            if (slide) {
+                let res = await SlidesSubmit.put(`slides/${slide.id}`, formToSend);
+                return console.log(res.data);
+            }
+            let res = await SlidesSubmit.post('slides', formToSend);
+            return console.log(res.data);
+        } catch(err) {
+            console.log(err);
         }
-        return console.log('POST/Slides/create', form);
     }
 
     return (
