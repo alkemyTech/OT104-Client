@@ -1,22 +1,17 @@
 import { Link } from 'react-router-dom';
+import styles from './OrganizationInfo.module.css'
 
 function OrganizationInfo({info}) {
   return (
-    <>
-      <h1>{info.title}</h1>
+    <div className={styles.container}>
       <img src={info.image} alt="Organization" />
-      <p>{info.shortDescription}</p>
-      <Link to="/backoffice/organization/edit">Edit Info</Link>
-    </>
+      <div className={styles.info}>
+        <h1 className={styles.name}>{info.name}</h1>
+        <p className={styles.description}>{info.shortDescription}</p>
+        <Link className={styles.button} to="/backoffice/organization/edit">Edit Info</Link>
+      </div>
+    </div>
   );
-}
-
-OrganizationInfo.defaultProps = {
-  info: {
-    name: 'Somos Mas',
-    image: '',
-    shortDescription: 'Desde 1997 en Somos Más trabajamos con los chicos y chicas, mamás y papás, abuelos y vecinos del barrio La Cava generando procesos de crecimiento y de inserción social.'
-  }
 }
 
 export default OrganizationInfo;
