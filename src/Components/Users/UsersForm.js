@@ -74,7 +74,7 @@ const UserForm = ({ user = null }) => {
             name="name"
             value={values.name}
             onChange={handleChange}
-            placeholder="Name"
+            placeholder="Nombre"
             onBlur={handleBlur}
           />
           {touched.name && errors.name && (
@@ -83,14 +83,14 @@ const UserForm = ({ user = null }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="email"> Email: </label>
+          <label htmlFor="email"> Correo electrónico: </label>
           <input
             className="input-field"
             type="email"
             name="email"
             value={values.email}
             onChange={handleChange}
-            placeholder="Email"
+            placeholder="Correo electrónico"
             onBlur={handleBlur}
           />
           {touched.email && errors.email && (
