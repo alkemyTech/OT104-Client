@@ -5,15 +5,15 @@ import * as Yup from "yup";
 
 const UserForm = ({ user = null }) => {
   const [file, setFile] = useState("");
-  const [imageUrl, setImageUrl] = useState(user?.image);
+  const [imageUrl, setImageUrl] = useState(user?.image || "");
   const isEditing = !!user;
 
   const initialValues = {
-    name: user?.name,
-    email: user?.email,
-    role: user?.role,
-    image: user?.image,
-    password: user?.password,
+    name: user?.name || "",
+    email: user?.email || "",
+    role: user?.role || "",
+    image: user?.image || "",
+    password: user?.password || "",
   };
 
   const validationSchema = Yup.object({
