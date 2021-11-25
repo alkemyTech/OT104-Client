@@ -4,16 +4,16 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const UserForm = ({ user = null }) => {
-  const isEditing = user ? true : false;
   const [file, setFile] = useState("");
-  const [imagePreview, setImagePreview] = useState(user?.image || "");
+  const [imageUrl, setImageUrl] = useState(user?.image);
+  const isEditing = !!user;
 
   const initialValues = {
-    name: user?.name || "",
-    email: user?.email || "",
-    role: user?.role || "",
-    image: user?.image || "",
-    password: user?.password || "",
+    name: user?.name,
+    email: user?.email,
+    role: user?.role,
+    image: user?.image,
+    password: user?.password,
   };
 
   const validationSchema = Yup.object({
@@ -40,18 +40,22 @@ const UserForm = ({ user = null }) => {
       initialValues,
       validationSchema,
       onSubmit: async (values) => {
-        isEditing
-          ? console.log("Editando", { ...values, image: file })
-          : console.log("Creando", { ...values, image: file });
+        const {image, ...userData} = values;
+        const formData = new FormData();
+        for (const key in userData) {
+          formData.append(key, userData[key]);
+        }
+        formData.append("image", file);
+        // TO DO: Send data to server
       },
     });
 
   const handleChangeImg = (event) => {
     handleChange(event);
     touched.image = true;
-    const file = event.target.files[0];
+    const file = event.target.files[0];    
     if (file) {
-      setImagePreview(URL.createObjectURL(file));
+      setImageUrl(URL.createObjectURL(file));
       setFile(file);
     }
   };
@@ -61,7 +65,7 @@ const UserForm = ({ user = null }) => {
       <h1 style={{ textAlign: "center" }}>
         {isEditing ? "Editar usuario" : "Crear usuario"}
       </h1>
-      <form className="form-container" onSubmit={handleSubmit}>
+      <form className="form-container" onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="form-group">
           <label htmlFor="name"> Nombre </label>
           <input
@@ -145,10 +149,10 @@ const UserForm = ({ user = null }) => {
           )}
         </div>
 
-        {imagePreview && !errors.image ? (
+        {imageUrl && !errors.image ? (
           <img
             className="input-field"
-            src={imagePreview}
+            src={imageUrl}
             alt="foto de perfil"
           />
         ) : null}
