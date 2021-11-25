@@ -13,6 +13,7 @@ import SchoolCampaign from './Campaigns/School/SchoolCampaign';
 import ToysCampaign from './Campaigns/Toys/ToysCampaign';
 import MembersForm from './Components/Members/MembersForm';
 import ProjectsForm from './Components/Projects/ProjectsForm';
+import Footer from './Components/Footer';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/toys-campaign" component={ToysCampaign} />
         </Switch>
       </BrowserRouter>
+    <Footer/>
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
