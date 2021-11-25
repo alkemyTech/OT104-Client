@@ -1,0 +1,50 @@
+.bg {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.container {
+  min-height: 210px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+  background-image: linear-gradient(
+    180deg,
+    hsla(0, 0%, 35.29%, 0) 0%,
+    hsla(0, 0%, 34.53%, 0.034375) 16.36%,
+    hsla(0, 0%, 32.42%, 0.125) 33.34%,
+    hsla(0, 0%, 29.18%, 0.253125) 50.1%,
+    hsla(0, 0%, 24.96%, 0.4) 65.75%,
+    hsla(0, 0%, 19.85%, 0.546875) 79.43%,
+    hsla(0, 0%, 13.95%, 0.675) 90.28%,
+    hsla(0, 0%, 7.32%, 0.765625) 97.43%,
+    hsla(0, 0%, 0%, 0.8) 100%
+  );
+}
+
+.title {
+  color: white;
+  font-size: 3em;
+  margin: 0;
+}
+@media screen and (min-width: 768px) {
+  .container {
+    min-height: 288px;
+    padding: 32px;
+  }
+}
+@media screen and (min-width: 992px) {
+  .title {
+    font-size: 4em;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .container {
+    padding: 48px;
+  }
+  .title {
+    font-size: 4.3em;
+  }
+}
