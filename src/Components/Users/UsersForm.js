@@ -2,17 +2,24 @@ import React, { useState } from "react";
 import "../FormStyles.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 const UserForm = ({ user = null }) => {
-  const [file, setFile] = useState("");
-  const [imageUrl, setImageUrl] = useState(user?.image || "");
+  const [imageString, setImageString] = useState("") //imageString is the base64 string of the image
+  const [imageUrl, setImageUrl] = useState(user?.profile_image || ""); //ImageUrl is the url of the image to be displayed
+  const [message, setMessage] = useState("");
   const isEditing = !!user;
+
+  const roles = {
+    admin: 1,
+    user: 2,
+  }
 
   const initialValues = {
     name: user?.name || "",
     email: user?.email || "",
-    role: user?.role || "",
-    image: user?.image || "",
+    role_id: user?.role || "",
+    profile_image: user?.profile_image || "",
     password: user?.password || "",
   };
 
@@ -21,10 +28,10 @@ const UserForm = ({ user = null }) => {
       .min(4, "El nombre debe contener al menos 4 caracteres.")
       .required("El nombre es obligatorio."),
     email: Yup.string().email("Email inválido").required("Obligatorio"),
-    role: Yup.string()
-      .oneOf(["admin", "user"], "Opciones válidas: admin, user")
+    role_id: Yup.number()
+      .oneOf([roles.admin,roles.user], "Opciones válidas: administrador, usuario")
       .required("Obligatorio"),
-    image: Yup.string()
+    profile_image: Yup.string()
       .matches(
         /\.(jpg|png)$/,
         "Formato de imagen inválido. Selecciona un archivo .jpg o .png"
@@ -40,28 +47,51 @@ const UserForm = ({ user = null }) => {
       initialValues,
       validationSchema,
       onSubmit: async (values) => {
-        const {image, ...userData} = values;
-        const formData = new FormData();
-        for (const key in userData) {
-          formData.append(key, userData[key]);
+        setMessage("");
+        let {profile_image, ...userData} = values;
+        userData = {...userData, profile_image: imageString};
+        if (isEditing) {
+          try {
+            await axios.put(`http://ongapi.alkemy.org/api/users/${user.id}`, userData) 
+            setMessage("Usuario actualizado correctamente");
+          }
+          catch (error) {
+            console.log(error.response.data);
+            error.response.data.errors?.email ? // if the error is from the email field
+              setMessage("Email ya registrado") 
+              : setMessage("No se pudo actualizar el usuario")
+          }
+        } else {
+          try {
+            await axios.post(`http://ongapi.alkemy.org/api/users`, userData)
+            setMessage("Usuario creado correctamente");
+          }
+          catch (error) {
+            error.response.data.errors.email 
+              ? setMessage("Email ya registrado") 
+              : setMessage("Error al crear el usuario");;
+          }
         }
-        formData.append("image", file);
-        // TO DO: Send data to server
-      },
+      }
     });
 
   const handleChangeImg = (event) => {
-    handleChange(event);
-    touched.image = true;
+    handleChange(event); 
+    touched.profile_image = true;
     const file = event.target.files[0];    
     if (file) {
-      setImageUrl(URL.createObjectURL(file));
-      setFile(file);
+      setImageUrl(URL.createObjectURL(file)) // Create a URL from the file
+      const reader = new FileReader(); 
+      reader.onloadend = () => {
+        setImageString(reader.result) // Set the base64 string
+      }
+      reader.readAsDataURL(file);
     }
   };
 
   return (
     <div>
+      {message && <p style={{textAlign:"center"}}>{message}</p>}
       <h1 style={{ textAlign: "center" }}>
         {isEditing ? "Editar usuario" : "Crear usuario"}
       </h1>
@@ -118,38 +148,37 @@ const UserForm = ({ user = null }) => {
           <label htmlFor="role"> Rol de usuario: </label>
           <select
             className="input-field"
-            value={values.role}
+            value={values.role_id}
             onChange={handleChange}
             onBlur={handleBlur}
-            name="role"
+            name="role_id"
           >
             <option value="" disabled>
               Rol del usuario
             </option>
-            <option value="admin">Administrador</option>
-            <option value="user">Usuario</option>
+            <option value={roles.admin}>Administrador</option>
+            <option value={roles.user}>Usuario</option>
           </select>
-          {touched.role && errors.role && (
-            <label className="input-feedback">{errors.role}</label>
+          {touched.role_id && errors.role_id && (
+            <label className="input-feedback">{errors.role_id}</label>
           )}
         </div>
 
         <div className="form-group">
-          <label htmlFor="image"> Foto de Perfil: </label>
+          <label htmlFor="profile_image"> Foto de Perfil: </label>
           <input
             className="input-field"
             type="file"
-            name="image"
+            name="profile_image"
             onChange={handleChangeImg}
             accept=".png, .jpeg"
-            id="image"
           />
-          {touched.image && errors.image && (
-            <label className="input-feedback">{errors.image}</label>
+          {touched.profile_image && errors.profile_image && (
+            <label className="input-feedback">{errors.profile_image}</label>
           )}
         </div>
 
-        {imageUrl && !errors.image ? (
+        {imageUrl && !errors.profile_image ? (
           <img
             className="input-field"
             src={imageUrl}
