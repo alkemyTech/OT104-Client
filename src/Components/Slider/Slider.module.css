@@ -41,8 +41,8 @@
   justify-content: center;
   right: 0;
   align-items: center;
-  width: 20px;
-  height: 100%;
+  width: 10%;
+  height: 487px;
   z-index: 100;
 }
 .sliderBtnPrev {
@@ -51,4 +51,10 @@
 
 .sliderBtnPrev {
   left: 0;
+}
+
+.sliderBtnPrev button,
+.sliderBtnNext button {
+  font-size: 40px;
+  cursor: pointer;
 }

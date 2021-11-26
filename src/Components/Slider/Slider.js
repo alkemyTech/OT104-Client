@@ -23,23 +23,17 @@ const SliderImage = (props) => {
   return (
     <div className={styles.sliderImageContainer}>
       <div className={styles.sliderBtnNext}>
-        <button
-          className={styles.sliderBtn}
-          onClick={() => console.log("This will show you the next image")}
-        >
+        <button className={styles.sliderBtn} onClick={props.nextSlider}>
           &gt;
         </button>
       </div>
       <div className={styles.sliderBtnPrev}>
-        <button
-          className={styles.sliderBtn}
-          onClick={() => console.log("This will show you the prev image")}
-        >
+        <button className={styles.sliderBtn} onClick={props.prevSlider}>
           &lt;
         </button>
       </div>
       <img className={styles.sliderImage} src={props.image} alt="slider" />
-      {props.image.length > 0 && (
+      {props.image && (
         <div className={styles.sliderImageContent}>
           <h1 className={styles.sliderTitle}>{props.title}</h1>
           <p className={styles.sliderDescription}>{props.description}</p>
@@ -49,19 +43,37 @@ const SliderImage = (props) => {
   );
 };
 
-function Slider() {
+// Slider component recibe the data by props or data from fakeData or from a database
+// just need this model
+// {
+//    image: "imageUrl",
+//    title: "title",
+//    description: "description"
+// }
+function Slider(props) {
   const [index, setIndex] = React.useState(0);
+  const data = props.data || sliderFakeData;
+  const nextSlider = () => {
+    // setIndex(index === data.length - 1 ? 0 : index + 1);
+    setIndex((prev) => (prev === data.length - 1 ? 0 : prev + 1));
+  };
+  const prevSlider = () => {
+    setIndex((prev) => (prev === 0 ? data.length - 1 : prev - 1));
+  };
   React.useEffect(() => {
-    setTimeout(() => {
-      index === sliderFakeData.length - 1 ? setIndex(0) : setIndex(index + 1);
+    let waitFiveSecond = setTimeout(() => {
+      index === data.length - 1 ? setIndex(0) : setIndex(index + 1);
     }, 5000);
+    return () => clearTimeout(waitFiveSecond);
   }, [index]);
   return (
     <div className={styles.sliderContainer}>
       <SliderImage
-        image={sliderFakeData[index].image}
-        title={sliderFakeData[index].title}
-        description={sliderFakeData[index].description}
+        nextSlider={nextSlider}
+        prevSlider={prevSlider}
+        image={data[index].image}
+        title={data[index].title}
+        description={data[index].description}
       />
     </div>
   );
