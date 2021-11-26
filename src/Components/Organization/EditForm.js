@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import '../FormStyles.css';
 import { Formik } from 'formik';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 
 
 // test object
@@ -84,7 +87,7 @@ const EditForm = (/*{organizationInfo}*/) => {
       }}
      >
        
-      {( {values, errors, touched, handleSubmit, handleChange, handleBlur} )=>(   
+      {( {values, errors, touched, handleSubmit, handleChange, handleBlur, setFieldValue} )=>(   
         <form className="form-container" onSubmit={handleSubmit}>
             <label htmlFor="content">{name}</label>
             <input className="input-field" 
@@ -107,14 +110,15 @@ const EditForm = (/*{organizationInfo}*/) => {
              onBlur={handleBlur} required></input>
             {touched.logo && errors.logo && <div className="error">{errors.logo}</div>}
              
+            
             <label htmlFor="content">{shortDescription}</label>
-            <input className="input-field" 
-             type="text" 
-             name="shortDescription" 
-             value={values.shortDescription} 
-             placeholder="Enter new short description"
-             onChange={handleChange}
-             onBlur={handleBlur} required></input>
+            <CKEditor 
+              className="input-field"
+              name="shortDescription"
+              editor={ClassicEditor}
+              data={values.shortDescription}
+              onChange={(_, editor) => setFieldValue("shortDescription", editor.getData())}
+            /> 
             {touched.shortDescription && errors.shortDescription && <div className="error">{errors.shortDescription}</div>}
             
             <label htmlFor="content">{longDescription}</label>
@@ -168,6 +172,9 @@ const EditForm = (/*{organizationInfo}*/) => {
             
              
             <button className="submit-btn" type="submit">Edit</button>
+
+
+                   
         </form>
       )}  
     </Formik>  
