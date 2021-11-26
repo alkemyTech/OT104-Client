@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-function NewsDetail(e) {
-  //   axios.get("http://ongapi.alkemy.org/api/news").then((data) => {
-  //     console.log(data.data.data);
-  //   });
+import "./styles/cardnew.css";
+function NewsDetail() {
   const [news, setNews] = useState([]);
+
+  // It remains to receive the title by props and import the titles component
+
   useEffect(() => {
     const getNewsData = async () => {
       await axios
@@ -21,8 +22,22 @@ function NewsDetail(e) {
 
   return (
     <div className="news-conatiner">
-      <h1>Title</h1>
       {console.log(news)}
+      <h1>Title</h1>
+      {news.length === 0 ? (
+        <h3>Loading...</h3>
+      ) : (
+        news.map((data) => {
+          return (
+            <div className="new-card">
+              <h3>{data.name}</h3>
+              <img src={data.image} alt="" />
+              <br />
+              {data.content}
+            </div>
+          );
+        })
+      )}
     </div>
   );
 }
