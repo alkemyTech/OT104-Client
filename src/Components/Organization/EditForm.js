@@ -9,17 +9,23 @@ const organizationInfo = {
     logo: "https://via.placeholder.com/150",
     shortDescription: "Una breve descripcion de la informacion",
     longDescription: "Una descripion mas larga, donde se traigan mas detalles acerca de la organizacion, sus tareas, sus objetivos y sus plazos",
-    link: "https://www.instagram.com/alkemy__/",
+    facebook_url:"www.facebook.com\/Somos_M\u00e1s",
+    linkedin_url:"www.linkedin.com\/company\/somosmas",
+    instagram_url:"www.instagram.com\/SomosM\u00e1s",
+    twitter_url:"www.twitter.com\/somosmas"
    };
 
-
+   
 const EditForm = (/*{organizationInfo}*/) => {
     
     const [name, setName] = useState(organizationInfo.name);
     const [logo, setLogo] = useState(organizationInfo.logo);
     const [shortDescription, setShortDescription] = useState(organizationInfo.shortDescription);
     const [longDescription, setLongDescription] = useState(organizationInfo.longDescription);
-    const [link, setLink] = useState(organizationInfo.link);
+    const [facebook, setFacebook] = useState(organizationInfo.facebook_url);
+    const [linkedin, setLinkedin] = useState(organizationInfo.linkedin_url);
+    const [instagram, setInstagram] = useState(organizationInfo.instagram_url);
+    const [twitter, setTwitter] = useState(organizationInfo.twitter_url);
     
 
     return (
@@ -29,7 +35,10 @@ const EditForm = (/*{organizationInfo}*/) => {
         logo: "",
         shortDescription: "",
         longDescription: "",
-        link: "",
+        facebook_url: "",
+        linkedin_url: "",
+        instagram_url: "",
+        twitter_url: "",
       }}
 
       validate={(values)=>{
@@ -40,7 +49,7 @@ const EditForm = (/*{organizationInfo}*/) => {
           errores.name = "Please instert name"
         }
 
-        //Validacion name
+        //Validacion logo
         if(!values.logo.includes(".jpg") | values.logo.includes(".png")){
             errores.logo = "Only .jpg and .png extensions are allowed"
           }
@@ -54,11 +63,6 @@ const EditForm = (/*{organizationInfo}*/) => {
         if(!values.longDescription){
             errores.longDescription = "Please instert long description"
           }
-
-        //Validacion link
-        if(!values.link){
-            errores.link = "Please instert link"
-          }  
         
         return errores;
       }}
@@ -69,7 +73,10 @@ const EditForm = (/*{organizationInfo}*/) => {
             logo: values.logo,
             shortDescription: values.shortDescription,
             longDescription: values.longDescription,
-            link: values.link,
+            facebook_url: values.facebook_url,
+            linkedin_url: values.linkedin_url,
+            instagram_url: values.instagram_url,
+            twitter_url: values.twitter_url,
         }
         // empty method for future API request 
          
@@ -120,15 +127,45 @@ const EditForm = (/*{organizationInfo}*/) => {
              onBlur={handleBlur} required></input>
             {touched.longDescription && errors.longDescription && <div className="error">{errors.longDescription}</div>}
             
-            <label htmlFor="content">{link}</label>
+            <label htmlFor="content">{facebook}</label>
             <input className="input-field" 
              type="url" 
-             name="link" 
-             value={values.link}  
+             name="facebook_url" 
+             value={values.facebook_url}  
              placeholder="Enter new link"
              onChange={handleChange}
              onBlur={handleBlur} required></input>
-            {touched.link && errors.link && <div className="error">{errors.link}</div>}
+            
+
+            <label htmlFor="content">{linkedin}</label>
+            <input className="input-field" 
+             type="url" 
+             name="linkedin_url" 
+             value={values.linkedin_url}  
+             placeholder="Enter new link"
+             onChange={handleChange}
+             onBlur={handleBlur} required></input>
+            
+
+            <label htmlFor="content">{instagram}</label>
+            <input className="input-field" 
+             type="url" 
+             name="instagram_url" 
+             value={values.instagram_url}  
+             placeholder="Enter new link"
+             onChange={handleChange}
+             onBlur={handleBlur} required></input>
+            
+
+            <label htmlFor="content">{twitter}</label>
+            <input className="input-field" 
+             type="url" 
+             name="twitter_url" 
+             value={values.twitter_url}  
+             placeholder="Enter new link"
+             onChange={handleChange}
+             onBlur={handleBlur} required></input>
+            
              
             <button className="submit-btn" type="submit">Edit</button>
         </form>
