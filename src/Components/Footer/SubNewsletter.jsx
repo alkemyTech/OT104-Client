@@ -20,7 +20,7 @@ export default function SubNewsletter() {
 
   const onSubmit = async (values) => {
     console.log(values);
-    localStorage.setItem("subscribed", true);
+    localStorage.setItem("subscribed", JSON.stringify(values));
 
     alert("Gracias por suscribirte!");
   };
