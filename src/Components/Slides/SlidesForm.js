@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -6,10 +6,11 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import '../FormStyles.css';
 
+const API = axios.create({
+    baseURL: 'http://ongapi.alkemy.org/api/'
+});
+
 const SUPPORTED_FORMATS = ['image/jpeg', 'image/jpg', 'image/png'];
-// need the total of slides to calculate the position to edit.
-// Maybe we can fetch the slides.length to use in the select input, see orderOptions.
-const TOTAL_SLIDES = 5;
 
 const SlideSchema = Yup.object().shape({
     name: Yup.string()
@@ -68,17 +69,18 @@ const InputFile = ({name, setValue, initialValue, ...props}) => {
 }
 
 const SlidesForm = ({slide}) => {
+    const [totalSlides, setTotalSlides] = useState(0);
     
     const defaultValues = {
         name: '',
         description: '',
-        order: TOTAL_SLIDES - 1,
+        order: totalSlides - 1,
         image: null
     };
 
     const orderOptions = [];
 
-    for (let i = 0; i < TOTAL_SLIDES; i++) {
+    for (let i = 0; i < totalSlides; i++) {
         const position = i;
         orderOptions.push(<option key={position} value={position}>{position + 1}</option>);
     }
@@ -109,19 +111,27 @@ const SlidesForm = ({slide}) => {
                 formToSend = {...rest}
             }
 
-            let SlidesSubmit = axios.create({
-                baseURL: 'http://ongapi.alkemy.org/api/'
-            });
             if (slide) {
-                let res = await SlidesSubmit.put(`slides/${slide.id}`, formToSend);
+                let res = await API.put(`slides/${slide.id}`, formToSend);
                 return console.log(res.data);
             }
-            let res = await SlidesSubmit.post('slides', formToSend);
+            let res = await API.post('slides', formToSend);
             return console.log(res.data);
         } catch(err) {
             console.log(err);
         }
     }
+
+    useEffect(() => {
+        (async () => {
+            try {
+                let res = await API.get('slides');
+                setTotalSlides(res.data.data.length);
+            } catch(err) {
+                console.log(err);
+            } 
+        })();
+    }, [slide]);
 
     return (
         <div>
