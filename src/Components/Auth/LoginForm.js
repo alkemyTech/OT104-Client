@@ -14,7 +14,7 @@ function LoginForm() {
         setDataUserAuth((dataUserAuth) => [response.data]);
       })
       .catch((err) => {
-        alert("Error:" + err);
+        alert("Error" + err);
       });
   };
 
