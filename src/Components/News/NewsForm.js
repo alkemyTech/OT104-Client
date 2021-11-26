@@ -1,35 +1,26 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 import { ErrorMessage, Form, Field, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import "../../Components/FormStyles.css";
 
-const categoriesEndPoint = [
-  { id: "4sd6", name: "Categoria 1" },
-  { id: "1sd7", name: "Categoria 2" },
-  { id: "48e6", name: "Categoria 3" },
-  { id: "6sd3", name: "Categoria 4" },
-];
-// const newToEdit = {
-//   title: "Titulo",
-//   image: "https://via.placeholder.com/150",
-//   content: "<p>El cuerpo</p>",
-//   category: "48e6",
-// };
-
 const NewsForm = ({ newToEdit = false }) => {
+  const history = useHistory();
   const [imgPreview, setImgPreview] = useState("");
   const [imageState, setImageState] = useState("");
   const [categories, setCategories] = useState([]);
   const initialValues = {
-    title: newToEdit.title || "",
+    name: newToEdit.name || "",
     image: newToEdit.image || "",
     content: newToEdit.content || "",
     category: newToEdit.category || "",
   };
+
   const validationSchema = Yup.object().shape({
-    title: Yup.string()
+    name: Yup.string()
       .min(4, "El título debe tener al menos 4 caracteres")
       .required("El titulo es requerido"),
     image: Yup.string().required("La imagen es requerida"),
@@ -38,13 +29,24 @@ const NewsForm = ({ newToEdit = false }) => {
   });
 
   useEffect(() => {
-    setCategories(categoriesEndPoint);
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("http://ongapi.alkemy.org/api/categories");
+        const data = await response.json();
+        setCategories(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCategories();
+
     if (initialValues.image !== "") {
       setImgPreview(initialValues.image);
       setImageState(initialValues.image);
     }
   }, [initialValues.image]);
 
+  // handle image change in formik state
   useEffect(() => {
     formik.setFieldValue("image", imageState);
   }, [imageState]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -52,8 +54,12 @@ const NewsForm = ({ newToEdit = false }) => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImageState(file);
-      setImgPreview(URL.createObjectURL(file));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImgPreview(reader.result);
+        setImageState(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -62,15 +68,40 @@ const NewsForm = ({ newToEdit = false }) => {
     formik.setFieldValue("content", data);
   };
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
+    let isError = false;
+
+    const newsSubmission = axios.create({
+      baseURL: "http://ongapi.alkemy.org/api/",
+    });
+
     if (newToEdit) {
-      console.log("Editando PATH /news/:id newToEdit.id");
-      console.log("Values:", values);
+      //if we are editing a news
+      const { image, ...rest } = values;
+      let edited = rest;
+      if (values.image.slice(0, 4) === "data") edited = values;
+      try {
+        await newsSubmission.put(`news/${newToEdit.id}`, edited);
+      } catch (error) {
+        isError = error;
+        console.log(error);
+      }
     } else {
-      console.log("Creando POST /news");
-      console.log("Values:", values);
+      //if we are creating a new news
+      try {
+        await newsSubmission.post("news", values);
+      } catch (error) {
+        isError = error;
+        console.log(error);
+      }
     }
-    formik.resetForm();
+
+    if (!isError) {
+      alert("News guardada con éxito");
+      history.go(0);
+    } else {
+      alert("Error al guardar la news: " + isError.toString());
+    }
   };
 
   const formik = useFormik({
@@ -82,14 +113,14 @@ const NewsForm = ({ newToEdit = false }) => {
   return (
     <FormikProvider value={formik}>
       <Form className="form-container">
-        <label htmlFor="title">Título</label>
+        <label htmlFor="name">Título</label>
         <Field
           className="input-field"
           type="text"
-          name="title"
+          name="name"
           placeholder="Titulo"
         />
-        <ErrorMessage name="title" component="div" className="input-feedback" />
+        <ErrorMessage name="name" component="div" className="input-feedback" />
 
         <label htmlFor="image">Imagen</label>
         {imgPreview && <img src={imgPreview} alt="preview" />}
@@ -119,7 +150,7 @@ const NewsForm = ({ newToEdit = false }) => {
         <label htmlFor="category">Categoría</label>
         <Field component="select" className="select-Fieldield" name="category">
           <option value="" disabled>
-            Categoría
+            Seleccionar
           </option>
           {categories.map((category) => (
             <option key={category.id} value={category.id}>
@@ -133,8 +164,12 @@ const NewsForm = ({ newToEdit = false }) => {
           className="input-feedback"
         />
 
-        <button className="submit-btn" type="submit">
-          Guardar
+        <button
+          className="submit-btn"
+          type="submit"
+          disabled={formik.isSubmitting && true}
+        >
+          {formik.isSubmitting ? "Enviando" : "Enviar"}
         </button>
       </Form>
     </FormikProvider>
