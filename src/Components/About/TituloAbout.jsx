@@ -2,14 +2,13 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
 const TituloAbout = () => {
-
   // const dispatch = useDispatch()
   const [aboutTitle, setAboutTitle] = useState('');
 
   useEffect(() => {
     const loadUsers = async () => {
       const response = await axios.get(`http://ongapi.alkemy.org/api/organization`)
-      setAboutTitle(response.data.data.short_description)
+      setAboutTitle(response.data.data.name)
     }
     loadUsers()
 
@@ -21,6 +20,5 @@ const TituloAbout = () => {
     </div>
   )
 }
-
 export default TituloAbout
 
