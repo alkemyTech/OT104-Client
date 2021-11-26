@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-
+import axios from "axios";
 function LoginForm() {
+  const [dataUserAuth, setDataUserAuth] = useState([]);
+
+  const logInAuth = async (data) => {
+    await axios
+      .post("http://ongapi.alkemy.org/api/login", {
+        email: data.emailUser,
+        password: data.passwordUser,
+      })
+      .then((response) => {
+        setDataUserAuth((dataUserAuth) => [response.data]);
+      })
+      .catch((err) => {
+        alert("Error:" + err);
+      });
+  };
+
   return (
     <Formik
       initialValues={{
@@ -34,7 +50,7 @@ function LoginForm() {
       }}
       onSubmit={(data, { resetForm }) => {
         resetForm();
-        console.log(data);
+        logInAuth(data);
       }}
     >
       {({ errors }) => (
