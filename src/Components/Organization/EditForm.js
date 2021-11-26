@@ -6,7 +6,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
 
-// test object
+// test object remove when real props exist
 const organizationInfo = {
     name: "Alkemy code camp",
     logo: "https://via.placeholder.com/150",
@@ -29,8 +29,9 @@ const EditForm = (/*{organizationInfo}*/) => {
     const [linkedin, setLinkedin] = useState(organizationInfo.linkedin_url);
     const [instagram, setInstagram] = useState(organizationInfo.instagram_url);
     const [twitter, setTwitter] = useState(organizationInfo.twitter_url);
+    const [ckeditorError, setCkeditorError] = useState(false);
     
-
+    
     return (
         <Formik
      initialValues={{ 
@@ -112,14 +113,16 @@ const EditForm = (/*{organizationInfo}*/) => {
              
             
             <label htmlFor="content">{shortDescription}</label>
-            <CKEditor 
+            <CKEditor
               className="input-field"
               name="shortDescription"
               editor={ClassicEditor}
               data={values.shortDescription}
               onChange={(_, editor) => setFieldValue("shortDescription", editor.getData())}
+              onBlur={( _, editor ) => setCkeditorError(true)}
             /> 
-            {touched.shortDescription && errors.shortDescription && <div className="error">{errors.shortDescription}</div>}
+            {ckeditorError === true ? <div className="error">Please instert short description</div>: <></>}
+            
             
             <label htmlFor="content">{longDescription}</label>
             <input className="input-field" 
