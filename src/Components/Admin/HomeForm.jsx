@@ -8,7 +8,7 @@ import WelcomeTextForm from './WelcomeTextForm';
 
 const HomeForm = () => {
   return (
-    <div >
+    <div className="formContainer">
       <h3 className="slideLabel">Welcome Text</h3>
       <WelcomeTextForm />
       <h3 className="slideLabel">Slide 1</h3>

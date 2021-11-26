@@ -10,32 +10,26 @@ const SlideForm = () => {
     slideText: '',
   }
   const validationSchema = Yup.object().shape({
-
-    // photoSlide1,
+    photoSlide: Yup.string().required(),
     slideText: Yup.string().min(3).required(),
-
   })
   const fileUpLoadHandler = async (values) => {
     console.log(values);
-
     const fd = new FormData();
     fd.append('photoSlide', values.photoSlide)
-    axios.post("http://ongapi.alkemy.org/api/slides", fd)
+    axios.post("http://ongapi.alkemy.org/api/slides/id", fd)
       .then(res => {
         console.log(res);
       });
   }
-
-
   return (
-
     <Formik
       initialValues={initialValues}
       onSubmit={fileUpLoadHandler}
       validationSchema={validationSchema}
     >
       {(formProps) => (
-        <Form className="formContainer">
+        <Form >
           <input
             type='file'
             name='photoSlide'

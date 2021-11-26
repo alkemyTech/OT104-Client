@@ -10,10 +10,8 @@ const TextoAbout = () => {
     const loadUsers = async () => {
       const response = await axios.get(`https://jsonplaceholder.typicode.com/posts`)
       setAboutText(response.data[0].body)
-
     }
     loadUsers()
-
   }, []);
 
   return (
