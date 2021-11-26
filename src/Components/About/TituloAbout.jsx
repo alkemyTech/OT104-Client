@@ -1,13 +1,23 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 
 const TituloAbout = () => {
 
+  // const dispatch = useDispatch()
+  const [aboutTitle, setAboutTitle] = useState('');
 
+  useEffect(() => {
+    const loadUsers = async () => {
+      const response = await axios.get(`http://ongapi.alkemy.org/api/organization`)
+      setAboutTitle(response.data.data.short_description)
+    }
+    loadUsers()
+
+  }, []);
 
   return (
     <div>
-      <h1>NOSOTROS</h1>
-
+      <h1>{aboutTitle}</h1>
     </div>
   )
 }
