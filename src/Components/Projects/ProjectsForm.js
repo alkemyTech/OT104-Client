@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import "../FormStyles.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 const ProjectsForm = ({ project = null }) => {
-  const [file, setFile] = useState("");
-  const [imageUrl, setImageUrl] = useState(project?.image || "");
+  const [imageString, setImageString] = useState("") //imageString is the base64 string of the image
+  const [imageUrl, setImageUrl] = useState(project?.image || ""); //ImageUrl is the url of the image to be displayed
+  const [message, setMessage] = useState("");
   const isEditing = !!project;
 
   const initialValues = {
@@ -31,14 +33,30 @@ const ProjectsForm = ({ project = null }) => {
     useFormik({
       initialValues,
       validationSchema,
-      onSubmit: (values) => {
-        const {image, ...userData} = values;
-        const formData = new FormData();
-        for (const key in userData) {
-          formData.append(key, userData[key]);
+      onSubmit: async (values) => {
+        setMessage("");
+        const {...projectData} = values;
+        projectData.image = "image.png";
+        // INTERNAL SERVER ERROR: "Data too long for column 'image'" when sending base64 string
+        if (isEditing) {
+          try {
+            const res = await axios.put(`http://ongapi.alkemy.org/public/api/projects/${project.id}`, projectData);
+            console.log(res);
+            setMessage("Proyecto editado con éxito");
+          } catch (error) {
+            console.log(error);
+            setMessage("Error al editar el proyecto");
+          }
+        } else {
+          try{
+            const res = await axios.post(`http://ongapi.alkemy.org/public/api/projects`, projectData);
+            console.log(res)
+            setMessage("Proyecto creado con éxito");
+          }catch(error){
+            console.log(error)
+            setMessage("Error al crear el proyecto");              
+          }
         }
-        formData.append("image", file);
-        // TO DO: Send data to server
       },
     });
 
@@ -47,8 +65,12 @@ const ProjectsForm = ({ project = null }) => {
     touched.image = true;
     const file = event.target.files[0];
     if (file) {
-      setImageUrl(URL.createObjectURL(file));
-      setFile(file);
+      setImageUrl(URL.createObjectURL(file)) // Create a URL from the file
+      const reader = new FileReader(); 
+      reader.onloadend = () => {
+        setImageString(reader.result) // Set the base64 string
+      }
+      reader.readAsDataURL(file);
     }
   };
 
@@ -57,6 +79,7 @@ const ProjectsForm = ({ project = null }) => {
       <h1 style={{ textAlign: "center" }}>
         {isEditing ? "Editar proyecto" : "Crear proyecto"}
       </h1>
+      {message && <p style={{ textAlign:"center" }}>{message}</p>}
       <form className="form-container" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="title"> Título </label>
