@@ -1,6 +1,6 @@
 import React from "react";
 import "../FormStyles.css";
-import { ErrorMessage, Formik, Form } from "formik";
+import { ErrorMessage, Formik } from "formik";
 import * as Yup from "yup";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -77,7 +77,7 @@ const CategoriesForm = () => {
         handleSubmit,
         isSubmitting,
       }) => (
-        <Form className="form-container" onSubmit={handleSubmit}>
+        <form className="form-container" onSubmit={handleSubmit}>
           <input
             className="input-field"
             type="text"
@@ -125,7 +125,7 @@ const CategoriesForm = () => {
           <button className="submit-btn" type="submit">
             Send
           </button>
-        </Form>
+        </form>
       )}
     </Formik>
   );
