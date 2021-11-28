@@ -70,19 +70,18 @@ const ActivitiesForm = ({
 
         let fetchBody = {
             name: values.name,
-            slug:null,
+            slug:"",
             image:values.image,
             description:values.description,
             created_at: isCreate ? now.toISOString() : initialValues.created_at,
             updated_at:now.toISOString(),
-            id:isCreate ? null : activityToEdit.id,
-            user_id:isCreate ? null : activityToEdit.user_id,
-            category_id:isCreate ? null : activityToEdit.category_id,
+            id:isCreate ? 0 : activityToEdit.id,
+            user_id:isCreate ? 0 : activityToEdit.user_id,
+            category_id:isCreate ? 0 : activityToEdit.category_id,
             deleted_at:isCreate ? null : activityToEdit.deleted_at
         }
-
         try{
-            fetch(`http://ongapi.alkemy.org/api/activities/${isCreate?"create":initialValues.id}`,{
+            fetch(`http://ongapi.alkemy.org/api/activities/${isCreate?"":initialValues.id}`,{
                 method:isCreate ? "post":"put",
                 body:JSON.stringify(fetchBody),
                 headers: {
@@ -98,7 +97,8 @@ const ActivitiesForm = ({
             })
             .catch((error)=>console.error(error))
             .then((data)=>{
-                alert(`La actividad fue${isCreate?"creada":"modificada"} satisfactoriamente.`);
+                if (data!==undefined)alert(`La actividad fue${isCreate?"creada":"modificada"} satisfactoriamente.`);
+                else alert(`No se pudo ${isCreate?"crear":"modificar"} la actividad. Hubo un error`);
                 if(isCreate===true) resetForm();
             })
         }catch(error){
