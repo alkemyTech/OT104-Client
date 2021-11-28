@@ -55,15 +55,10 @@ const ActivitiesForm = ({
         }
     }
 
-    function handleDescriptionChange(__,editor){
+    function handleDescriptionChange(_,editor){
         const data = editor.getData();
+        formik.setFieldValue("description", data)
     }
-
-    function handleDescriptionBlur(e){
-        e.target = {};
-        e.target.name="description";
-        formik.handleBlur(e);
-    } 
 
     const handleSubmit = async (values, { resetForm }) => {
         const now = new Date();
@@ -154,7 +149,6 @@ const ActivitiesForm = ({
                         data={formik.values.description}
                         ref={descriptionInput}
                         onChange={handleDescriptionChange}
-                        onBlur={handleDescriptionBlur}
                     />
                 </div>
                 <button type="submit">Send</button>
