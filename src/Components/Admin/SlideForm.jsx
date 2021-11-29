@@ -6,8 +6,12 @@ import * as Yup from 'yup';
 
 const SlideForm = () => {
   const initialValues = {
-    photoSlide: '',
-    slideText: '',
+    photoSlide0: '',
+    photoSlide1: '',
+    photoSlide2: '',
+    slideText0: '',
+    slideText1: '',
+    slideText2: '',
   }
   const validationSchema = Yup.object().shape({
     photoSlide: Yup.string().required(),
@@ -32,14 +36,36 @@ const SlideForm = () => {
         <Form >
           <input
             type='file'
-            name='photoSlide'
+            name='photoSlide0'
             onChange={(event) => formProps.setFieldValue('photoSlide', event.target.files[0])}
           />
           <br />
           <label>Slide text</label>
-          <Field id="slideText" name="slideText" placeholder="(Slide  text..)" />
-          <ErrorMessage name="slideText" component="span" />
-          <button type='submit'>Submit</button>
+          <Field id="slideText0" name="slideText0" placeholder="(Slide  text..)" />
+          <ErrorMessage name="slideText0" component="span" />
+          <input
+            type='file'
+            name='photoSlide1'
+            onChange={(event) => formProps.setFieldValue('photoSlide', event.target.files[1])}
+          />
+          <br />
+          <label>Slide text</label>
+          <Field id="slideText1" name="slideText1" placeholder="(Slide  text..)" />
+          <ErrorMessage name="slideText1" component="span" />
+          <input
+            type='file'
+            name='photoSlide2'
+            onChange={(event) => formProps.setFieldValue('photoSlide', event.target.files[2])}
+          />
+          <br />
+          <label>Slide text</label>
+          <Field id="slideText2" name="slideText2" placeholder="(Slide  text..)" />
+          <ErrorMessage name="slideText2" component="span" /><br />
+
+
+
+
+          <button type='submit'>Submit Slides</button>
         </Form>)}
     </Formik>
 
