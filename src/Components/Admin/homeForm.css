@@ -35,12 +35,16 @@ width: 75%;
 }
 
 .formContainer button {
-  margin-top: 15px;
+  margin-top: 1px;
   height: 40px;
   border: none;
   background-color: lightskyblue;
   border-radius: 5px;
   color: white;
+margin-left: 50%;
+
+
+
 }
 
 .formContainer button:hover {
