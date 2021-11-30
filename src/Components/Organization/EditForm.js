@@ -103,7 +103,7 @@ const EditForm = (/*{organizationInfo}*/) => {
             twitter_url: values.twitter_url,
         }
         // empty method for future API request 
-         console.log(newInfo);
+         
            
       }}
      >
