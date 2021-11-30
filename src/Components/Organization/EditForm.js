@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../FormStyles.css';
 import { Formik } from 'formik';
+import { Container, Row, Form, Button, Col } from 'react-bootstrap';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -8,10 +9,10 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 // test object remove when real props exist
 const organizationInfo = {
-    name: "Alkemy code camp",
+    name: "Alkemy ONG",
     logo: "https://via.placeholder.com/150",
-    shortDescription: "Una breve descripcion de la informacion",
-    longDescription: "Una descripion mas larga, donde se traigan mas detalles acerca de la organizacion, sus tareas, sus objetivos y sus plazos",
+    shortDescription: "ONG que se dedica a ayudar a programadores",
+    longDescription: "ONG que se dedica a ayudar a programadores a desarrollarse, capacitarse y encontrar su primer trabajo",
     facebook_url:"www.facebook.com\/Somos_M\u00e1s",
     linkedin_url:"www.linkedin.com\/company\/somosmas",
     instagram_url:"www.instagram.com\/SomosM\u00e1s",
@@ -46,29 +47,48 @@ const EditForm = (/*{organizationInfo}*/) => {
       }}
 
       validate={(values)=>{
-        let errores = {};
+        let errors = {};
   
         //Validacion name
         if(!values.name){
-          errores.name = "Please instert name"
+          errors.name = "Please instert name"
         }
 
         //Validacion logo
         if(!values.logo.includes(".jpg") | values.logo.includes(".png")){
-            errores.logo = "Only .jpg and .png extensions are allowed"
+            errors.logo = "Only .jpg and .png extensions are allowed"
           }
   
         //Validacion short description
         if(!values.shortDescription){
-          errores.shortDescription = "Please instert short description"
+          errors.shortDescription = "Please instert short description"
         }
 
         //Validacion long description
         if(!values.longDescription){
-            errores.longDescription = "Please instert long description"
+            errors.longDescription = "Please instert long description"
           }
+
+        //Validacion facebook_url
+        if(!values.facebook_url){
+          errors.facebook_url = "Please instert Facebook url"
+        }  
         
-        return errores;
+        //Validacion linkedin_url
+        if(!values.linkedin_url){
+          errors.linkedin_url = "Please instert Linkedin url"
+        }
+
+        //Validacion instagram_url
+        if(!values.instagram_url){
+          errors.instagram_url = "Please instert Instagram url"
+        }
+
+        //Validacion twitter_url
+        if(!values.twitter_url){
+          errors.twitter_url = "Please instert Twitter url"
+        }
+        return errors;
       }}
 
       onSubmit={(values) =>{
@@ -83,105 +103,142 @@ const EditForm = (/*{organizationInfo}*/) => {
             twitter_url: values.twitter_url,
         }
         // empty method for future API request 
-         
-        console.log(newInfo);   
+         console.log(newInfo);
+           
       }}
      >
        
-      {( {values, errors, touched, handleSubmit, handleChange, handleBlur, setFieldValue} )=>(   
-        <form className="form-container" onSubmit={handleSubmit}>
-            <label htmlFor="content">{name}</label>
-            <input className="input-field" 
-             type="text" 
-             name="name" 
-             value={values.name} 
-             placeholder= "Enter new name"
-             onChange={handleChange}
-             onBlur={handleBlur} required></input>
-            {touched.name && errors.name && <div className="error">{errors.name}</div>}
-             
-            <label htmlFor="content">{logo}</label>
-            <input className="input-field" 
-             type="file" 
-             name="logo"
-             accept="image/jpeg, image/png" 
-             value={values.logo}  
-             placeholder="Enter new logo"
-             onChange={handleChange}
-             onBlur={handleBlur} required></input>
-            {touched.logo && errors.logo && <div className="error">{errors.logo}</div>}
-             
+      {( {values, errors, touched, isValid, handleSubmit, handleChange, handleBlur, setFieldValue} )=>(   
+        <Container>
+        <Row>
+         <Col xs lg="5 mx-auto">
+           
+          <h3 className="mt-3 text-center">Organization Edit Form</h3>
+          <Form className="border border-grey rounded p-4 mt-4" onSubmit={handleSubmit}>
+            <Form.Label>{name}</Form.Label>
+            <Form.Group className="mb-3">
+              <Form.Control 
+                type="text" 
+                name="name" 
+                value={values.name} 
+                placeholder= "Enter new name"
+                onChange={handleChange}
+                onBlur={handleBlur} required
+                isValid={touched.name && !errors.name}
+                isInvalid={touched.name && errors.name}/>
+            </Form.Group>
+            {touched.name && errors.name && <div className="text-danger mb-4">{errors.name}</div>}
             
-            <label htmlFor="content">{shortDescription}</label>
+            <Form.Label>{logo}</Form.Label>
+            <Form.Group className="mb-3">
+              <Form.Control 
+                type="file" 
+                name="logo"
+                accept="image/jpeg, image/png" 
+                value={values.logo}  
+                placeholder="Enter new logo"
+                onChange={handleChange}
+                onBlur={handleBlur} required 
+                isValid={touched.logo && !errors.logo}
+                isInvalid={touched.logo && errors.logo}/>
+            </Form.Group>
+            {touched.logo && errors.logo && <div className="text-danger mb-4">{errors.logo}</div>}
+            
+            <Form.Label>{shortDescription}</Form.Label>
             <CKEditor
-              className="input-field"
-              name="shortDescription"
-              editor={ClassicEditor}
-              data={values.shortDescription}
-              onChange={(_, editor) => setFieldValue("shortDescription", editor.getData())}
-              onBlur={( _, editor ) => setCkeditorError(true)}
-            /> 
-            {ckeditorError === true ? <div className="error">Please instert short description</div>: <></>}
+                  name="shortDescription"
+                  editor={ClassicEditor}
+                  data={values.shortDescription}
+                  onChange={(_, editor) => setFieldValue("shortDescription", editor.getData())}
+                  onBlur={( _, editor ) => setCkeditorError(true)}
+                /> 
+                {ckeditorError === true ? <div className="text-danger mb-3">Please instert short description</div>: <></>}
             
+            <Form.Label className="mt-3">{longDescription}</Form.Label>
+            <Form.Group className="mb-4">
+              <Form.Control 
+                 type="text" 
+                 name="longDescription" 
+                 value={values.longDescription}  
+                 placeholder="Enter new long description"
+                 onChange={handleChange}
+                 onBlur={handleBlur} required 
+                isValid={touched.longDescription && !errors.longDescription}
+                isInvalid={touched.longDescription && errors.longDescription}/>
+            </Form.Group>
+            {touched.longDescription && errors.longDescription && <div className="text-danger mb-3">{errors.longDescription}</div>}
             
-            <label htmlFor="content">{longDescription}</label>
-            <input className="input-field" 
-             type="text" 
-             name="longDescription" 
-             value={values.longDescription}  
-             placeholder="Enter new long description"
-             onChange={handleChange}
-             onBlur={handleBlur} required></input>
-            {touched.longDescription && errors.longDescription && <div className="error">{errors.longDescription}</div>}
+            <Form.Label>{facebook}</Form.Label>
+            <Form.Group className="mb-4">
+              <Form.Control 
+                type="url" 
+                name="facebook_url" 
+                value={values.facebook_url}  
+                placeholder="Enter new link"
+                onChange={handleChange}
+                onBlur={handleBlur} required
+                isValid={touched.facebook_url && !errors.facebook_url}
+                isInvalid={touched.facebook_url && errors.facebook_url}/>
+            </Form.Group>
+            {touched.facebook_url && errors.facebook_url && <div className="text-danger mb-3">{errors.facebook_url}</div>}
             
-            <label htmlFor="content">{facebook}</label>
-            <input className="input-field" 
-             type="url" 
-             name="facebook_url" 
-             value={values.facebook_url}  
-             placeholder="Enter new link"
-             onChange={handleChange}
-             onBlur={handleBlur} required></input>
+            <Form.Label>{linkedin}</Form.Label>
+            <Form.Group className="mb-4">
+              <Form.Control 
+                type="url" 
+                name="linkedin_url" 
+                value={values.linkedin_url}  
+                placeholder="Enter new link"
+                onChange={handleChange}
+                onBlur={handleBlur} required
+                isValid={touched.linkedin_url && !errors.linkedin_url}
+                isInvalid={touched.linkedin_url && errors.linkedin_url}/>
+            </Form.Group>
+            {touched.linkedin_url && errors.linkedin_url && <div className="text-danger mb-3">{errors.linkedin_url}</div>}
             
-
-            <label htmlFor="content">{linkedin}</label>
-            <input className="input-field" 
-             type="url" 
-             name="linkedin_url" 
-             value={values.linkedin_url}  
-             placeholder="Enter new link"
-             onChange={handleChange}
-             onBlur={handleBlur} required></input>
+            <Form.Label>{instagram}</Form.Label>
+            <Form.Group className="mb-4">
+              <Form.Control 
+                type="url" 
+                name="instagram_url" 
+                value={values.instagram_url}  
+                placeholder="Enter new link"
+                onChange={handleChange}
+                onBlur={handleBlur} required
+                isValid={touched.instagram_url && !errors.instagram_url}
+                isInvalid={touched.instagram_url && errors.instagram_url}/>
+            </Form.Group>
+            {touched.instagram_url && errors.instagram_url && <div className="text-danger mb-3">{errors.instagram_url}</div>}
             
-
-            <label htmlFor="content">{instagram}</label>
-            <input className="input-field" 
-             type="url" 
-             name="instagram_url" 
-             value={values.instagram_url}  
-             placeholder="Enter new link"
-             onChange={handleChange}
-             onBlur={handleBlur} required></input>
-            
-
-            <label htmlFor="content">{twitter}</label>
-            <input className="input-field" 
-             type="url" 
-             name="twitter_url" 
-             value={values.twitter_url}  
-             placeholder="Enter new link"
-             onChange={handleChange}
-             onBlur={handleBlur} required></input>
-            
-             
-            <button className="submit-btn" type="submit">Edit</button>
-
-
-                   
-        </form>
+            <Form.Label>{twitter}</Form.Label>
+            <Form.Group className="mb-4">
+              <Form.Control 
+                type="url" 
+                name="twitter_url" 
+                value={values.twitter_url}  
+                placeholder="Enter new link"
+                onChange={handleChange}
+                onBlur={handleBlur} required
+                isValid={touched.twitter_url && !errors.twitter_url}
+                isInvalid={touched.twitter_url && errors.twitter_url}/>
+            </Form.Group>
+            {touched.twitter_url && errors.twitter_url && <div className="text-danger mb-3">{errors.twitter_url}</div>}
+    
+    
+            <Button className="submit-btn" type="submit">
+              Register
+            </Button>
+          </Form>
+        </Col>
+        </Row>
+      </Container>
       )}  
     </Formik>  
     );
 }
  
 export default EditForm;
+
+
+
+
