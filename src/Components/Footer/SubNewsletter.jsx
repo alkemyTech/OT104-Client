@@ -1,11 +1,10 @@
 import React from "react";
-import { useFormik, FormikProvider, Form, Field, ErrorMessage } from "formik";
+import { useFormik, FormikProvider, Form as FormikForm, Field } from "formik";
 import * as Yup from "yup";
-import styles from "./SubNewsletter.module.css";
+import { Container, Form, Button, Row} from "react-bootstrap";
 
 export default function SubNewsletter() {
   const subscribed = localStorage.getItem("subscribed");
-
   const initialValues = {
     name: "",
     email: "",
@@ -25,7 +24,6 @@ export default function SubNewsletter() {
     alert("Gracias por suscribirte!");
   };
 
-
   const formik = useFormik({
     initialValues,
     onSubmit,
@@ -37,53 +35,47 @@ export default function SubNewsletter() {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
+    <Container style={{ maxWidth: "30rem" }} className="card bg-light">
+
+      <Row className="text-center card-header">
         <h3>Somos Mas Newsletter</h3>
-        <p className={styles.paragraph}>
+        <p>
           Para recibir nuestro Newsletter e información de nuestras actividades,
           suscríbete a nuestra lista de correos.
         </p>
-      </div>
+      </Row>
       <FormikProvider value={formik}>
-        <Form className={styles.form}>
-          <div className={styles.formGroup}>
+        <FormikForm className="text-center p-3">
+          <Form.Group className="mb-3">
             <Field
+              as={Form.Control}
               type="text"
               name="name"
-              className={`${styles.input} ${
-                formik.touched.name && formik.errors.name && styles.inputError
-              }`}
               placeholder="Nombre"
+              isInvalid={formik.touched.name && formik.errors.name}
               required
             />
-            <ErrorMessage
-              name="name"
-              component="div"
-              className={styles.msgError}
-            />
-          </div>
-          <div className={styles.formGroup}>
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.name}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className="mb-3">
             <Field
+              as={Form.Control}
               type="email"
               name="email"
-              className={`${styles.input} ${
-                formik.touched.email && formik.errors.email && styles.inputError
-              }`}
               placeholder="E-mail"
+              isInvalid={formik.touched.email && formik.errors.email}
               required
             />
-            <ErrorMessage
-              name="email"
-              component="div"
-              className={styles.msgError}
-            />
-          </div>
-          <button type="submit" className={styles.btnSubmit}>
-            Suscribirse
-          </button>
-        </Form>
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.email}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Button type="submit">Suscribirse</Button>
+        </FormikForm>
       </FormikProvider>
-    </div>
+
+    </Container>
   );
 }
