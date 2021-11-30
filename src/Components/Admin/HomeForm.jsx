@@ -4,6 +4,8 @@ import axios from 'axios';
 import './homeForm.css';
 import * as Yup from 'yup';
 import SlideForm from './SlideForm';
+import FormB from 'react-bootstrap/esm/Form';
+import { Button, FormLabel } from 'react-bootstrap';
 
 const HomeForm = () => {
   const initialValues = {
@@ -21,23 +23,33 @@ const HomeForm = () => {
     console.log(res);
   }
   return (
-    <div className="formContainer"><Formik
+
+    <div className="container formContainer"><Formik
       initialValues={initialValues}
       onSubmit={fileUpLoadHandler}
       validationSchema={validationSchema}
     >
       {(formProps) => (
-        <Form>
-          <h3 className="slideLabel">Welcome Text</h3>
-          <label>Welcome text (min 20 character) </label>  <br />
-          <Field as='textarea' id="inputWelcomeText" name="welcome_text" placeholder="(ex. Welcome text..)" /> <br />
-          <ErrorMessage name="welcome_text" component="span" /><br />
-          <button type='submit'>Submit Welcome Text</button>
-          <h3 className="slideLabel">Slides</h3>
-          <SlideForm />
+        <Form  >
+
+          <FormB.Group>
+            <h3 className="slideLabel">Welcome Text</h3>
+
+            <FormB.Label>Welcome text (min 20 character) </FormB.Label>  <br />
+            <FormB.Control as='textarea' id="inputWelcomeText" name="welcome_text" placeholder="(ex. Welcome text..)" /> <br />
+            <ErrorMessage name="welcome_text" component="span" /><br />
+            <Button type='submit'>Submit Welcome Text</Button>
+            <h3 className="slideLabel">Slides</h3>
+            <SlideForm />
+          </FormB.Group>
+
+
+
 
         </Form>)}
     </Formik></div>
+
+
 
   )
 }
