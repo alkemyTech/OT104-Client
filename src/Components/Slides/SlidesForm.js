@@ -4,6 +4,9 @@ import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
 import Stack from 'react-bootstrap/Stack';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 import * as Yup from 'yup';
@@ -161,83 +164,87 @@ const SlidesForm = ({slide}) => {
     }, [slide]);
 
     return (
-        <div>
-            {loading ?
-                <Spinner animation="border" role="status" variant="primary">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            :
-                <Formik.Formik
-                    initialValues={slide || defaultValues}
-                    validationSchema={SlideSchema}
-                    onSubmit={async (values, {setSubmitting}) => {
-                        await handleSubmit(values);
-                        setSubmitting(false);
-                    }}
-                >
-                    {({dirty, isValid, touched, errors, isSubmitting, setFieldTouched, setFieldValue}) => (
-                        <Formik.Form as={Form} className="p-3">
-                            <Form.Group className="mb-3" controlId="name">
-                                <Form.Label className={(touched.name && !errors.name) ? "text-success" : (touched.name && errors.name) ? "text-danger" : "text-body"}>Name</Form.Label>
-                                <Formik.Field
-                                    as={Form.Control}
-                                    name="name"
-                                    isValid={touched.name && !errors.name}
-                                    isInvalid={touched.name && errors.name}
-                                    disabled={isSubmitting}
-                                />
-                                <Formik.ErrorMessage component={Form.Text} name="name" className="text-danger" />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label className={(touched.description && !errors.description) ? "text-success" : (touched.description && errors.description) ? "text-danger" : "text-body"}>Description</Form.Label>
-                                <CKEditor
-                                    id="description"
-                                    editor={ClassicEditor}
-                                    data={slide? slide.description : ""}
-                                    onBlur={() => setFieldTouched("description")}
-                                    onChange={(_, editor) => setFieldValue("description", editor.getData())}
-                                    disabled={isSubmitting}
-                                />
-                                <Formik.ErrorMessage component={Form.Text} name="description" className="text-danger" />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label className={(touched.image && !errors.image) ? "text-success" : (touched.image && errors.image) ? "text-danger" : "text-body"}>Image</Form.Label>
-                                <InputFile
-                                    name="image"
-                                    onBlur={() => setFieldTouched("image")}
-                                    setValue={setFieldValue}
-                                    initialValue={slide? slide.image : null}
-                                    isValid={touched.image && !errors.image}
-                                    isInvalid={touched.image && errors.image}
-                                    disabled={isSubmitting}
-                                />
-                                <Formik.ErrorMessage component={Form.Text} name="image" className="text-danger" />
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="order">
-                                <Form.Label className={(touched.order && !errors.order) ? "text-success" : (touched.order && errors.order) ? "text-danger" : "text-body"}>Order</Form.Label>
-                                <Formik.Field 
-                                    name="order"
-                                    as={Form.Select}
-                                    isValid={touched.order && !errors.order}
-                                    isInvalid={touched.order && errors.order}
-                                    disabled={isSubmitting}
-                                >
-                                    {orderOptions}
-                                </Formik.Field>
-                                <Formik.ErrorMessage component={Form.Text} name="order" className="text-danger" />
-                            </Form.Group>
-                            <Button type="submit" disabled={isSubmitting || !(isValid && dirty)}>Send</Button>
-                            {alert.open ?
-                                <Alert variant={alert.variant} onClose={() => setAlert({})} dismissible className="mb-3">
-                                    <Alert.Heading>{alert.title}</Alert.Heading>
-                                    <p>{alert.message}</p>
-                                </Alert>
-                            : null}
-                        </Formik.Form>
-                    )}
-                </Formik.Formik>
-            }
-        </div>
+        <Container fluid>
+            <Row>
+                <Col lg={5} className="mx-auto">
+                {loading ?
+                    <Spinner animation="border" role="status" variant="primary">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                :
+                    <Formik.Formik
+                        initialValues={slide || defaultValues}
+                        validationSchema={SlideSchema}
+                        onSubmit={async (values, {setSubmitting}) => {
+                            await handleSubmit(values);
+                            setSubmitting(false);
+                        }}
+                    >
+                        {({dirty, isValid, touched, errors, isSubmitting, setFieldTouched, setFieldValue}) => (
+                            <Formik.Form as={Form} className="p-3">
+                                <Form.Group className="mb-3" controlId="name">
+                                    <Form.Label className={(touched.name && !errors.name) ? "text-success" : (touched.name && errors.name) ? "text-danger" : "text-body"}>Name</Form.Label>
+                                    <Formik.Field
+                                        as={Form.Control}
+                                        name="name"
+                                        isValid={touched.name && !errors.name}
+                                        isInvalid={touched.name && errors.name}
+                                        disabled={isSubmitting}
+                                    />
+                                    <Formik.ErrorMessage component={Form.Text} name="name" className="text-danger" />
+                                </Form.Group>
+                                <Form.Group className="mb-3">
+                                    <Form.Label className={(touched.description && !errors.description) ? "text-success" : (touched.description && errors.description) ? "text-danger" : "text-body"}>Description</Form.Label>
+                                    <CKEditor
+                                        id="description"
+                                        editor={ClassicEditor}
+                                        data={slide? slide.description : ""}
+                                        onBlur={() => setFieldTouched("description")}
+                                        onChange={(_, editor) => setFieldValue("description", editor.getData())}
+                                        disabled={isSubmitting}
+                                    />
+                                    <Formik.ErrorMessage component={Form.Text} name="description" className="text-danger" />
+                                </Form.Group>
+                                <Form.Group className="mb-3">
+                                    <Form.Label className={(touched.image && !errors.image) ? "text-success" : (touched.image && errors.image) ? "text-danger" : "text-body"}>Image</Form.Label>
+                                    <InputFile
+                                        name="image"
+                                        onBlur={() => setFieldTouched("image")}
+                                        setValue={setFieldValue}
+                                        initialValue={slide? slide.image : null}
+                                        isValid={touched.image && !errors.image}
+                                        isInvalid={touched.image && errors.image}
+                                        disabled={isSubmitting}
+                                    />
+                                    <Formik.ErrorMessage component={Form.Text} name="image" className="text-danger" />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="order">
+                                    <Form.Label className={(touched.order && !errors.order) ? "text-success" : (touched.order && errors.order) ? "text-danger" : "text-body"}>Order</Form.Label>
+                                    <Formik.Field 
+                                        name="order"
+                                        as={Form.Select}
+                                        isValid={touched.order && !errors.order}
+                                        isInvalid={touched.order && errors.order}
+                                        disabled={isSubmitting}
+                                    >
+                                        {orderOptions}
+                                    </Formik.Field>
+                                    <Formik.ErrorMessage component={Form.Text} name="order" className="text-danger" />
+                                </Form.Group>
+                                <Button type="submit" disabled={isSubmitting || !(isValid && dirty)}>Send</Button>
+                                {alert.open ?
+                                    <Alert variant={alert.variant} onClose={() => setAlert({})} dismissible className="mb-3">
+                                        <Alert.Heading>{alert.title}</Alert.Heading>
+                                        <p>{alert.message}</p>
+                                    </Alert>
+                                : null}
+                            </Formik.Form>
+                        )}
+                    </Formik.Formik>
+                }
+                </Col>
+            </Row>
+        </Container>
     );
 }
 
