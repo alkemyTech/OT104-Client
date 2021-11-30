@@ -6,6 +6,10 @@ import * as Yup from "yup";
 import axios from "axios";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import Button from "react-bootstrap/Button";
+
+// React Bootstrap
+// import { Form } from "react-bootstrap/Button";
 
 // README!!!!!
 // I create a route to de categories edit page and pass the id as a parameter
@@ -17,7 +21,7 @@ const CategoriesForm = () => {
   const BASE_URL = "http://ongapi.alkemy.org/api/categories";
   const { categoryId } = useParams();
   const [category, setCategory] = React.useState({});
-  const [imageState, setImageState] = React.useState("");
+  const [imageState, setImageState] = React.useState(null);
   const [initialValues, setInitialValues] = React.useState({
     name: "",
     description: "",
@@ -25,15 +29,11 @@ const CategoriesForm = () => {
   });
   const convertToBase64Handler = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        let file64 = reader.result;
-        console.log(typeof file64);
-        setImageState(file64);
-      };
-    }
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setImageState(reader.result);
+    };
   };
 
   const validateYupSchema = Yup.object().shape({
@@ -52,6 +52,7 @@ const CategoriesForm = () => {
         validationSchema={validateYupSchema}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
+            console.log("submit", values);
             if (category.id) {
               axios
                 .put(`${BASE_URL}/${category.id}`, values)
@@ -61,7 +62,9 @@ const CategoriesForm = () => {
               axios
                 .post(BASE_URL, values)
                 .then((res) => alert("Category created successfully"))
-                .catch((err) => console.log("POST method ERROR: ", err));
+                .catch((err) =>
+                  console.log("POST method ERROR: ", err.response)
+                );
             }
 
             setSubmitting(false);
@@ -79,6 +82,7 @@ const CategoriesForm = () => {
                 placeholder="Title"
                 setFieldValue={category.name}
               />
+
               {errors.name && <ErrorMessage name="name" />}
               <CKEditor
                 name="description"
@@ -104,19 +108,19 @@ const CategoriesForm = () => {
                 touched.description &&
                 errors.description && <ErrorMessage name="description" />}
 
-              <Field
+              <input
                 type="file"
                 name="image"
                 accept=".jpg,.jpeg,.png"
                 onChange={convertToBase64Handler}
               />
+              {/* now is not working :( */}
               {errors.image && touched.image && errors.image && (
                 <ErrorMessage name="image" />
               )}
-
-              <button className="submit-btn" type="submit">
+              <Button variant="primary" type="submit">
                 Send
-              </button>
+              </Button>
             </Form>
           )
         )}
