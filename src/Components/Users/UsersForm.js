@@ -3,11 +3,19 @@ import "../FormStyles.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Image from "react-bootstrap/Image";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Alert from "react-bootstrap/Alert";
+import Spinner from "react-bootstrap/Spinner";
 
 const UserForm = ({ user = null }) => {
   const [imageString, setImageString] = useState("") //imageString is the base64 string of the image
   const [imageUrl, setImageUrl] = useState(user?.profile_image || ""); //ImageUrl is the url of the image to be displayed
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const isEditing = !!user;
 
   const roles = {
@@ -29,7 +37,7 @@ const UserForm = ({ user = null }) => {
       .required("El nombre es obligatorio."),
     email: Yup.string().email("Email inválido").required("Obligatorio"),
     role_id: Yup.number()
-      .oneOf([roles.admin,roles.user], "Opciones válidas: administrador, usuario")
+      .oneOf([roles.admin,roles.user], "Opciones válidas: administrador, usuario.")
       .required("Obligatorio"),
     profile_image: Yup.string()
       .matches(
@@ -42,34 +50,38 @@ const UserForm = ({ user = null }) => {
       .required("Obligatorio"),
   });
 
-  const { handleSubmit, handleChange, handleBlur, values, errors, touched } =
+  const { handleSubmit, handleChange, handleBlur, values, errors, touched} =
     useFormik({
       initialValues,
       validationSchema,
       onSubmit: async (values) => {
+        setLoading(true);
         setMessage("");
         let {profile_image, ...userData} = values;
         userData = {...userData, profile_image: imageString};
         if (isEditing) {
           try {
             await axios.put(`http://ongapi.alkemy.org/api/users/${user.id}`, userData) 
-            setMessage("Usuario actualizado correctamente");
+            setMessage("Usuario actualizado correctamente.");
+            setLoading(false);
           }
           catch (error) {
-            console.log(error.response.data);
             error.response.data.errors?.email ? // if the error is from the email field
-              setMessage("Email ya registrado") 
-              : setMessage("No se pudo actualizar el usuario")
+              setMessage("No se pudo editar el usuario, el email ya está registrado.") 
+              : setMessage("No se pudo actualizar el usuario.")
+            setLoading(false);
           }
         } else {
           try {
             await axios.post(`http://ongapi.alkemy.org/api/users`, userData)
-            setMessage("Usuario creado correctamente");
+            setMessage("Usuario creado correctamente.");
+            setLoading(false);
           }
           catch (error) {
             error.response.data.errors.email 
-              ? setMessage("Email ya registrado") 
-              : setMessage("Error al crear el usuario");;
+              ? setMessage("No se pudo crear el usuario, el email ya está registrado.") 
+              : setMessage("Error al crear el usuario.");
+            setLoading(false);
           }
         }
       }
@@ -90,107 +102,153 @@ const UserForm = ({ user = null }) => {
   };
 
   return (
-    <div>
-      {message && <p style={{textAlign:"center"}}>{message}</p>}
-      <h1 style={{ textAlign: "center" }}>
-        {isEditing ? "Editar usuario" : "Crear usuario"}
-      </h1>
-      <form className="form-container" onSubmit={handleSubmit} encType="multipart/form-data">
-        <div className="form-group">
-          <label htmlFor="name"> Nombre </label>
-          <input
-            className="input-field"
-            type="text"
-            name="name"
-            value={values.name}
-            onChange={handleChange}
-            placeholder="Nombre"
-            onBlur={handleBlur}
-          />
-          {touched.name && errors.name && (
-            <label className="input-feedback">{errors.name}</label>
-          )}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="email"> Correo electrónico: </label>
-          <input
-            className="input-field"
-            type="email"
-            name="email"
-            value={values.email}
-            onChange={handleChange}
-            placeholder="Correo electrónico"
-            onBlur={handleBlur}
-          />
-          {touched.email && errors.email && (
-            <label className="input-feedback">{errors.email}</label>
-          )}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="password"> Contraseña: </label>
-          <input
-            className="input-field"
-            type="password"
-            name="password"
-            value={values.password}
-            onChange={handleChange}
-            placeholder="Contraseña"
-            onBlur={handleBlur}
-          />
-          {touched.password && errors.password && (
-            <label className="input-feedback">{errors.password}</label>
-          )}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="role"> Rol de usuario: </label>
-          <select
-            className="input-field"
-            value={values.role_id}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            name="role_id"
-          >
-            <option value="" disabled>
-              Rol del usuario
-            </option>
-            <option value={roles.admin}>Administrador</option>
-            <option value={roles.user}>Usuario</option>
-          </select>
-          {touched.role_id && errors.role_id && (
-            <label className="input-feedback">{errors.role_id}</label>
-          )}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="profile_image"> Foto de Perfil: </label>
-          <input
-            className="input-field"
-            type="file"
-            name="profile_image"
-            onChange={handleChangeImg}
-            accept=".png, .jpeg"
-          />
-          {touched.profile_image && errors.profile_image && (
-            <label className="input-feedback">{errors.profile_image}</label>
-          )}
-        </div>
-
-        {imageUrl && !errors.profile_image ? (
-          <img
-            className="input-field"
-            src={imageUrl}
-            alt="foto de perfil"
-          />
-        ) : null}
-
-        <button className="submit-btn" type="submit">
-          {isEditing ? "Actualizar" : "Crear"}
-        </button>
-      </form>
-    </div>
+    <Container style={{maxWidth:"30rem"}}>
+      <Row>
+        <h1 style={{ textAlign: "center", marginTop:"1em"}}>
+          {isEditing ? "Editar usuario" : "Crear usuario"}
+        </h1>
+      </Row>
+      <Row>
+        <Form onSubmit={handleSubmit} className="mb-3" encType="multipart/form-data">
+          <Form.Group className="mb-3">
+            <Form.Label> Nombre</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              value={values.name}
+              onChange={handleChange}
+              placeholder="Nombre"
+              onBlur={handleBlur}
+              isInvalid={errors.name && touched.name}
+              isValid={!errors.name && touched.name}
+            />
+            {(errors.name && touched.name) 
+              ? 
+                <Form.Control.Feedback type="invalid">
+                  {errors.name}
+                </Form.Control.Feedback>
+              :
+                <Form.Text className="text-muted">
+                  El nombre debe contener al menos 4 caracteres.
+                </Form.Text>
+            }
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label > Correo electrónico </Form.Label>
+            <Form.Control
+              className="input-field"
+              type="email"
+              name="email"
+              value={values.email}
+              onChange={handleChange}
+              placeholder="Correo electrónico"
+              onBlur={handleBlur}
+              isInvalid={errors.email && touched.email}
+              isValid={touched.email && !errors.email}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.email}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label> Contraseña </Form.Label>
+            <Form.Control
+              className="input-field"
+              type="password"
+              name="password"
+              value={values.password}
+              onChange={handleChange}
+              placeholder="Contraseña"
+              onBlur={handleBlur}
+              isInvalid={errors.password && touched.password}
+              isValid={touched.password && !errors.password}
+            />
+            {(errors.password && touched.password) 
+              ? 
+                <Form.Control.Feedback type="invalid">
+                  {errors.password}
+                </Form.Control.Feedback>
+              :
+                <Form.Text className="text-muted">
+                  La contraseña debe contener al menos 8 caracteres.
+                </Form.Text>
+            }
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="role"> Rol de usuario </Form.Label>
+            <Form.Select
+              className="input-field"
+              value={values.role_id}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              name="role_id"
+              isInvalid={errors.role_id && touched.role_id}
+            >
+              <option value="" disabled>
+                Rol del usuario
+              </option>
+              <option value={roles.admin}>Administrador</option>
+              <option value={roles.user}>Usuario</option>
+            </Form.Select>
+            <Form.Control.Feedback type="invalid">
+              {errors.role_id}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label> Foto de Perfil </Form.Label>
+            <Form.Control
+              className="input-field"
+              type="file"
+              name="profile_image"
+              onChange={handleChangeImg}
+              accept=".png, .jpeg"
+              isInvalid={errors.profile_image && touched.profile_image}
+              isValid={touched.profile_image && !errors.profile_image}
+            />
+            {(errors.profile_image && touched.profile_image) 
+              ?
+                <Form.Control.Feedback type="invalid">
+                  {errors.profile_image}
+                </Form.Control.Feedback>
+              : 
+                <Form.Text className="text-muted">
+                  La imagen debe ser un archivo .png o .jpg
+                </Form.Text>
+            }
+          </Form.Group>
+          <Form.Group className="mb-3">
+            {(imageUrl && !errors.profile_image) 
+              ? 
+                <Image src={imageUrl} alt="foto de perfil" rounded fluid />
+              : null
+            }
+          </Form.Group>
+          {
+            <Button type="submit" disabled={loading}>
+              {loading 
+                ?
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                :
+                  isEditing ? "Actualizar" : "Crear"
+              }
+            </Button>
+          }
+        </Form>
+      </Row>
+      <Row>
+        {message && 
+          <Alert variant="info">
+            {message}
+          </Alert>
+        }
+      </Row>
+    </Container>
   );
 };
 
