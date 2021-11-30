@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
-import { Container, Row, Form, Button } from 'react-bootstrap';
+import { Container, Row, Form, Button, Col } from 'react-bootstrap';
 
 
 const RegisterForm = () => {
@@ -71,8 +71,10 @@ const RegisterForm = () => {
      >
       {( {values, errors, touched, isValid, handleSubmit, handleChange, handleBlur} )=>(
   <Container>
-    <Row>   
-    <h2 className="mt-3 text-center">Register Form</h2>
+    <Row>
+     <Col xs lg="5 mx-auto">
+       
+      <h2 className="mt-3 text-center">Register Form</h2>
       <Form className="border border-grey rounded p-4 mt-4" onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Control 
@@ -143,6 +145,7 @@ const RegisterForm = () => {
           Register
         </Button>
       </Form>
+    </Col>
     </Row>
   </Container>
       )}  
