@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import * as Formik from 'formik';
+import Form from 'react-bootstrap/Form';
+import Image from 'react-bootstrap/Image';
+import Stack from 'react-bootstrap/Stack';
+import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
 import * as Yup from 'yup';
 import axios from 'axios';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -54,9 +59,9 @@ const InputFile = ({name, setValue, initialValue, ...props}) => {
     }
 
     return (
-        <>
-            {img && <img src={img} alt="" width="100%" style={{maxWidth: "300px"}} />}
-            <input 
+        <Stack gap={3}>
+            {img && <Image src={img} alt="" fluid style={{maxWidth: "300px"}} />}
+            <Form.Control
                 {...props}
                 name={name}
                 id={name}
@@ -64,12 +69,18 @@ const InputFile = ({name, setValue, initialValue, ...props}) => {
                 accept=".jpg, .png"
                 onChange={handleFile}
             />
-        </>
+        </Stack>
     )
 }
 
 const SlidesForm = ({slide}) => {
     const [totalSlides, setTotalSlides] = useState(0);
+    const [alert, setAlert] = useState({
+        open: false,
+        variant: '',
+        title: '',
+        message: ''
+    });
     
     const defaultValues = {
         name: '',
@@ -113,12 +124,29 @@ const SlidesForm = ({slide}) => {
 
             if (slide) {
                 let res = await API.put(`slides/${slide.id}`, formToSend);
-                return console.log(res.data);
+                setAlert({
+                    open: true,
+                    variant: 'success',
+                    title: 'Success',
+                    message: res.data.message
+                });
+                return;
             }
             let res = await API.post('slides', formToSend);
-            return console.log(res.data);
+            setAlert({
+                open: true,
+                variant: 'success',
+                title: 'Success',
+                message: res.data.message
+            });
+            return;
         } catch(err) {
-            console.log(err);
+            setAlert({
+                open: true,
+                variant: 'danger',
+                title: 'Success',
+                message: err.message
+            });
         }
     }
 
@@ -135,45 +163,74 @@ const SlidesForm = ({slide}) => {
 
     return (
         <div>
-            <Formik
+            <Formik.Formik
                 initialValues={slide || defaultValues}
                 validationSchema={SlideSchema}
-                onSubmit={values => handleSubmit(values)}
+                onSubmit={async (values, {setSubmitting}) => {
+                    await handleSubmit(values);
+                    setSubmitting(false);
+                }}
             >
-                {({setFieldValue}) => (
-                    <Form className="form-container">
-                        <label htmlFor="name">Name</label>
-                        <Field
-                            className="input-field"
-                            type="text"
-                            name="name"
-                        />
-                        <ErrorMessage name="name" />
-                        <label htmlFor="description">Description</label>
-                        <CKEditor
-                            id="description"
-                            className="input-field"
-                            editor={ClassicEditor}
-                            data={slide? slide.description : ""}
-                            onChange={(_, editor) => handleCKEditor(editor, setFieldValue, "description")}
-                        />
-                        <ErrorMessage name="description" />
-                        <label htmlFor="image">Image</label>
-                        <InputFile 
-                            name="image"
-                            setValue={setFieldValue}
-                            initialValue={slide? slide.image : null}
-                        />
-                        <ErrorMessage name="image" />
-                        <label htmlFor="order">Order</label>
-                         <Field name="order" component="select">
-                            {orderOptions}
-                        </Field>
-                        <ErrorMessage name="order" />
-                        <button className="submit-btn" type="submit">Send</button>
-                    </Form>
+                {({dirty, touched, errors, isValid, isSubmitting, setFieldValue}) => (
+                    <Formik.Form as={Form} className="p-3">
+                        <Form.Group className="mb-3" controlId="name">
+                            <Form.Label>Name</Form.Label>
+                            <Formik.Field
+                                as={Form.Control}
+                                name="name"
+                                isValid={touched.name && !errors.name}
+                                isInvalid={touched.name && errors.name}
+                                disabled={isSubmitting}
+                            />
+                            <Formik.ErrorMessage component={Form.Text} name="name" className="text-danger" />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Description</Form.Label>
+                            <Form.Control
+                                as={CKEditor}
+                                id="description"
+                                editor={ClassicEditor}
+                                data={slide? slide.description : ""}
+                                onChange={(_, editor) => handleCKEditor(editor, setFieldValue, "description")}
+                                disabled={isSubmitting}
+                            />
+                            <Formik.ErrorMessage component={Form.Text} name="description" className="text-danger" />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Image</Form.Label>
+                            <InputFile
+                                name="image"
+                                setValue={setFieldValue}
+                                initialValue={slide? slide.image : null}
+                                isValid={touched.image && !errors.image}
+                                isInvalid={touched.image && errors.image}
+                                disabled={isSubmitting}
+                            />
+                            <Formik.ErrorMessage component={Form.Text} name="image" className="text-danger" />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="order">
+                            <Form.Label>Order</Form.Label>
+                            <Formik.Field 
+                                name="order"
+                                as={Form.Select}
+                                isValid={touched.order && !errors.order}
+                                isInvalid={touched.order && errors.order}
+                                disabled={isSubmitting}
+                            >
+                                {orderOptions}
+                            </Formik.Field>
+                            <Formik.ErrorMessage component={Form.Text} name="order" className="text-danger" />
+                        </Form.Group>
+                        <Button type="submit" disabled={isSubmitting || !(isValid && dirty)}>Send</Button>
+                        {alert.open ?
+                            <Alert variant={alert.variant} onClose={() => setAlert({})} dismissible className="mb-3">
+                                <Alert.Heading>{alert.title}</Alert.Heading>
+                                <p>{alert.message}</p>
+                            </Alert>
+                        : null}
+                    </Formik.Form>
                 )}
-            </Formik>
+            </Formik.Formik>
         </div>
     );
 }
