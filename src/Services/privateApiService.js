@@ -12,4 +12,18 @@ const Get = () => {
     .catch(err => console.log(err))
 }
 
+export const Delete = ( pathToDelete, token ) => {
+    fetch(`http://ongapi.alkemy.org/api/${pathToDelete}`,{
+        method: "DELETE",
+        headers:{
+            Authorization: `Basic ${token}`
+        }
+    })
+    .then((res) => res.json())
+    .catch((error) => alert("No se pudo borrar el recurso. Error: " + error + "."))
+    .then((data) => alert("El recurso fue borrado correctamente."))
+    .catch((error) => alert("No se pudo borrar el recurso. Error: " + error + "."))
+
+}
+
 export default Get
