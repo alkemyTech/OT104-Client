@@ -13,26 +13,6 @@ import SchoolCampaign from "./Campaigns/School/SchoolCampaign";
 import ToysCampaign from "./Campaigns/Toys/ToysCampaign";
 import MembersForm from "./Components/Members/MembersForm";
 import ProjectsForm from "./Components/Projects/ProjectsForm";
-import SliderBS from "./Components/Slider/SliderBS";
-
-const fekeSlides = [
-  {
-    name: "Slide 1",
-    image: "https://via.placeholder.com/800x400.png",
-    description: "Decription number 1.",
-  },
-  {
-    name: "Slide 2",
-    image: "https://via.placeholder.com/800x400.png",
-    description: "Decription number 2.",
-  },
-  {
-    name: "Slide 3",
-    image: "https://via.placeholder.com/800x400.png",
-    description: "Decription number 3.",
-  },
-];
-
 function App() {
   return (
     <>
