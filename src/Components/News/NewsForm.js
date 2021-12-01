@@ -5,7 +5,7 @@ import { ErrorMessage, Form, Field, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import "../../Components/FormStyles.css";
+import { Form as FormBootstrap, Container, Button } from "react-bootstrap";
 
 const NewsForm = ({ newToEdit = false }) => {
   const history = useHistory();
@@ -111,68 +111,88 @@ const NewsForm = ({ newToEdit = false }) => {
   });
 
   return (
-    <FormikProvider value={formik}>
-      <Form className="form-container">
-        <label htmlFor="name">Título</label>
-        <Field
-          className="input-field"
-          type="text"
-          name="name"
-          placeholder="Titulo"
-        />
-        <ErrorMessage name="name" component="div" className="input-feedback" />
+    <Container style={{ maxWidth: "30rem" }} className="card bg-light my-2">
+      <FormikProvider value={formik}>
+        <Form className="p-3">
+          <FormBootstrap.Group className="d-flex flex-column mb-3">
+            <FormBootstrap.Label htmlFor="name">Título</FormBootstrap.Label>
+            <Field
+              as={FormBootstrap.Control}
+              type="text"
+              name="name"
+              placeholder="Titulo"
+              isInvalid={formik.touched.name && formik.errors.name}
+            />
+            <FormBootstrap.Control.Feedback type="invalid">
+              {formik.errors.name}
+            </FormBootstrap.Control.Feedback>
+          </FormBootstrap.Group>
 
-        <label htmlFor="image">Imagen</label>
-        {imgPreview && <img src={imgPreview} alt="preview" />}
-        <input
-          className="input-field"
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleFileChange}
-        />
-        <ErrorMessage name="image" component="div" className="input-feedback" />
+          <FormBootstrap.Group className="d-flex flex-column mb-3">
+            <FormBootstrap.Label htmlFor="image">Imagen</FormBootstrap.Label>
+            {imgPreview && <img src={imgPreview} alt="preview" />}
+            <FormBootstrap.Control
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleFileChange}
+              isInvalid={formik.touched.image && formik.errors.image}
+            />
+            <FormBootstrap.Control.Feedback type="invalid">
+              {formik.errors.image}
+            </FormBootstrap.Control.Feedback>
+          </FormBootstrap.Group>
 
-        <label htmlFor="content">Contenido</label>
-        <CKEditor
-          name="content"
-          className="input-field"
-          data={initialValues.content}
-          editor={ClassicEditor}
-          onChange={handleEditorChange}
-        />
-        <ErrorMessage
-          name="content"
-          component="div"
-          className="input-feedback"
-        />
+          <FormBootstrap.Group className="d-flex flex-column mb-3">
+            <FormBootstrap.Label htmlFor="content">
+              Contenido
+            </FormBootstrap.Label>
+            <FormBootstrap.Control
+              as={CKEditor}
+              name="content"
+              data={initialValues.content}
+              editor={ClassicEditor}
+              onChange={handleEditorChange}
+            />
+            <ErrorMessage
+              name="content"
+              component="div"
+              className="text-danger mt-1"
+              style={{ fontSize: ".9rem" }}
+            />
+          </FormBootstrap.Group>
 
-        <label htmlFor="category">Categoría</label>
-        <Field component="select" className="select-Fieldield" name="category">
-          <option value="" disabled>
-            Seleccionar
-          </option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </Field>
-        <ErrorMessage
-          name="category"
-          component="div"
-          className="input-feedback"
-        />
+          <FormBootstrap.Group className="d-flex flex-column mb-3">
+            <FormBootstrap.Label htmlFor="category">
+              Categoría
+            </FormBootstrap.Label>
 
-        <button
-          className="submit-btn"
-          type="submit"
-          disabled={formik.isSubmitting && true}
-        >
-          {formik.isSubmitting ? "Enviando" : "Enviar"}
-        </button>
-      </Form>
-    </FormikProvider>
+            <Field
+              as={FormBootstrap.Select}
+              name="category"
+              isInvalid={formik.touched.category && formik.errors.category}
+            >
+              <option value="" disabled>
+                Seleccionar
+              </option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </Field>
+
+            <FormBootstrap.Control.Feedback type="invalid">
+              {formik.errors.image}
+            </FormBootstrap.Control.Feedback>
+          </FormBootstrap.Group>
+
+          <Button type="submit" disabled={formik.isSubmitting && true}>
+            {formik.isSubmitting ? "Enviando" : "Enviar"}
+          </Button>
+        </Form>
+      </FormikProvider>
+    </Container>
   );
 };
 
