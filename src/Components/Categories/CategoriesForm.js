@@ -93,7 +93,10 @@ const CategoriesForm = ({ cateroryToEdit }) => {
                   name="name"
                   type="text"
                   placeholder="Name"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                   setFieldValue={category.name}
+                  isValid={touched.name && !errors.name}
                 />
 
                 {errors.name && <ErrorMessage name="name" />}
@@ -125,13 +128,15 @@ const CategoriesForm = ({ cateroryToEdit }) => {
                   errors.description && <ErrorMessage name="description" />}
               </Form.Group>
 
-              <input
-                className="input-field"
-                type="file"
-                name="image"
-                accept=".jpg,.jpeg,.png"
-                onChange={convertToBase64Handler}
-              />
+              <Form.Group>
+                <Form.Control
+                  className="input-field"
+                  type="file"
+                  name="image"
+                  accept=".jpg,.jpeg,.png"
+                  onChange={convertToBase64Handler}
+                />
+              </Form.Group>
               {/* now is not working :( */}
               {errors.image && touched.image && errors.image && (
                 <ErrorMessage name="image" />
