@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import '../FormStyles.css';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FormikProvider, Form, Field, ErrorMessage, useFormik } from "formik";
+import { FormGroup, FormLabel, FormControl, Button, Alert } from 'react-bootstrap';
 
 const ActivitiesForm = ({
     activityToEdit
@@ -11,7 +12,6 @@ const ActivitiesForm = ({
 
     const fileInput = useRef();
     const descriptionInput = useRef();
-    const [imageFile, setImageFile ] = useState("");
     const initialValues = 
         isCreate?
             {
@@ -30,7 +30,6 @@ const ActivitiesForm = ({
         if(!values.image){
             errors.image = "Por favor, ingrese una imagen."
         }
-
         return errors;
     }
 
@@ -113,23 +112,21 @@ const ActivitiesForm = ({
         <FormikProvider value={formik}>  
             <Form className="form-container" encType="multipart/form-data">
                 <div>
-                    <Field
-                        type="text" 
+                    <FormLabel>Nombre</FormLabel>
+                    <FormControl 
                         name="name" 
+                        type={'text'} 
                         value={formik.values.name}
-                        placeholder="Activity Title"
-                        onChange={(e)=>{
-                            formik.handleChange(e)
-                            formik.validateField("name")
-                        }}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                     />
                     <ErrorMessage 
                         name="name" 
-                        component={()=><span>{formik.errors.name}</span>}
+                        component={()=><Alert variant={"danger"}>{formik.errors.name}</Alert>}
                     />
                 </div>
                 <div>
-                    <input 
+                    <FormControl
                         type="file"
                         name="image"
                         onChange={handleFileChange} 
@@ -139,7 +136,7 @@ const ActivitiesForm = ({
                     />
                     <ErrorMessage 
                         name="image" 
-                        component={()=><span>{formik.errors.image}</span>}
+                        component={()=><Alert variant={"danger"}>{formik.errors.image}</Alert>}
                     />
                 </div>
                 <div>
@@ -151,7 +148,7 @@ const ActivitiesForm = ({
                         onChange={handleDescriptionChange}
                     />
                 </div>
-                <button type="submit">Send</button>
+                <Button type="submit">Send</Button>
             </Form> 
         </FormikProvider>
     );
