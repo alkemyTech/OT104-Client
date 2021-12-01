@@ -1,5 +1,6 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { FormLabel, FormControl, Button, Alert } from 'react-bootstrap';
 
 const ContactForm = () => {
 
@@ -51,17 +52,25 @@ const ContactForm = () => {
             onSubmit={handleSubmit}
             validate={handleErrors}
         >
-        {({errors})=>(
+        {({errors, values, handleChange, handleBlur})=>(
             <Form>
                 <div>
-                    <label for="name">Nombre:</label>
+                    <FormLabel for="name">Nombre:</FormLabel>
                     <Field
                         name="name"
                         type="text"
+                        render={()=>(
+                            <FormControl
+                                name="name"
+                                type="text"
+                                value={values.name}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                            />)}
                     />
                     <ErrorMessage
                         name="name"
-                        component={()=>(<span>{errors.name}</span>)}
+                        component={()=>(<Alert variant="danger">{errors.name}</Alert>)}
                     />
                 </div>
                 <div>
@@ -69,10 +78,18 @@ const ContactForm = () => {
                     <Field
                         name="email"
                         type="text"
+                        render={()=>(
+                            <FormControl
+                                name="email"
+                                type="text"
+                                value={values.email}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                            />)}
                     />
                     <ErrorMessage
                         name="email"
-                        component={()=>(<span>{errors.email}</span>)}
+                        component={()=>(<Alert variant="danger">{errors.email}</Alert>)}
                     />
                 </div>
                 <div>
@@ -80,10 +97,18 @@ const ContactForm = () => {
                     <Field
                         name="phone"
                         type="number"
+                        render={()=>(
+                            <FormControl
+                                name="phone"
+                                type="number"
+                                value={values.number}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                            />)}
                     />
                     <ErrorMessage
                         name="phone"
-                        component={()=>(<span>{errors.phone}</span>)}
+                        component={()=>(<Alert variant="danger">{errors.phone}</Alert>)}
                     />
                 </div>
                 <div>
@@ -91,13 +116,21 @@ const ContactForm = () => {
                     <Field
                         name="message"
                         as="textarea"
+                        render={()=>(
+                            <FormControl
+                                name="message"
+                                as="textarea"
+                                value={values.message}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                            />)}
                     />
                     <ErrorMessage
                         name="message"
-                        component={()=>(<span>{errors.message}</span>)}
+                        component={()=>(<Alert variant="danger">{errors.message}</Alert>)}
                     />
                 </div>
-                <input type="submit" value="Enviar Mensaje"/>
+                <Button type="submit">Enviar Mensaje</Button>
             </Form>
         )}
 
