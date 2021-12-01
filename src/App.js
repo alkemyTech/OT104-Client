@@ -13,15 +13,32 @@ import SchoolCampaign from "./Campaigns/School/SchoolCampaign";
 import ToysCampaign from "./Campaigns/Toys/ToysCampaign";
 import MembersForm from "./Components/Members/MembersForm";
 import ProjectsForm from "./Components/Projects/ProjectsForm";
-import Slider from "./Components/Slider/Slider";
+import SliderBS from "./Components/Slider/SliderBS";
+
+const fekeSlides = [
+  {
+    name: "Slide 1",
+    image: "https://via.placeholder.com/800x400.png",
+    description: "Decription number 1.",
+  },
+  {
+    name: "Slide 2",
+    image: "https://via.placeholder.com/800x400.png",
+    description: "Decription number 2.",
+  },
+  {
+    name: "Slide 3",
+    image: "https://via.placeholder.com/800x400.png",
+    description: "Decription number 3.",
+  },
+];
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Switch>
-          <Route path="/" exact component={Slider} /> Esta ruta debe ser para el
-          Home
+          {/* <Route path="/" exact component={} />           Esta ruta debe ser para el Home */}
           <Route path="/create-activity" component={ActivitiesForm} />
           <Route path="/create-category" component={CategoriesForm} />
           <Route path="/create-news" component={NewsForm} />
