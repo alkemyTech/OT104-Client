@@ -12,13 +12,15 @@ import FormB from 'react-bootstrap/Form';
 
 
 
-const HomeForm = (props) => {
+const HomeForm = ({ welcometext, name }) => {
+
   const initialValues = {
-    name: "",
+    name: name,
     logo: "",
-    welcome_text: "",
+    welcome_text: welcometext,
     id: null,
   }
+  console.log(welcometext, initialValues.welcome_text);
   const validationSchema = Yup.object().shape({
     welcome_text: Yup.string().min(20).required(),
   })
@@ -58,7 +60,7 @@ const HomeForm = (props) => {
 HomeForm.defaultProps = {
   name: "prueba",
   logo: "",
-  welcome_text: "hola",
+  welcometext: "hola",
   id: null,
 }
 

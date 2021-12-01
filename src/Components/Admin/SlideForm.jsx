@@ -63,10 +63,6 @@ const SlideForm = () => {
           <label>Slide 3 text</label>
           <Field as={FormB.Control} id="slideText2" name="slideText2" placeholder="slide text..." />
           <ErrorMessage name="slideText2" component="span" /><br />
-
-
-
-
           <Button type='submit'>Submit Slides</Button>
         </Form>)}
     </Formik>
