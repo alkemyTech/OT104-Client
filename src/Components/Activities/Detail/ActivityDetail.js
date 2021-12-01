@@ -1,7 +1,8 @@
 import React, { useState, useEffect} from 'react';
 
+
 const MockTitleComponent = ({children}) => {
-    return (<h1>{children}</h1>)
+    return (<h1 className="display-5">{children}</h1>)
 }
 
 const ActivityDetail = ({match}) => {
@@ -15,8 +16,13 @@ const ActivityDetail = ({match}) => {
         fetch(`http://ongapi.alkemy.org/api/activities/${id}`)
         .then((res)=>res.json())
         .then((data)=>{
-            setTitle(data.data.name);
-            setContent(data.data.description);
+            if(data.success===true){
+                setTitle(data.data.name);
+                setContent(data.data.description);
+            }else{
+                setTitle("No encontrado")
+                setContent("La actividad solicitada no existe o no está disponible.")
+            }
         })
     },[])
 
