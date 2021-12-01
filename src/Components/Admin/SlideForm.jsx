@@ -3,6 +3,8 @@ import { Form, Formik, Field, ErrorMessage } from 'formik'
 import axios from 'axios';
 import './homeForm.css';
 import * as Yup from 'yup';
+import FormB from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 const SlideForm = () => {
   const initialValues = {
@@ -33,39 +35,39 @@ const SlideForm = () => {
       validationSchema={validationSchema}
     >
       {(formProps) => (
-        <Form >
-          <input
+        <Form as={FormB}>
+          <Field as={FormB.Control}
             type='file'
             name='photoSlide0'
             onChange={(event) => formProps.setFieldValue('photoSlide', event.target.files[0])}
           />
           <br />
-          <label>Slide text</label>
-          <Field id="slideText0" name="slideText0" placeholder="(Slide  text..)" />
+          <label>Slide 1 text</label>
+          <Field as={FormB.Control} id="slideText0" name="slideText0" placeholder="slide text..." />
           <ErrorMessage name="slideText0" component="span" />
-          <input
+          <Field as={FormB.Control}
             type='file'
             name='photoSlide1'
             onChange={(event) => formProps.setFieldValue('photoSlide', event.target.files[1])}
           />
           <br />
-          <label>Slide text</label>
-          <Field id="slideText1" name="slideText1" placeholder="(Slide  text..)" />
+          <label>Slide 2 text</label>
+          <Field as={FormB.Control} id="slideText1" name="slideText1" placeholder="slide text..." />
           <ErrorMessage name="slideText1" component="span" />
-          <input
+          <Field as={FormB.Control}
             type='file'
             name='photoSlide2'
             onChange={(event) => formProps.setFieldValue('photoSlide', event.target.files[2])}
           />
           <br />
-          <label>Slide text</label>
-          <Field id="slideText2" name="slideText2" placeholder="(Slide  text..)" />
+          <label>Slide 3 text</label>
+          <Field as={FormB.Control} id="slideText2" name="slideText2" placeholder="slide text..." />
           <ErrorMessage name="slideText2" component="span" /><br />
 
 
 
 
-          <button type='submit'>Submit Slides</button>
+          <Button type='submit'>Submit Slides</Button>
         </Form>)}
     </Formik>
 
