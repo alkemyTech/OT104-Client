@@ -8,11 +8,11 @@ const Activities = () => {
   return (
     <Container fluid="md">
        <Row>
-    <Col>
-<ActivitiesTitle/>
- <ActivitiesList/>
-</Col>
-  </Row>
+        <Col>
+            <ActivitiesTitle/>
+            <ActivitiesList/>
+        </Col>
+       </Row>
     </Container>
   )
 }
