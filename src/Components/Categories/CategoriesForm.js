@@ -17,9 +17,9 @@ import Button from "react-bootstrap/Button";
 // If I get a param id, I will get the category and set the initial values
 // If I don't get a param id, I will create a new category
 
-const CategoriesForm = () => {
+const CategoriesForm = ({ cateroryToEdit }) => {
+  console.log(cateroryToEdit);
   const BASE_URL = "http://ongapi.alkemy.org/api/categories";
-  const { categoryId } = useParams();
   const [category, setCategory] = React.useState({});
   const [imageState, setImageState] = React.useState(null);
   const [initialValues, setInitialValues] = React.useState({
@@ -27,6 +27,14 @@ const CategoriesForm = () => {
     description: "",
     image: "",
   });
+
+  React.useEffect(() => {
+    if (cateroryToEdit) {
+      setCategory(cateroryToEdit);
+      setInitialValues({ ...cateroryToEdit });
+    }
+  }, []);
+
   const convertToBase64Handler = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -127,23 +135,6 @@ const CategoriesForm = () => {
       </Formik>
     );
   };
-
-  React.useEffect(() => {
-    if (categoryId) {
-      axios
-        .get(`${BASE_URL}/${categoryId}`)
-        .then((res) => {
-          let data = res.data.data;
-          setInitialValues({ ...data });
-          setCategory(data);
-        })
-        .catch((err) => {
-          console.log("Error getting the category", err);
-        });
-    }
-  }, [categoryId]);
-
-  React.useEffect(() => {}, [initialValues]);
 
   return initialValues.id ? <ConditionalForm /> : <ConditionalForm />;
 };
