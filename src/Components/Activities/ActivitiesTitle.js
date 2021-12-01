@@ -1,11 +1,13 @@
 import React from 'react'
 
-const ActivitiesTitle = () => {
+const ActivitiesTitle = (props) => {
   return (
     <>
-        <h1>Listado Actividades</h1>
+        <h1>{props.title}</h1>
     </>
   )
 }
-
+ ActivitiesTitle.defaultProps = {
+      title: "Listado Actividades"
+  }
 export default ActivitiesTitle

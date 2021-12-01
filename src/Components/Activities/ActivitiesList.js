@@ -10,11 +10,12 @@ const ActivitiesList = ({data}) => {
                 {data.length > 0 ?
                     data.map((activity) => {
                         return(
-                           <Card key={activity.id} style={{ width: '18rem' }}>
+                           <Card bg="info" border="dark " key={activity.id} style={{ width: '18rem' }}>
+                            <Card.Header > <h5>{activity.name}</h5></Card.Header>
                              <Card.Body >
-                               <Card.Title>{activity.name}</Card.Title>
                                <Card.Text>{activity.description}</Card.Text>
                              </Card.Body>
+                            <Card.Footer></Card.Footer>
                             </Card>
                         )
                     })
