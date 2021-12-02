@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 function LoginForm() {
-  const [dataUserAuth, setDataUserAuth] = useState([]);
-
   const logInAuth = async (data) => {
     await axios
       .post("http://ongapi.alkemy.org/api/login", {
@@ -11,7 +9,7 @@ function LoginForm() {
         password: data.passwordUser,
       })
       .then((response) => {
-        setDataUserAuth((dataUserAuth) => [response.data]);
+        localStorage.setItem("dataUser", JSON.stringify(response.data.data));
       })
       .catch((err) => {
         alert("Error" + err);
