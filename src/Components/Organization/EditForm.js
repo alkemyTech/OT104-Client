@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import '../FormStyles.css';
 import { Formik } from 'formik';
 import { Container, Row, Form, Button, Col } from 'react-bootstrap';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CreateForm } from './CreateForm';
 
   
 const EditForm = (props) => {
@@ -17,9 +17,11 @@ const EditForm = (props) => {
     const [instagram, setInstagram] = useState(props.instagram_url);
     const [twitter, setTwitter] = useState(props.twitter_url);
     const [ckeditorError, setCkeditorError] = useState(false);
-    
+       
     
     return (
+      <>
+      {name !==undefined  ?  
         <Formik
      initialValues={{ 
         name: "",
@@ -95,7 +97,7 @@ const EditForm = (props) => {
      >
        
       {( {values, errors, touched, isValid, handleSubmit, handleChange, handleBlur, setFieldValue} )=>(   
-        <Container>
+       <Container>
         <Row>
          <Col xs lg="5 mx-auto">
            
@@ -217,9 +219,11 @@ const EditForm = (props) => {
           </Form>
         </Col>
         </Row>
-      </Container>
+       </Container>
       )}  
-    </Formik>  
+    </Formik> 
+     :<CreateForm/> }
+     </>
     );
 }
  
