@@ -12,8 +12,8 @@ const MiembrosAbout = ({ data }) => {
         {data.length > 0 ?
           data.map((activity) => {
             return (
-              <Card bg="light" border="dark " key={activity.id} style={{ width: '15rem' }} >
-                <Card.Img variant="top" style={{ height: '13rem', width: '13rem' }} src={activity.image} />
+              <Card bg="light" border="dark " key={activity.id} style={{ width: '20rem' }} >
+                <Card.Img variant="top" src={activity.image} />
                 <Card.Body>
                   <Card.Title>{activity.name} </Card.Title>
                   <Card.Text>
@@ -35,9 +35,42 @@ const MiembrosAbout = ({ data }) => {
 }
 MiembrosAbout.defaultProps = {
   data: [
-    { id: 2, name: 'Sebastián', image: " https://pm1.narvii.com/6567/2f2799371096513f7f3d566efd4610c6cc4bd58d_hq.jpg", description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque asperiores molestias tenetur praesentium est perspiciatis ', facebookUrl: "https://www.facebook.com/groups/2469024430075023", linkedinUrl: "https://www.linkedin.com/in/carlos-janon-developer/" },
-    { id: 1, name: 'Andrea', image: " https://pm1.narvii.com/6567/2f2799371096513f7f3d566efd4610c6cc4bd58d_hq.jpg", description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque asperiores molestias tenetur praesentium est perspiciatis voluptatum, obcaecati quaerat vero minus,', facebookUrl: "https://www.facebook.com/groups/2469024430075023", linkedinUrl: "https://www.linkedin.com/in/carlos-janon-developer/" },
-    { id: 3, name: 'Laura', image: " https://pm1.narvii.com/6567/2f2799371096513f7f3d566efd4610c6cc4bd58d_hq.jpg", description: 'Lorem ipsum dolor quaerat vero minus, mollitia optio, magnam quam a quod? Maiores eos qui repellendus?', facebookUrl: "https://www.facebook.com/groups/2469024430075023", linkedinUrl: "https://www.linkedin.com/in/carlos-janon-developer/" }
+    {
+      "id": 258,
+      "name": "Osvaldo Olivera",
+      "image": "http://ongapi.alkemy.org/storage/kw2hNujhuq.jpeg",
+      "description": "Presidente",
+      "facebookUrl": "https://www.facebook.com/100075440371054/",
+      "linkedinUrl": "https://www.linkedin.com/in/osvaldo-olivera-785b78226/",
+      "created_at": "2021-11-09T20:22:05.000000Z",
+      "updated_at": "2021-11-23T04:34:29.000000Z",
+      "deleted_at": null,
+      "group_id": null
+    },
+    {
+      "id": 259,
+      "name": "Nahuel Narváez",
+      "image": "http://ongapi.alkemy.org/storage/z5x07SOhzl.jpeg",
+      "description": "Secretario",
+      "facebookUrl": "https://www.facebook.com/100075448260572/",
+      "linkedinUrl": "https://www.linkedin.com/in/nahuel-narváez-099b89226/",
+      "created_at": "2021-11-09T23:25:38.000000Z",
+      "updated_at": "2021-11-23T04:18:18.000000Z",
+      "deleted_at": null,
+      "group_id": null
+    },
+    {
+      "id": 261,
+      "name": "Griselda Germán",
+      "image": "http://ongapi.alkemy.org/storage/dR97wbZyUN.jpeg",
+      "description": "Tesorera",
+      "facebookUrl": "https://www.facebook.com/100074894726439/",
+      "linkedinUrl": "https://www.linkedin.com/in/griselda-germán-137b83226/",
+      "created_at": "2021-11-10T00:32:23.000000Z",
+      "updated_at": "2021-11-23T04:31:58.000000Z",
+      "deleted_at": null,
+      "group_id": null
+    }
   ]
 
 }
