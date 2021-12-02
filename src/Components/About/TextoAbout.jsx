@@ -8,15 +8,15 @@ const TextoAbout = () => {
 
   useEffect(() => {
     const loadUsers = async () => {
-      const response = await axios.get(`https://jsonplaceholder.typicode.com/posts`)
-      setAboutText(response.data[0].body)
+      const response = await axios.get(`http://ongapi.alkemy.org/api/organization`)
+      setAboutText(response.data.data.short_description)
     }
     loadUsers()
   }, []);
 
   return (
     <div>
-      <h1>{aboutText}</h1>
+      <h5>{aboutText}</h5>
     </div>
   )
 }
