@@ -1,7 +1,6 @@
 import { React, useState } from 'react';
 import {Card as CardComponent} from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
-import Collapse from 'react-bootstrap/Collapse'
 
 const Card = ({image,title,description}) => {
   const [showDescription, setShowDescription] = useState(false);
