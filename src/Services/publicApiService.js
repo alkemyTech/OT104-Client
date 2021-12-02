@@ -12,4 +12,19 @@ const Get = () => {
     .catch(err => console.log(err))
 }
 
-export default Get
+export const postRequest = async (path_url, dataBody) => {
+    const response = await axios.post(
+      `http://ongapi.alkemy.org/${path_url}`,
+      JSON.stringify({
+        dataBody,
+      }),
+      {
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "Authorization": `Bearer ${token}`
+        },
+      }
+    );
+  };
+
+export default Get 
