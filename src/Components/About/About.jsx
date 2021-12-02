@@ -1,4 +1,5 @@
 import React from 'react'
+import MiembrosAbout from './MiembrosAbout'
 import TextoAbout from './TextoAbout'
 import TituloAbout from './TituloAbout'
 
@@ -7,6 +8,7 @@ const index = () => {
     <div>
       <TituloAbout />
       <TextoAbout />
+      <MiembrosAbout />
 
     </div>
   )
