@@ -1,6 +1,7 @@
 import React from 'react'
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
+import Button from 'react-bootstrap/Button';
 
 
 const MiembrosAbout = ({ data }) => {
@@ -11,15 +12,15 @@ const MiembrosAbout = ({ data }) => {
         {data.length > 0 ?
           data.map((activity) => {
             return (
-              <Card bg="info" border="dark " key={activity.id} style={{ width: '28rem' }} >
+              <Card bg="light" border="dark " key={activity.id} style={{ width: '15rem' }} >
                 <Card.Img variant="top" style={{ height: '13rem', width: '13rem' }} src={activity.image} />
                 <Card.Body>
                   <Card.Title>{activity.name} </Card.Title>
                   <Card.Text>
                     {activity.description}
                   </Card.Text>
-                  <Card.Link href={activity.linkedinUrl}>Linkdin</Card.Link>
-                  <Card.Link href={activity.facebookUrl}>Facebook</Card.Link>
+                  <Button variant="outline-dark" href={activity.linkedinUrl}>Linkdin</Button>
+                  <Button variant="outline-dark" href={activity.facebookUrl}>Facebook</Button>
                 </Card.Body>
               </Card>
             )
