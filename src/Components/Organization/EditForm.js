@@ -5,31 +5,17 @@ import { Container, Row, Form, Button, Col } from 'react-bootstrap';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-
-
-// test object remove when real props exist
-const organizationInfo = {
-    name: "Alkemy ONG",
-    logo: "https://via.placeholder.com/150",
-    shortDescription: "ONG que se dedica a ayudar a programadores",
-    longDescription: "ONG que se dedica a ayudar a programadores a desarrollarse, capacitarse y encontrar su primer trabajo",
-    facebook_url:"www.facebook.com\/Somos_M\u00e1s",
-    linkedin_url:"www.linkedin.com\/company\/somosmas",
-    instagram_url:"www.instagram.com\/SomosM\u00e1s",
-    twitter_url:"www.twitter.com\/somosmas"
-   };
-
-   
-const EditForm = (/*{organizationInfo}*/) => {
+  
+const EditForm = (props) => {
     
-    const [name, setName] = useState(organizationInfo.name);
-    const [logo, setLogo] = useState(organizationInfo.logo);
-    const [shortDescription, setShortDescription] = useState(organizationInfo.shortDescription);
-    const [longDescription, setLongDescription] = useState(organizationInfo.longDescription);
-    const [facebook, setFacebook] = useState(organizationInfo.facebook_url);
-    const [linkedin, setLinkedin] = useState(organizationInfo.linkedin_url);
-    const [instagram, setInstagram] = useState(organizationInfo.instagram_url);
-    const [twitter, setTwitter] = useState(organizationInfo.twitter_url);
+    const [name, setName] = useState(props.name);
+    const [logo, setLogo] = useState(props.logo);
+    const [shortDescription, setShortDescription] = useState(props.shortDescription);
+    const [longDescription, setLongDescription] = useState(props.longDescription);
+    const [facebook, setFacebook] = useState(props.facebook_url);
+    const [linkedin, setLinkedin] = useState(props.linkedin_url);
+    const [instagram, setInstagram] = useState(props.instagram_url);
+    const [twitter, setTwitter] = useState(props.twitter_url);
     const [ckeditorError, setCkeditorError] = useState(false);
     
     
