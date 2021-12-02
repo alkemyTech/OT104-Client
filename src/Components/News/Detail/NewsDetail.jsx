@@ -5,7 +5,7 @@ import { Container } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
 import { Card } from "react-bootstrap";
 
-function NewsDetail() {
+function NewsDetail(id) {
   const [news, setNews] = useState([]);
 
   // It remains to receive the title by props and import the titles component
