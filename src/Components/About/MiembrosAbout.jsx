@@ -3,7 +3,6 @@ import axios from "axios";
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
-
 const MiembrosAbout = () => {
   const [aboutText, setAboutText] = useState([]);
 
@@ -13,32 +12,28 @@ const MiembrosAbout = () => {
       setAboutText(response.data.data)
     }
     loadUsers()
-
   }, []);
 
   return (
     <div style={{
       display: 'flex',
       justifyContent: 'center',
-
       flexWrap: 'wrap',
-      gap: '1em',
-
+      gap: '3rem',
     }}>
-
       {
         aboutText.length > 0 ?
           aboutText.map((activity) => {
             return (
-              <Card className="gap-1" bg="light" key={activity.id} style={{ width: '20rem' }} >
+              <Card className="gap-2" bg="light" key={activity.id} style={{ width: '18rem' }} >
                 <Card.Img variant="top" src={activity.image} />
                 <Card.Body>
                   <Card.Title>{activity.name} </Card.Title>
                   <Card.Text>
                     {activity.description}
                   </Card.Text>
-                  <div style={{ display: 'flex', justifyContent: "center", columnGap: "5%" }}>   <Button variant="outline-dark" href={activity.linkedinUrl}>Linkdin</Button>
-                    <Button variant="outline-dark" href={activity.facebookUrl}>Facebook</Button>
+                  <div style={{ display: 'flex', justifyContent: "center", columnGap: "5%" }}>   <Button variant="outline-success" href={activity.linkedinUrl}>Linkdin</Button>
+                    <Button variant="outline-success" href={activity.facebookUrl}>Facebook</Button>
                   </div>
                 </Card.Body>
               </Card>
@@ -50,7 +45,6 @@ const MiembrosAbout = () => {
     </div >
   );
 }
-
 
 export default MiembrosAbout
 
