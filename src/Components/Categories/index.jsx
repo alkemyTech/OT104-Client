@@ -1,5 +1,5 @@
-import React from "react";
-import { Table, Container, OverlayTrigger, Tooltip } from "react-bootstrap";
+import React, { useState } from "react";
+import { Table, Container, Breadcrumb, Button, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { TrashFill, PencilFill } from "react-bootstrap-icons";
 
@@ -51,50 +51,111 @@ const mockCategories = [
   },
 ];
 
-//funtion to format the date to local time
+//format the date to local time
 const formatDate = (date) => {
   const dateFormatted = new Date(date);
   return dateFormatted.toLocaleDateString();
 };
 
 export default function Categories() {
-  return (
-    <Container
-      style={{ maxWidth: "30rem" }}
-      className="d-flex flex-column text-center"
-    >
-      <h1>Categorias</h1>
-      <div className="mx-auto">
-        <Link to="backoffice/categories/create" className="btn btn-success m-2">
-          Crear
-        </Link>
-      </div>
-      <Table striped bordered hover className="align-middle">
-        <thead>
-          <tr>
-            <th>Nombre:</th>
-            <th>Creada:</th>
-            <th>Acciones:</th>
-          </tr>
-        </thead>
-        <tbody>
-          {mockCategories.map((category) => (
-            <tr key={category.id}>
-              <td>{category.name}</td>
-              <td>{formatDate(category.created_at)}</td>
-              <td className="d-flex justify-content-around">
-                <button className="btn btn-outline-danger" title="Eliminar">
-                  <TrashFill />
-                </button>
+  // setCurrentCategory is used to provide data to modal
+  const [currentCategory, setCurrentCategory] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
-                <button className="btn btn-outline-primary" title="Editar">
-                  <PencilFill />
-                </button>
-              </td>
+  const onDelete = (category) => {
+    setCurrentCategory(category);
+    setShowModal(true);
+  };
+  const onEdit = (category) => {
+    alert(`Editando ${category.name}`);
+  };
+
+  //modal component that will show the delete confirmation
+  const Confirm = () => {
+    const handleDelete = () => {
+      setShowModal(false);
+      alert("Borrado");
+    };
+    return (
+      <Modal
+        size="sm"
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        aria-labelledby="example-modal-sizes-title-sm"
+        centered
+      >
+        <Modal.Body>
+          <p className="modal-title">
+            ¿Estas seguro de borrar la siguiente categoria?
+          </p>
+        </Modal.Body>
+        <Modal.Body className="text-center">
+          <p>{currentCategory?.name}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Cancelar
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            Eliminar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  };
+
+  return (
+    <Container className="d-flex flex-column">
+      <div className="row">
+        <div className="col">
+          <Breadcrumb className="mt-3">
+            <Link className="breadcrumb-item" to="/backoffice">
+              Backoffice
+            </Link>
+            <Breadcrumb.Item active>Categories</Breadcrumb.Item>
+          </Breadcrumb>
+          <h1>Listado de categorias</h1>
+          <Button as={Link} to="/backoffice/categories/create" className="mb-3">
+            Nueva categoria
+          </Button>
+        </div>
+
+        <Table striped bordered hover className="align-middle">
+          <thead>
+            <tr>
+              <th>Nombre:</th>
+              <th>Creada:</th>
+              <th className="text-center">Acciones:</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {mockCategories.map((category) => (
+              <tr key={category.id}>
+                <td>{category.name}</td>
+                <td>{formatDate(category.created_at)}</td>
+                <td className="d-flex justify-content-around gap-1">
+                  <button
+                    className="btn btn-outline-danger"
+                    title="Eliminar"
+                    onClick={() => onDelete(category)}
+                  >
+                    <TrashFill />
+                  </button>
+
+                  <button
+                    className="btn btn-outline-primary"
+                    title="Editar"
+                    onClick={() => onEdit(category)}
+                  >
+                    <PencilFill />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+        <Confirm />
+      </div>
     </Container>
   );
 }
