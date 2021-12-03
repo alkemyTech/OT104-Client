@@ -5,7 +5,6 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
 import { Spinner } from 'react-bootstrap';
-import styles from './TestimonialsForm.module.css'
 import '../FormStyles.css';
 
 const TestimonialForm = ({ testimonial = null }) => {
@@ -60,7 +59,6 @@ const TestimonialForm = ({ testimonial = null }) => {
             try {
                 await axios.post(`http://ongapi.alkemy.org/api/testimonials`, values)
                 .then((response)=>{
-                console.log(response);
                 setSubmitting(false)
                 setMessage("Testimonio creado correctamente");
                 setTimeout(()=>{
