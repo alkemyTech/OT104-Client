@@ -63,7 +63,6 @@ const MembersForm = ({member = null}) => {
             setMessage("")
             }, 4000)
             } catch (error) {
-                console.log(error.response.data);
                 setMessage("Ha habido un error.");
                 setTimeout(()=>{
                 setMessage("")
@@ -78,7 +77,6 @@ const MembersForm = ({member = null}) => {
                 }, 4000)
             })
            } catch (error) {
-                console.log(error.response.data);
                     setMessage("Ha habido un error.");
                 setTimeout(()=>{
                 setMessage("")
