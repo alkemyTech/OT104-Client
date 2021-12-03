@@ -107,20 +107,20 @@ const ActivitiesList = () => {
       ) : (
         <Row>
           <Col>
-            <Table hover>
+            <Table hover striped bordered>
               <thead>
                 <tr>
                   <th>Name</th>
                   <th>Image</th>
                   <th>Created At</th>
-                  <th>Actions</th>
+                  <th className='text-center'>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {activities.data ? (
                   activities.data.map((activity) => (
                     <tr>
-                      <td className='fw-bold'>{activity.name}</td>
+                      <td className='fw-bold align-middle'>{activity.name}</td>
                       <td>
                         <Button
                           variant='link'
@@ -129,23 +129,21 @@ const ActivitiesList = () => {
                           Ver Imagen
                         </Button>
                       </td>
-                      <td>
+                      <td className='align-middle'>
                         {new Date(activity.created_at).toLocaleDateString()}
                       </td>
-                      <td>
-                        <ButtonGroup>
-                          <Button variant='primary'>
-                            <Pencil />
-                          </Button>
-                          <Button
-                            variant='danger'
-                            onClick={() =>
-                              openModalDelete(activity.name, activity.id)
-                            }
-                          >
-                            <Trash />
-                          </Button>
-                        </ButtonGroup>
+                      <td className='d-flex justify-content-around gap-1'>
+                        <Button variant='outline-primary'>
+                          <Pencil />
+                        </Button>
+                        <Button
+                          variant='outline-danger'
+                          onClick={() =>
+                            openModalDelete(activity.name, activity.id)
+                          }
+                        >
+                          <Trash />
+                        </Button>
                       </td>
                     </tr>
                   ))
