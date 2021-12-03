@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -80,14 +79,14 @@ const ActivitiesList = () => {
       <Row>
         <Col>
           <Breadcrumb className='mt-3'>
-            <Breadcrumb.Item as={Link} to='/backoffice'>
+            <Link className='breadcrumb-item' to='/backoffice'>
               Backoffice
-            </Breadcrumb.Item>
+            </Link>
             <Breadcrumb.Item active>Activities</Breadcrumb.Item>
           </Breadcrumb>
-          <h3 className='mb-3'>List of activities</h3>
+          <h3 className='mb-3'>Listado de actividades</h3>
           <Button as={Link} to='/backoffice/activities/create' className='mb-3'>
-            New Activity
+            Nueva actividad
           </Button>
         </Col>
       </Row>
@@ -100,7 +99,7 @@ const ActivitiesList = () => {
               className='d-block mx-auto'
               variant='primary'
             >
-              <span className='visually-hidden'>Loading...</span>
+              <span className='visually-hidden'>Cargando...</span>
             </Spinner>
           </Col>
         </Row>
@@ -110,16 +109,16 @@ const ActivitiesList = () => {
             <Table hover striped bordered>
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Image</th>
-                  <th>Created At</th>
+                  <th>Nombre</th>
+                  <th>Imagen</th>
+                  <th>Creado el día</th>
                   <th className='text-center'>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {activities.data ? (
                   activities.data.map((activity) => (
-                    <tr>
+                    <tr key={activity.id}>
                       <td className='fw-bold align-middle'>{activity.name}</td>
                       <td>
                         <Button
@@ -150,9 +149,9 @@ const ActivitiesList = () => {
                 ) : (
                   <tr>
                     <td colSpan={4}>
-                      Do you want to add a{' '}
+                      ¿Desea crear una{' '}
                       <Link to='/backoffice/activities/create'>
-                        new activity
+                        nueva actividad
                       </Link>
                       ?
                     </td>
@@ -176,24 +175,24 @@ const ActivitiesList = () => {
       </Modal>
       <Modal centered show={modalDelete.open} onHide={closeModalDelete}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete Activity</Modal.Title>
+          <Modal.Title>Borrar Actividad</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>
-            Are you sure to delete the{' '}
-            <span className='fw-bold'>{modalDelete.name}</span> activity? This
-            action cannot be undone.
+            ¿Estas seguro que quieres eliminar la actividad{' '}
+            <span className='fw-bold'>{modalDelete.name}</span>? Esta acción no
+            se puede deshacer.
           </p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant='secondary' onClick={closeModalDelete}>
-            Close
+            Cerrar
           </Button>
           <Button
             variant='danger'
             onClick={() => deleteActivity(modalDelete.id)}
           >
-            Delete
+            Eliminar
           </Button>
         </Modal.Footer>
       </Modal>
