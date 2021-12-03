@@ -9,7 +9,7 @@ import Col from 'react-bootstrap/Col';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Spinner from 'react-bootstrap/Spinner';
 import Modal from 'react-bootstrap/Modal';
-import { Pencil, Trash } from 'react-bootstrap-icons';
+import { PencilFill, TrashFill } from 'react-bootstrap-icons';
 
 const getActivities = async () => {
   try {
@@ -133,7 +133,7 @@ const ActivitiesList = () => {
                       </td>
                       <td className='d-flex justify-content-around gap-1'>
                         <Button variant='outline-primary'>
-                          <Pencil />
+                          <PencilFill />
                         </Button>
                         <Button
                           variant='outline-danger'
@@ -141,7 +141,7 @@ const ActivitiesList = () => {
                             openModalDelete(activity.name, activity.id)
                           }
                         >
-                          <Trash />
+                          <TrashFill />
                         </Button>
                       </td>
                     </tr>
