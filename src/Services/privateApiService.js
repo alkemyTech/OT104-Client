@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+function mockMethodAuthorization(token){
+    return "Basic " + token;
+}
+
 const config = {
     headers: {
         Group: 01                //Aqui va el ID del equipo!!
@@ -16,7 +20,7 @@ export const Delete = ( pathToDelete, token ) => {
     fetch(`http://ongapi.alkemy.org/api/${pathToDelete}`,{
         method: "DELETE",
         headers:{
-            Authorization: `Basic ${token}`
+            Authorization: mockMethodAuthorization()
         }
     })
     .then((res) => res.json())
