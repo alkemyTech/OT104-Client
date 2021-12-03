@@ -133,7 +133,7 @@ export default function Categories() {
               <tr key={category.id}>
                 <td>{category.name}</td>
                 <td>{formatDate(category.created_at)}</td>
-                <td className="d-flex justify-content-around gap-1">
+                <td className="d-flex justify-content-center gap-1">
                   <button
                     className="btn btn-outline-danger"
                     title="Eliminar"
