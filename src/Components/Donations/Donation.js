@@ -1,8 +1,24 @@
 import React from "react";
-// import styles from './Donation.module.css';
+import { Row, Col, Button } from "react-bootstrap";
+import styles from "./Donation.module.css";
 
 function Donation(props) {
-  return <div>{props.text}</div>;
+  return (
+    <Row className={styles.donationContainer}>
+      <Col md={6} className="d-flex justify-content-center flex-column">
+        <h2 className="text-center fs-1">{props.text}</h2>
+      </Col>
+      <Col md={6} className="d-flex justify-content-center">
+        <Row className="d-flex flex-column justify-content-center">
+          <Button
+            onClick={() => alert("This will be redirect to Mercado Pago")}
+          >
+            Mercado Pago
+          </Button>
+        </Row>
+      </Col>
+    </Row>
+  );
 }
 
 Donation.propTypes = {
