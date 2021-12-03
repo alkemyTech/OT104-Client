@@ -12,7 +12,7 @@ const Get = () => {
     .catch((err) => console.log(err));
 };
 
-const Put = async (url, id, body) => {
+const put = async (url, id, body) => {
   try {
     const config = {
       // here we need to call the method to get the token.
@@ -25,4 +25,4 @@ const Put = async (url, id, body) => {
   }
 };
 
-export { Get, Put };
+export { Get, put };
