@@ -59,7 +59,6 @@ const TestimonialForm = ({ testimonial = null }) => {
             try {
                 await axios.post(`http://ongapi.alkemy.org/api/testimonials`, values)
                 .then((response)=>{
-                console.log(response);
                 setSubmitting(false)
                 setMessage("Testimonio creado correctamente");
                 setTimeout(()=>{
@@ -85,7 +84,7 @@ const TestimonialForm = ({ testimonial = null }) => {
                 name="name" 
                 placeholder="Testimonial title"
                 />
-                {touched.name && errors.name && <p className="text-danger">{errors.name}</p>}
+                {touched && errors.name && <p className="text-danger">{errors.name}</p>}
                 <CKEditor
                 name="description"
                 data={values.description}
@@ -95,7 +94,7 @@ const TestimonialForm = ({ testimonial = null }) => {
                 /> 
                 {ckEditorError && <p className="text-danger mb-3 mt-3">Please, write a description.</p>}
                 <Field 
-                className={`form-control mb-4 mt-4 shadow-none ${touched.image && errors.image && `is-invalid`}`}
+                className={`form-control mb-4 mt-4 shadow-none ${errors.image && `is-invalid`}`}
                 type="file" 
                 name="image" 
                 />
