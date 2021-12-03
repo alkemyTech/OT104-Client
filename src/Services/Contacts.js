@@ -1,22 +1,22 @@
 //In this file import the reusable methods for petitions and customize for contact use.
 // baseURL: http://ongapi.alkemy.org/api/contacts
 
-const Get = () => {};
+const get = () => {};
 
-const Post = () => {};
+const post = () => {};
 
-const GetById = (id) => {};
+const getById = (id) => {};
 
-const Put = (id) => {};
+const put = (id) => {};
 
-const Delete = (id) => {};
+const deleteContact = (id) => {};
 
 const Contact = {
-  Get,
-  Post,
-  GetById,
-  Put,
-  Delete,
+  get,
+  post,
+  getById,
+  put,
+  deleteContact,
 };
 
 export default Contact;
