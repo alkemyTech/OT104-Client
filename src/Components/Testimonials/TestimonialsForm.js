@@ -5,7 +5,6 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
 import { Spinner } from 'react-bootstrap';
-import styles from './TestimonialsForm.module.css'
 import '../FormStyles.css';
 
 const TestimonialForm = ({ testimonial = null }) => {
@@ -86,7 +85,7 @@ const TestimonialForm = ({ testimonial = null }) => {
                 name="name" 
                 placeholder="Testimonial title"
                 />
-                {touched && errors.name && <p className="text-danger">{errors.name}</p>}
+                {touched.name && errors.name && <p className="text-danger">{errors.name}</p>}
                 <CKEditor
                 name="description"
                 data={values.description}
@@ -96,7 +95,7 @@ const TestimonialForm = ({ testimonial = null }) => {
                 /> 
                 {ckEditorError && <p className="text-danger mb-3 mt-3">Please, write a description.</p>}
                 <Field 
-                className={`form-control mb-4 mt-4 shadow-none ${errors.image && `is-invalid`}`}
+                className={`form-control mb-4 mt-4 shadow-none ${touched.image && errors.image && `is-invalid`}`}
                 type="file" 
                 name="image" 
                 />
