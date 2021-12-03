@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 function mockMethodAuthorization(token){
-    return "Basic " + token;
+    return "Bearer " + token;
 }
 
 const config = {
