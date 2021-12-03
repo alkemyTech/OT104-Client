@@ -72,7 +72,6 @@ const MembersForm = ({member = null}) => {
             try {
                 await axios.post(`http://ongapi.alkemy.org/api/members`, values)
                 .then((response)=>{
-                console.log(response);
                 setMessage("Miembro creado correctamente");
                 setTimeout(()=>{
                 setMessage("")
@@ -87,21 +86,22 @@ const MembersForm = ({member = null}) => {
             }
          }}
         >
-        {({values, setFieldValue}) => (
+        {({values, setFieldValue, touched, errors}) => (
         <div>
+                    <h3 className="text p-5">Member registration</h3>
           <Form className="form-container">
               <Field 
-              className="input-field" 
+              className={`form-control mb-4 shadow-none ${touched.name && errors.name && `is-invalid`}`}
               type="text" 
               name="name" 
-              placeholder="Member name"/>
-                <ErrorMessage name="name" />
+              placeholder="Name"/>
+                {touched.name && errors.name && <p className="text-danger">{errors.name}</p>}
               <Field 
-               className="input-field" 
+               className={`form-control mb-4 shadow-none ${touched.image && errors.image && `is-invalid`}`}
                type="file" 
                name="image" 
                placeholder="Member image"/>
-                   <ErrorMessage name="image" />
+                   {touched.image && errors.image && <p className="text-danger">{errors.image}</p>}
               <CKEditor
                 className="input-field"
                 name="description"
@@ -110,25 +110,25 @@ const MembersForm = ({member = null}) => {
                onChange={(_, editor) => setFieldValue("description", editor.getData())}
                   onBlur={( _, editor ) => editor.getData() === "" ? setCkEditorError(true) : setCkEditorError(false)}
               /> 
-                  {ckEditorError && <p>Please, write a description.</p>}
+                  {ckEditorError && <p className="text-danger mb-3 mt-3">Please, write a description.</p>}
               <Field 
-             className="input-field" 
+             className={`form-control mb-4 shadow-none ${touched.facebook && errors.facebook && `is-invalid`}`}
              type="text" 
              name="facebook" 
               placeholder="Facebook profile"/>
-                   <ErrorMessage name="facebook" />
+                  {touched.facebook && errors.facebook && <p className="text-danger">{errors.facebook}</p>}
             <Field 
-               className="input-field" 
+               className={`form-control mb-4 shadow-none ${touched.instagram && errors.instagram && `is-invalid`}`} 
                type="text" 
                name="instagram" 
                placeholder="Instagram profile"/>
-                    <ErrorMessage name="instagram" />
+                    {touched.instagram && errors.instagram && <p className="text-danger">{errors.instagram}</p>}
                <Field 
-               className="input-field" 
+               className={`form-control mb-4 shadow-none ${touched.linkedin && errors.linedin && `is-invalid`}`}
                type="text" 
                name="linkedin" 
                placeholder="Linkedin profile"/>
-                   <ErrorMessage name="linkedin" />
+                  {touched.linkedin && errors.linkedin && <p className="text-danger">{errors.linkedin}</p>}
                <button className="submit-btn" type="submit">Send</button>
                 {message && <div>{message}</div>}
             </Form>
