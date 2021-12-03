@@ -25,13 +25,15 @@ const MiembrosAbout = () => {
         aboutText.length > 0 ?
           aboutText.map((activity) => {
             return (
-              <Card className="gap-2" bg="light" key={activity.id} style={{ width: '18rem' }} >
+              <Card className="gap-2" bg="light" key={activity.id} style={{ width: '18rem', height: '25rem' }} >
                 <Card.Img variant="top" src={activity.image} />
                 <Card.Body>
-                  <Card.Title>{activity.name} </Card.Title>
+                  <Card.Title> <h3 >{activity.name}</h3> </Card.Title>
+                  <br />
                   <Card.Text>
-                    {activity.description}
+                    <h5>{activity.description}</h5>
                   </Card.Text>
+                  <br />
                   <div style={{ display: 'flex', justifyContent: "center", columnGap: "5%" }}>   <Button variant="outline-success" href={activity.linkedinUrl}>Linkdin</Button>
                     <Button variant="outline-success" href={activity.facebookUrl}>Facebook</Button>
                   </div>
