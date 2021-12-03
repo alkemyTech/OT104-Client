@@ -48,7 +48,6 @@ const TestimonialForm = ({ testimonial = null }) => {
             setMessage("")
             }, 4000)
             } catch (error) {
-                console.log(error.response.data);
                 setSubmitting(false)
                 setMessage("Ha habido un error.");
                 setTimeout(()=>{
@@ -66,7 +65,6 @@ const TestimonialForm = ({ testimonial = null }) => {
                 }, 4000)
             })
            } catch (error) {
-                console.log(error.response.data);
                 setSubmitting(false)
                 setMessage("Ha habido un error.");
                 setTimeout(()=>{
