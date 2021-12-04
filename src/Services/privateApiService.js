@@ -6,20 +6,16 @@ import axios from "axios";
 //   },
 // };
 
-const Get = async (url, id = null) => {
-  const URL = `${url}/${id ? id : ""}`;
-  const autorization = VeryfyToken();
-  try {
-    if (autorization) {
-      const response = await axios.get(URL, { headers: autorization });
-
-      const data = response.json();
-      return data;
-    }
-    return null;
-  } catch (error) {
-    return new Error("GET Method Error: ", error);
+function Get(url) {
+  const isToken = VerifyToken();
+  if (isToken) {
+    axios
+      .get(url, {
+        headers: isToken,
+      })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   }
-};
-
+  return new Error("The token is needed for this method");
+}
 export { Get };
