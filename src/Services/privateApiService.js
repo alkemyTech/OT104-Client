@@ -1,15 +1,25 @@
-import axios from 'axios';
+import axios from "axios";
 
-const config = {
-    headers: {
-        Group: 01                //Aqui va el ID del equipo!!
+// const config = {
+//   headers: {
+//     Group: 01, //Aqui va el ID del equipo!!
+//   },
+// };
+
+const Get = async (url, id = null) => {
+  const URL = `${url}/${id ? id : ""}`;
+  const autorization = VeryfyToken();
+  try {
+    if (autorization) {
+      const response = await axios.get(URL, { headers: autorization });
+
+      const data = response.json();
+      return data;
     }
-}
+    return null;
+  } catch (error) {
+    return new Error("GET Method Error: ", error);
+  }
+};
 
-const Get = () => {
-    axios.get('https://jsonplaceholder.typicode.com/users', config)
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
-}
-
-export default Get
+export { Get };
