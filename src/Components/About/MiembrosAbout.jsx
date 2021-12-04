@@ -34,7 +34,7 @@ const MiembrosAbout = () => {
                     <h5>{activity.description}</h5>
                   </Card.Text>
                   <br />
-                  <div style={{ display: 'flex', justifyContent: "center", columnGap: "5%" }}>   <Button variant="outline-success" href={activity.linkedinUrl}>Linkdin</Button>
+                  <div style={{ display: 'flex', justifyContent: "center", columnGap: "15%" }}>   <Button variant="outline-success" href={activity.linkedinUrl}>Linkdin</Button>
                     <Button variant="outline-success" href={activity.facebookUrl}>Facebook</Button>
                   </div>
                 </Card.Body>
