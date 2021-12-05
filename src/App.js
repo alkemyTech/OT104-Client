@@ -14,23 +14,8 @@ import ToysCampaign from "./Campaigns/Toys/ToysCampaign";
 import MembersForm from "./Components/Members/MembersForm";
 import ProjectsForm from "./Components/Projects/ProjectsForm";
 import About from "./Components/About/About";
-import axios from "axios";
-
-// testing service
-import { Get } from "./Services/privateApiService";
 
 function App() {
-  // axios
-  //   .get("http://ongapi.alkemy.org/api/auth/me", {
-  //     headers: {
-  //       Authorization:
-  //         "Bearer " +
-  //         "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9vbmdhcGkuYWxrZW15Lm9yZ1wvYXBpXC9sb2dpbiIsImlhdCI6MTYzODYzNDA0NCwiZXhwIjoxNjM4NjM3NjQ0LCJuYmYiOjE2Mzg2MzQwNDQsImp0aSI6ImhtakRPNVVPNkZhMlo2NTIiLCJzdWIiOjEwNTIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Ep79EFNhX6VjpyURbYvFOt9yJKRftyYDndX2xPb1imM",
-  //     },
-  //   })
-  //   .then((res) => console.log(res))
-  //   .catch((err) => console.log(err));
-  Get("http://ongapi.alkemy.org/api/auth/me");
   return (
     <>
       <BrowserRouter>
