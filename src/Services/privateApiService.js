@@ -24,5 +24,5 @@ const VerifyToken = () => {
     return null
 }
 
-export {Verify}
+export { VerifyToken }
 export default Get
