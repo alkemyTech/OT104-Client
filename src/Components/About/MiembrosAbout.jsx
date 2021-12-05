@@ -4,12 +4,12 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
 const MiembrosAbout = () => {
-  const [aboutText, setAboutText] = useState([]);
+  const [memberList, setmemberList] = useState([]);
 
   useEffect(() => {
     const loadUsers = async () => {
       const response = await axios.get(`http://ongapi.alkemy.org/api/members`)
-      setAboutText(response.data.data)
+      setmemberList(response.data.data)
     }
     loadUsers()
   }, []);
@@ -22,10 +22,10 @@ const MiembrosAbout = () => {
       gap: '3rem',
     }}>
       {
-        aboutText.length > 0 ?
-          aboutText.map((activity) => {
+        memberList.length > 0 ?
+          memberList.map((activity) => {
             return (
-              <Card className="gap-2" bg="light" key={activity.id} style={{ width: '18rem', height: '25rem' }} >
+              <Card className="gap-2" bg="light" key={activity.id.toString()} style={{ width: '18rem', height: '25rem' }} >
                 <Card.Img variant="top" src={activity.image} />
                 <Card.Body>
                   <Card.Title> <h3 >{activity.name}</h3> </Card.Title>
