@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Spinner } from "react-bootstrap";
-import { Table } from "react-bootstrap";
-import { Container } from "react-bootstrap";
+import { Spinner, Container, Table, Breadcrumb } from "react-bootstrap";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import "./styles/contact.css";
 //import titleCOmponent from '...'
 
@@ -10,45 +9,39 @@ function Contact() {
   const [data, setData] = useState([]);
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get(
-        "http://ongapi.alkemy.org/api/contacts?limit=10"
-      );
+      const response = await axios.get("http://ongapi.alkemy.org/api/contacts");
       setData(response.data.data);
     };
     getData();
   }, []);
 
   return (
-    <Container id="contact-container">
-      {/* This tittle ´s received by title component */}
-      <Container className="text-center">
-        <h1>Contacto</h1>
-      </Container>
+    <Container className="d-flex flex-column">
       {data.length === 0 ? (
-        <Spinner animation="border" />
+        <Spinner animation="border" className="text-center" />
       ) : (
-        <Container id="table-container">
-          <Table>
+        <div className="row">
+          <h1 className="text-center">Contacto</h1>
+          {/* {This title is generate byTitle component} */}
+          <Table striped bordered hover className="align-middle">
             <thead>
               <tr>
-                <th className="text-center">Nombre</th>
-                <th className="text-center">Email</th>
-                <th className="text-center">Telefono</th>
+                <th className="text-center">Nombre:</th>
+                <th className="text-center">Email:</th>
+                <th className="text-center">Telefono:</th>
               </tr>
             </thead>
             <tbody>
-              {data.map((infoContacto, index) => {
-                return (
-                  <tr key={index}>
-                    <td className="text-center">{infoContacto.name}</td>
-                    <td className="text-center">{infoContacto.email}</td>
-                    <td className="text-center">{infoContacto.phone}</td>
-                  </tr>
-                );
-              })}
+              {data.map((infoContact) => (
+                <tr key={infoContact.id}>
+                  <td className="text-center">{infoContact.name}</td>
+                  <td className="text-center">{infoContact.email}</td>
+                  <td className="text-center">{infoContact.phone}</td>
+                </tr>
+              ))}
             </tbody>
           </Table>
-        </Container>
+        </div>
       )}
     </Container>
   );
