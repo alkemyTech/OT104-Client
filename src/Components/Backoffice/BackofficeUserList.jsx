@@ -27,7 +27,7 @@ function BackofficeUserList() {
               </Link>
               <Breadcrumb.Item active>Create</Breadcrumb.Item>
             </Breadcrumb>
-            <h1 className="text-center">Contacto</h1>
+            <h1 className="text-center">Usuarios</h1>
           </div>
 
           <Table striped bordered hover className="align-middle">
