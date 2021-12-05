@@ -27,6 +27,3 @@ const About = () => {
 }
 
 export default About
-  // < TituloAbout />
-  //         <TextoAbout />
-  //         <MiembrosAbout />
