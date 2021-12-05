@@ -18,7 +18,7 @@ const Activities = () => {
         <Col></Col>
         <Col xs={10}>
           <div style={{ marginTop: '5%' }}>
-            <ActivitiesList />
+            <ActivitiesList data={undefined} />
           </div>
         </Col>
         <Col></Col>
