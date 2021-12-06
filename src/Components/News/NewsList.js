@@ -87,7 +87,7 @@ const NewsList = () => {
               {newsMock.length > 0 ? (
                 newsMock.map((element) => {
                   return (
-                    <tr>
+                    <tr key={element.id.toString()}>
                       <td>{element.name}</td>
                       <td>
                         <Button
@@ -99,7 +99,6 @@ const NewsList = () => {
                       </td>
                       <td>{element.createdAt}</td>
                       <td>
-                        {' '}
                         <div className='d-flex justify-content-around gap-1'>
                           <Button
                             variant='outline-primary'
@@ -126,8 +125,7 @@ const NewsList = () => {
       </Row>
       <Modal show={modalImg.open} onHide={closeModalImg}>
         <Modal.Body>
-          {' '}
-          <img src={modalImg.src} alt='detail' width='100%' />{' '}
+          <img src={modalImg.src} alt='detail' width='100%' />
         </Modal.Body>
         <Modal.Footer>
           <Button variant='danger' onClick={closeModalImg}>
