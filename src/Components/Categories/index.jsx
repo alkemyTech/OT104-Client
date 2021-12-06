@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { Table, Container, Breadcrumb, Button, Modal } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Table, Container, Breadcrumb, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { TrashFill, PencilFill } from "react-bootstrap-icons";
+import ConfirmModal from "./ConfirmModal";
 
 const mockCategories = [
   {
@@ -17,7 +18,7 @@ const mockCategories = [
   },
   {
     id: 1173,
-    name: "categoria 7",
+    name: "Categoria 7",
     description:
       "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</p>",
     image: "http://ongapi.alkemy.org/storage/f9eFSqaj2F.jpeg",
@@ -40,7 +41,7 @@ const mockCategories = [
   },
   {
     id: 1205,
-    name: "Manu",
+    name: "Entrevista",
     description: "Programando",
     image: "http://ongapi.alkemy.org/storage/RHuhR3aAbd.jpeg",
     parent_category_id: null,
@@ -59,53 +60,36 @@ const formatDate = (date) => {
 
 export default function Categories() {
   // setCurrentCategory is used to provide data to modal
-  const [currentCategory, setCurrentCategory] = useState(null);
+  const [modalData, setModalData] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [categories, setCategories] = useState([]);
+
+  // fetch categories from api
+  useEffect(() => {
+    setCategories(mockCategories);
+  }, []);
 
   const onDelete = (category) => {
-    setCurrentCategory(category);
+    setModalData({
+      name: category.name,
+      onConfirm: () => {
+        setShowModal(false);
+        alert(`${category.name} borrado con exito.`);
+      },
+      onCancel: () => {
+        setShowModal(false);
+      },
+    });
     setShowModal(true);
   };
+
   const onEdit = (category) => {
     alert(`Editando ${category.name}`);
   };
 
-  //modal component that will show the delete confirmation
-  const Confirm = () => {
-    const handleDelete = () => {
-      setShowModal(false);
-      alert("Borrado");
-    };
-    return (
-      <Modal
-        size="sm"
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        aria-labelledby="example-modal-sizes-title-sm"
-        centered
-      >
-        <Modal.Body>
-          <p className="modal-title">
-            ¿Estas seguro de borrar la siguiente categoria?
-          </p>
-        </Modal.Body>
-        <Modal.Body className="text-center">
-          <p>{currentCategory?.name}</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Cancelar
-          </Button>
-          <Button variant="danger" onClick={handleDelete}>
-            Eliminar
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  };
-
   return (
     <Container className="d-flex flex-column">
+      <ConfirmModal showModal={showModal} data={modalData} />
       <div className="row">
         <div className="col">
           <Breadcrumb className="mt-3">
@@ -129,8 +113,8 @@ export default function Categories() {
             </tr>
           </thead>
           <tbody>
-            {mockCategories.map((category) => (
-              <tr key={category.id}>
+            {categories.map((category) => (
+              <tr key={category.id.toString()}>
                 <td>{category.name}</td>
                 <td>{formatDate(category.created_at)}</td>
                 <td className="d-flex justify-content-center gap-1">
@@ -154,7 +138,6 @@ export default function Categories() {
             ))}
           </tbody>
         </Table>
-        <Confirm />
       </div>
     </Container>
   );
