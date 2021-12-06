@@ -14,7 +14,6 @@ import { PencilFill, TrashFill } from 'react-bootstrap-icons';
 const getActivities = async () => {
   try {
     let res = await axios.get('http://ongapi.alkemy.org/api/activities');
-    console.log(res.data.message);
     return res.data.data;
   } catch (err) {
     console.error(err);
@@ -118,7 +117,7 @@ const ActivitiesList = () => {
               <tbody>
                 {activities.data ? (
                   activities.data.map((activity) => (
-                    <tr key={activity.id}>
+                    <tr key={activity.id.toString()}>
                       <td className='fw-bold align-middle'>{activity.name}</td>
                       <td>
                         <Button
