@@ -1,19 +1,26 @@
-import React from 'react';
+import axios from 'axios';
+import React, {useState, useEffect} from 'react';
 import '../CardListStyles.css';
 
 const NewsList = () => {
-    const newsMock = [
-        {id: 2, name: 'Titulo de prueba', description: 'Descripcion de prueba'},
-        {id: 1, name: 'Titulo de prueba', description: 'Descripcion de prueba'},
-        {id: 3, name: 'Titulo de prueba', description: 'Descripcion de prueba'}
-    ];
+    const [news, setNews] = useState([]);
+
+    const getNews = async () => {
+        await axios.get("http://ongapi.alkemy.org/api/news")
+        .then((response)=>setNews(response.data.data)
+        )}
+    
+        
+    useEffect(()=>{
+        getNews();
+    }, [])
 
     return (
         <div>
-            <h1>Listado de Novedades</h1>
+            <h1>Novedades</h1>
             <ul className="list-container">
-                {newsMock.length > 0 ? 
-                    newsMock.map((element) => {
+                {news ? 
+                    news.map((element) => {
                         return(
                             <li className="card-info" key={element.id}>
                                 <h3>{element.name}</h3>
