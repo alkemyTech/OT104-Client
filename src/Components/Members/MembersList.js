@@ -11,6 +11,7 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Spinner from 'react-bootstrap/Spinner';
 import Modal from 'react-bootstrap/Modal';
 import { Pencil, Trash } from 'react-bootstrap-icons';
+import MembersForm from './MembersForm';
 
 const MembersList = () => {
 
@@ -34,13 +35,20 @@ const MembersList = () => {
         
     useEffect(()=>{
         getMembers();
-    }, [])
+    }, members)
 
     const [modalDetail, setModalDetail] = useState({});
     const [modalDelete, setModalDelete] = useState({});
 
   const deleteMember = (id) => {
-    alert(id);
+    axios.delete(`http://ongapi.alkemy.org/api/members/${id}`)
+    .then((response)=>{
+      setMessage("Miembro eliminado correctamente.")
+      setTimeout(()=>{
+        setMessage("")
+      }, 4000)
+    })
+    closeModalDelete();
   };
 
   const openModalDetail = (src) => {
@@ -74,9 +82,9 @@ const MembersList = () => {
 
     return (
     <Container fluid>
+    <BrowserRouter> 
       <Row>
         <Col>
-        <BrowserRouter>
           <Breadcrumb className='mt-3'>
             <Breadcrumb.Item as={Link} to='/backoffice'>
               Backoffice
@@ -85,7 +93,6 @@ const MembersList = () => {
           </Breadcrumb>
           <h3 className='m-3'>Listado de miembros</h3>
           <Link to='/backoffice/members/create'/>
-          </BrowserRouter>
         </Col>
       </Row>
       {loading ? (
@@ -113,7 +120,7 @@ const MembersList = () => {
                 </tr>
               </thead>
               <tbody>
-                {members ? (
+                {members.length > 0 ? (
                   members.map((member) => (
                     <tr>
                       <td className='fw-bold align-middle'>{member.name}</td>
@@ -127,7 +134,7 @@ const MembersList = () => {
                         </Button>
                       </td>
                       <td className='d-flex justify-content-around gap-1'>
-                        <Button variant='outline-primary'>
+                        <Button as={Link} to="/create-member" member={member.id} variant='outline-primary'>
                           <Pencil />
                         </Button>
                         <Button
@@ -145,7 +152,7 @@ const MembersList = () => {
                   <tr>
                     <td colSpan={4}>
                       Do you want to add a{' '}
-                      <Link to='/backoffice/members/create'>
+                      <Link to='/MembersForm'>
                         new member
                       </Link>
                       ?
@@ -190,6 +197,8 @@ const MembersList = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+    </BrowserRouter>
+    {message && <p className="text text-danger m-auto">{message}</p>}
     </Container>
   );
 };
