@@ -30,7 +30,7 @@ const Card = ({image,title,description}) => {
             <CardComponent.Text style={!showDescription ? textElipsis : {fontSize:"0.8em"}} dangerouslySetInnerHTML={{__html: description}}L/>
             <Button
               variant="secondary" size="sm"
-              onClick={() => setShowDescription(!showDescription)}
+              onClick={() => setShowDescription(isShowing => !isShowing)}
               aria-expanded={showDescription}
             >
               {showDescription ? "Ocultar" : "Ver más"}
