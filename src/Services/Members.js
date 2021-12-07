@@ -3,11 +3,11 @@ import { getRequest, postRequest, putRequest, deleteRequest } from "./privateApi
 const path = "http://ongapi.alkemy.org/api/members";
 
 const membersRequests = {
-    getAllMembers: () => {
+    getMembers: () => {
         getRequest(path, null);
     },
 
-    getMember: (id) => {
+    getMemberById: (id) => {
         getRequest(path, id);
     },
 
