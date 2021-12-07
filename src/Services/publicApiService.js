@@ -12,4 +12,11 @@ const Get = () => {
     .catch(err => console.log(err))
 }
 
+export const Post = (route, body) => {
+    axios.post(route, {
+        body: body
+    }).then(res => console.log(res))
+    .catch(err => console.log(err))
+}
+
 export default Get
