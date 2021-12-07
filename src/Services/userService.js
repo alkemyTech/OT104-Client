@@ -53,8 +53,8 @@ const deleteUser = async (id) => {
 
 const userService = {
   delete : deleteUser,
-  get : getUserById,
-  getAll : getUsers,
+  getById : getUserById,
+  get : getUsers,
   create : createUser,
   update : updateUser
 }
