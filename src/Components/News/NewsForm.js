@@ -35,7 +35,7 @@ const NewsForm = ({ newToEdit = false }) => {
         const data = await response.json();
         setCategories(data.data);
       } catch (error) {
-        console.log(error);
+        return error;
       }
     };
     fetchCategories();
