@@ -10,6 +10,3 @@ function ScreenDashboard() {
 }
 
 export default ScreenDashboard;
-
-// questions
-// 1. can I use styled components here?
