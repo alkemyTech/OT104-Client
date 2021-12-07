@@ -58,3 +58,5 @@ const userService = {
   create : createUser,
   update : updateUser
 }
+
+export default userService
