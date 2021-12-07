@@ -59,7 +59,6 @@ const formatDate = (date) => {
 };
 
 export default function Categories() {
-  // setCurrentCategory is used to provide data to modal
   const [modalData, setModalData] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [categories, setCategories] = useState([]);
