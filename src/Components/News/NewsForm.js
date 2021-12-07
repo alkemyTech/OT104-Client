@@ -84,7 +84,6 @@ const NewsForm = ({ newToEdit = false }) => {
         await newsSubmission.put(`news/${newToEdit.id}`, edited);
       } catch (error) {
         isError = error;
-        console.log(error);
       }
     } else {
       //if we are creating a new news
@@ -92,7 +91,6 @@ const NewsForm = ({ newToEdit = false }) => {
         await newsSubmission.post("news", values);
       } catch (error) {
         isError = error;
-        console.log(error);
       }
     }
 
