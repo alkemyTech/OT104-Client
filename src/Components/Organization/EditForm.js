@@ -5,17 +5,19 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CreateForm } from './CreateForm';
 
-const EditForm = (props) => {
+const EditForm = ({ organizationInfo }) => {
   const [name, setName] = useState(props.name);
   const [logo, setLogo] = useState(props.logo);
   const [shortDescription, setShortDescription] = useState(
     props.shortDescription
   );
-  const [longDescription, setLongDescription] = useState(props.longDescription);
-  const [facebook, setFacebook] = useState(props.facebook_url);
-  const [linkedin, setLinkedin] = useState(props.linkedin_url);
-  const [instagram, setInstagram] = useState(props.instagram_url);
-  const [twitter, setTwitter] = useState(props.twitter_url);
+  const [longDescription, setLongDescription] = useState(
+    organizationInfo.longDescription
+  );
+  const [facebook, setFacebook] = useState(organizationInfo.facebook_url);
+  const [linkedin, setLinkedin] = useState(organizationInfo.linkedin_url);
+  const [instagram, setInstagram] = useState(organizationInfo.instagram_url);
+  const [twitter, setTwitter] = useState(organizationInfo.twitter_url);
   const [ckeditorError, setCkeditorError] = useState(false);
 
   return (
