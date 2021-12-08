@@ -11,11 +11,11 @@ import SchoolCampaign from "./Campaigns/School/SchoolCampaign";
 import ToysCampaign from "./Campaigns/Toys/ToysCampaign";
 import MembersForm from "./Components/Members/MembersForm";
 import ProjectsForm from "./Components/Projects/ProjectsForm";
-import Footer from "./Components/Footer";
 import RegisterForm from "./Components/Auth/RegisterForm";
 import About from "./Components/About/About";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
+import NewsList from "./Components/News/NewsList";
+import EditForm from "./Components/Organization/EditForm";
+import Footer from "./Components/Footer";
 
 function App() {
   return (
@@ -34,6 +34,8 @@ function App() {
         <Route path="/toys-campaign" component={ToysCampaign} />
         <Route path="/registerform" component={RegisterForm} />
         <Route path="/Nosotros" component={About} />
+        <Route path="/backoffice/news" component={NewsList} />
+        <Route path="/backoffice/organization/edit" component={EditForm} />
       </Switch>
       <Footer />
     </BrowserRouter>
