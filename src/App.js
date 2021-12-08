@@ -14,6 +14,9 @@ import MembersForm from "./Components/Members/MembersForm";
 import ProjectsForm from "./Components/Projects/ProjectsForm";
 import RegisterForm from "./Components/Auth/RegisterForm";
 import About from "./Components/About/About";
+import NewsList from "./Components/News/NewsList";
+import EditForm from "./Components/Organization/EditForm";
+import Footer from "./Components/Footer";
 
 function App() {
   return (
@@ -32,7 +35,10 @@ function App() {
         <Route path="/toys-campaign" component={ToysCampaign} />
         <Route path="/registerform" component={RegisterForm} />
         <Route path="/Nosotros" component={About} />
+        <Route path="/backoffice/news" component={NewsList} />
+        <Route path="/backoffice/organization/edit" component={EditForm} />
       </Switch>
+      <Footer />
     </BrowserRouter>
   );
 }
