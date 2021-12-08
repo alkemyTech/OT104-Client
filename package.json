@@ -19,7 +19,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "sass": "^1.44.0",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "react-bootstrap-icons": "^1.6.1"
   },
   "scripts": {
     "start": "react-scripts start",
