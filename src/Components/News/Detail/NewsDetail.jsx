@@ -5,7 +5,7 @@ import { Container } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
 import { Card } from "react-bootstrap";
 
-function NewsDetail(id) {
+function NewsDetail({ id }) {
   const [news, setNews] = useState([]);
 
   // It remains to receive the title by props and import the titles component
@@ -13,7 +13,7 @@ function NewsDetail(id) {
   useEffect(() => {
     const getNewsData = async () => {
       await axios
-        .get("http://ongapi.alkemy.org/api/news")
+        .get(`http://ongapi.alkemy.org/api/news/${id}`)
         .then((newData) => {
           setNews((news) => newData.data.data);
         })
