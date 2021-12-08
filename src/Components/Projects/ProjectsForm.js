@@ -13,7 +13,7 @@ import Spinner from "react-bootstrap/Spinner";
 
 const ProjectsForm = ({ project = null }) => {
   const [imageString, setImageString] = useState("") //imageString is the base64 string of the image
-  const [imageUrl, setImageUrl] = useState(project?.image || ""); //ImageUrl is the url of the image to be displayed
+  const [imageUrl, setImageUrl] = useState(()=>project?.image || ""); //ImageUrl is the url of the image to be displayed
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const isEditing = !!project;
