@@ -6,10 +6,10 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CreateForm } from './CreateForm';
 
 const EditForm = ({ organizationInfo }) => {
-  const [name, setName] = useState(props.name);
-  const [logo, setLogo] = useState(props.logo);
+  const [name, setName] = useState(organizationInfo.name);
+  const [logo, setLogo] = useState(organizationInfo.logo);
   const [shortDescription, setShortDescription] = useState(
-    props.shortDescription
+    organizationInfo.shortDescription
   );
   const [longDescription, setLongDescription] = useState(
     organizationInfo.longDescription
