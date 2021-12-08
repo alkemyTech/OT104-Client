@@ -5,13 +5,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-margin-top: 3%;
+  margin-top: 3%;
 }
 .formContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-margin-top: 3%;
+  margin-top: 3%;
   width: 500px;
   height: auto;
   padding: 20px;
@@ -30,8 +30,7 @@ margin-top: 3%;
 }
 .formContainer textarea {
   height: 70px;
-width: 75%;
- 
+  width: 75%;
 }
 
 .formContainer button {
@@ -41,10 +40,7 @@ width: 75%;
   background-color: lightskyblue;
   border-radius: 5px;
   color: white;
-margin-left: 50%;
-
-
-
+  margin-left: 50%;
 }
 
 .formContainer button:hover {
@@ -55,7 +51,7 @@ margin-left: 50%;
 span {
   color: red;
 }
-.slideLabel{
-color: rgb(112, 109, 76);
-margin-left: 10%;
+.slideLabel {
+  color: rgb(112, 109, 76);
+  margin-left: 10%;
 }
