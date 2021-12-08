@@ -12,8 +12,8 @@ import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
 
 const UserForm = ({ user = null }) => {
-  const [imageString, setImageString] = useState(()=>"") //imageString is the base64 string of the image
-  const [imageUrl, setImageUrl] = useState(user?.profile_image || ""); //ImageUrl is the url of the image to be displayed
+  const [imageString, setImageString] = useState("") //imageString is the base64 string of the image
+  const [imageUrl, setImageUrl] = useState(()=>user?.profile_image || ""); //ImageUrl is the url of the image to be displayed
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const isEditing = !!user;
