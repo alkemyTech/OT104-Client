@@ -8,7 +8,6 @@ const TituloAbout = () => {
   useEffect(() => {
     const loadUsers = async () => {
       const response = await axios.get(`http://ongapi.alkemy.org/api/organization`)
-      console.log(response.data.data.name);
       setAboutTitle(response.data.data.name)
     }
     loadUsers()
