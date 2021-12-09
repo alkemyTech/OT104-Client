@@ -50,7 +50,7 @@ const UserForm = ({ user = null }) => {
       .required("Obligatorio"),
   });
 
-  const { handleSubmit, handleChange, handleBlur, values, errors, touched} =
+  const { handleSubmit, handleChange, handleBlur, values, errors, touched } =
     useFormik({
       initialValues,
       validationSchema,

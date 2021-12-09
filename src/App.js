@@ -16,6 +16,7 @@ import RegisterForm from './Components/Auth/RegisterForm';
 import About from './Components/About/About';
 import NewsList from './Components/News/NewsList';
 import EditForm from './Components/Organization/EditForm';
+import Footer from './Components/Footer';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path='/backoffice/news' component={NewsList} />
         <Route path='/backoffice/organization/edit' component={EditForm} />
       </Switch>
+      <Footer />
     </BrowserRouter>
   );
 }
