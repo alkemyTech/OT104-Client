@@ -52,9 +52,9 @@ const MembersForm = ({member = null}) => {
 
     return (
         <Formik
-        initialValues= {initialValues}
-        validationSchema = {schema}
-        onSubmit={async (values)=> {
+          initialValues= {initialValues}
+          validationSchema = {schema}
+          onSubmit={async (values)=> {
             if (isEditing) {
             try {
                 await axios.patch(`http://ongapi.alkemy.org/api/members/${member.id}`, values)
