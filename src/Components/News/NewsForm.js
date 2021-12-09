@@ -49,8 +49,7 @@ const NewsForm = ({ newToEdit = false }) => {
   // handle image change in formik state
   useEffect(() => {
     formik.setFieldValue("image", imageState);
-  }, [imageState]); // eslint-disable-line react-hooks/exhaustive-deps
-
+  }, [imageState]);
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
