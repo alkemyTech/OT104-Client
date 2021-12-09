@@ -13,14 +13,10 @@ const Get = () => {
     .catch((err) => console.log(err));
 };
 
-// expected format:
-// url:"https://jsonplaceholder.typicode.com/users"
-// id: 7
-// body: {}
 export const patchRequest = async (url, id, body) => {
-  // const config = VerifyToken();
+  const config = VerifyToken();
   try {
-    const res = await axios.patch(url + id, body, config);
+    const res = await axios.patch(`${url}\${id}`, body, config);
     return res;
   } catch (error) {
     return error;
@@ -28,3 +24,18 @@ export const patchRequest = async (url, id, body) => {
 };
 
 export default Get;
+
+// Method to verify if the token is in the localStorage and return a header with the token
+const VerifyToken = () => {
+    const token = localStorage.getItem('token');
+    if(token) {
+        const header = {
+            'Authorization': `Bearer ${token}`
+        }
+        return header
+    }
+    return null
+}
+
+export { VerifyToken }
+export default Get
