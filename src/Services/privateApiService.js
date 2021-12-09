@@ -1,29 +1,31 @@
 import axios from "axios";
-
 const config = {
   headers: {
-    Group: 01, //Aqui va el ID del equipo!!
+    Group: 1 /*Aqui va el ID del equipo!!*/,
   },
 };
 
-const Get = () => {
-  axios
-    .get("https://jsonplaceholder.typicode.com/users", config)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+const putRequest = async (url, id, body) => {
+  try {
+    const header = VerifyToken();
+    let res = await axios.put(`${url}/${id}`, body, { header });
+    return res;
+  } catch (err) {
+    throw Error(err.message);
+  }
 };
 
 // Method to verify if the token is in the localStorage and return a header with the token
 const VerifyToken = () => {
-    const token = localStorage.getItem('token');
-    if(token) {
-        const header = {
-            'Authorization': `Bearer ${token}`
-        }
-        return header
-    }
-    return null
-}
+  const token = localStorage.getItem("token");
+  if (token) {
+    const header = {
+      Authorization: `Bearer ${token}`,
+    };
+    return header;
+  }
+  return null;
+};
 
-export { VerifyToken }
-export default Get
+export { VerifyToken, putRequest };
+export default Get;
