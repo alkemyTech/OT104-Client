@@ -30,4 +30,3 @@ export const Delete = ( pathToDelete, token ) => {
 
 }
 
-export default Get
