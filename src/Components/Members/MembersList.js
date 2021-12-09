@@ -35,67 +35,67 @@ const MembersList = () => {
         
     useEffect(()=>{
         getMembers();
-    }, members)
+    }, [members])
 
     const [modalDetail, setModalDetail] = useState({});
     const [modalDelete, setModalDelete] = useState({});
 
-  const deleteMember = (id) => {
-    axios.delete(`http://ongapi.alkemy.org/api/members/${id}`)
-    .then((response)=>{
+    const deleteMember = (id) => {
+      axios.delete(`http://ongapi.alkemy.org/api/members/${id}`)
+      .then((response)=>{
       setMessage("Miembro eliminado correctamente.")
       setTimeout(()=>{
         setMessage("")
       }, 4000)
-    })
-    closeModalDelete();
-  };
+      })
+      closeModalDelete();
+    };
 
-  const openModalDetail = (src) => {
-    setModalDetail({
+    const openModalDetail = (src) => {
+      setModalDetail({
       open: true,
       src: src,
-    });
-  };
+      });
+    };
 
-  const closeModalDetail = () => {
-    setModalDetail({
+    const closeModalDetail = () => {
+      setModalDetail({
       open: false,
       src: '',
-    });
-  };
+      });
+    };
 
-  const openModalDelete = (name, id) => {
-    setModalDelete({
+    const openModalDelete = (name, id) => {
+      setModalDelete({
       open: true,
       name,
       id,
-    });
-  };
+      });
+    };
 
-  const closeModalDelete = () => {
-    setModalDelete({
+    const closeModalDelete = () => {
+      setModalDelete({
       open: false,
-    });
-  };
+      });
+    };
 
 
     return (
-    <Container fluid>
-    <BrowserRouter> 
-      <Row>
-        <Col>
-          <Breadcrumb className='mt-3'>
-            <Breadcrumb.Item as={Link} to='/backoffice'>
-              Backoffice
-            </Breadcrumb.Item>
-            <Breadcrumb.Item active>Members</Breadcrumb.Item>
-          </Breadcrumb>
-          <h3 className='m-3'>Listado de miembros</h3>
-          <Link to='/backoffice/members/create'/>
-        </Col>
-      </Row>
-      {loading ? (
+      <Container fluid>
+      <BrowserRouter> 
+        <Row>
+          <Col>
+            <Breadcrumb className='mt-3'>
+              <Breadcrumb.Item as={Link} to='/backoffice'>
+                Backoffice
+              </Breadcrumb.Item>
+              <Breadcrumb.Item active>Members</Breadcrumb.Item>
+            </Breadcrumb>
+            <h3 className='m-3'>Listado de miembros</h3>
+            <Link to='/backoffice/members/create'/>
+          </Col>
+        </Row>
+    {loading ? (
         <Row>
           <Col>
             <Spinner
@@ -104,11 +104,11 @@ const MembersList = () => {
               className='d-block mx-auto'
               variant='primary'
             >
-              <span className='visually-hidden'>Cargando miembros...</span>
+            <span className='visually-hidden'>Cargando miembros...</span>
             </Spinner>
           </Col>
         </Row>
-      ) : (
+    ) : (
         <Row>
           <Col>
             <Table hover striped bordered>
@@ -203,4 +203,4 @@ const MembersList = () => {
   );
 };
 
-export default MembersList
+export default MembersList;
