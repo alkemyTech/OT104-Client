@@ -33,16 +33,16 @@ img {
 
 .button {
   margin: 0 auto;
-  background-color: #2E86C1;
+  background-color: #2e86c1;
   padding: 10px 15px;
   border: none;
   color: #fff;
   text-decoration: none;
 }
 
-.button:hover{
+.button:hover {
   cursor: pointer;
-  background-color: #3498DB;
+  background-color: #3498db;
 }
 
 @media screen and (min-width: 768px) {
