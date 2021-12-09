@@ -1,0 +1,33 @@
+import { patchRequest } from "./privateApiService";
+
+describe("patchRequest", () => {
+  const baseURL = "https://jsonplaceholder.typicode.com/posts/";
+  const id = 1;
+  const data = {
+    title: "foo",
+    body: "bar",
+    userId: 1,
+  };
+  const expectedData = {
+    userId: 1,
+    id: 1,
+    title: "foo",
+    body: "bar",
+  };
+
+  it("should return a promise", () => {
+    expect(patchRequest(baseURL, id, data)).toBeInstanceOf(Promise);
+  });
+
+  it("should return a promise that resolves to the expected object", async () => {
+    const response = await patchRequest(baseURL, id, data);
+    expect(response.data).toEqual(expectedData);
+  });
+
+  it("should return error message when the id is not valid", async () => {
+    const response = await patchRequest(baseURL, "/", data);
+    expect(response.message).toEqual(
+      "Request failed with status code 404"
+    );
+  });
+});
