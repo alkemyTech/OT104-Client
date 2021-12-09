@@ -10,7 +10,7 @@ const getCategories = async () => {
   }
 };
 
-const creatCategories = async (ccategory) => {
+const creatCategories = async (category) => {
   try {
     const response = await axios.post(`${baseUrl}categories`, category);
     return response.data;
@@ -28,7 +28,7 @@ const getCategoriesById = async (id) => {
   }
 };
 
-const updateCategories = async (id, categorie) => {
+const updateCategories = async (id, category) => {
   try {
     const response = await axios.put(`${baseUrl}categories/${id}`, category);
     return response.data;
