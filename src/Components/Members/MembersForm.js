@@ -42,9 +42,7 @@ const MembersForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(initialValues);
     const isValid = await schema.isValid(initialValues);
-        console.log(isValid);
   }
 
   return (
