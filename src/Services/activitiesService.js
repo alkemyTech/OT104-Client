@@ -1,9 +1,9 @@
 import axios from "axios";
-const baseUrl = "http://ongapi.alkemy.org/api/";
+const baseUrl = "http://ongapi.alkemy.org/api/activities/";
 
 const getActivities = async () => {
   try {
-    const response = await axios.get(baseUrl + "activities");
+    const response = await axios.get(baseUrl);
     return response.data;
   } catch (error) {
     return new Error(error);
@@ -11,7 +11,7 @@ const getActivities = async () => {
 };
 const getActivity = async (activityId) => {
   try {
-    const response = await axios.get(`${baseUrl}activities/${activityId}`);
+    const response = await axios.get(`${baseUrl}${activityId}`);
     return response.data;
   } catch (error) {
     return new Error(error);
@@ -20,10 +20,7 @@ const getActivity = async (activityId) => {
 
 const createActivity = async (dataToCreateActivity) => {
   try {
-    const response = await axios.post(
-      `${baseUrl}activities/`,
-      dataToCreateActivity
-    );
+    const response = await axios.post(baseUrl, dataToCreateActivity);
     return response.data;
   } catch (error) {
     return new Error(error);
@@ -32,10 +29,7 @@ const createActivity = async (dataToCreateActivity) => {
 
 const updateActivity = async (activityId, dataToUpdate) => {
   try {
-    const response = await axios.put(
-      `${baseUrl}activities/${activityId}`,
-      dataToUpdate
-    );
+    const response = await axios.put(`${baseUrl}${activityId}`, dataToUpdate);
     return response.data;
   } catch (error) {
     return new Error(error);
@@ -44,7 +38,7 @@ const updateActivity = async (activityId, dataToUpdate) => {
 
 const deleteActivity = async (activityId) => {
   try {
-    const response = await axios.delete(`${baseUrl}activities/${activityId}`);
+    const response = await axios.delete(`${baseUrl}${activityId}`);
     return response.data;
   } catch (error) {
     return new Error(error);
