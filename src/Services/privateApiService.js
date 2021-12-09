@@ -13,10 +13,10 @@ const Get = () => {
     .catch((err) => console.log(err));
 };
 
-export const patchRequest = async (url, id, body) => {
-  const config = VerifyToken();
+const patchRequest = async (url, id, body) => {
+  const header = VerifyToken();
   try {
-    const res = await axios.patch(`${url}\${id}`, body, config);
+    const res = await axios.patch(`${url}\${id}`, body, {header});
     return res;
   } catch (error) {
     return error;
@@ -37,5 +37,5 @@ const VerifyToken = () => {
     return null
 }
 
-export { VerifyToken }
+export { VerifyToken, patchRequest };
 export default Get
