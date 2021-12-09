@@ -27,3 +27,13 @@
     cursor: pointer;
     background-color: #3498DB;
 }
+
+.input-feedback {
+    color: red;
+    margin-top: .25rem;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+}
