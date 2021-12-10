@@ -9,7 +9,10 @@ function LoginForm() {
         password: data.passwordUser,
       })
       .then((response) => {
-        localStorage.setItem("dataUser", JSON.stringify(response.data.data));
+        localStorage.setItem(
+          "sessionToken",
+          JSON.stringify(response.data.data)
+        );
       })
       .catch((err) => {
         alert("Error" + err);
