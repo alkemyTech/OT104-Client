@@ -6,13 +6,15 @@ const config = {
   },
 };
 
-function getRequest(url) {
-  const header = VerifyToken();
-  if (isToken) {
-    axios
-      .get(url, header)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+async function getRequest(url) {
+  const headers = VerifyToken();
+  if (headers) {
+    try {
+      const res = await axios.get(url, { headers });
+      return res;
+    } catch (err) {
+      return err;
+    }
   }
   return new Error("The token is needed for this method");
 }
@@ -47,13 +49,10 @@ const patchRequest = async (url, id, body) => {
   }
 };
 
-const deleteRequest = (pathToDelete, token) => {
-  fetch(`http://ongapi.alkemy.org/api/${pathToDelete}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: VerifyToken(),
-    },
-  })
+const deleteRequest = (url, id) => {
+  const headers = VerifyToken();
+  axios
+    .delete(`${url}/${id}`, { headers })
     .then((res) => res.json())
     .catch((error) =>
       alert("No se pudo borrar el recurso. Error: " + error + ".")
