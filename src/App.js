@@ -20,6 +20,7 @@ import EditForm from "./Components/Organization/EditForm";
 import Footer from "./Components/Footer";
 import ActivityDetail from './Components/Activities/Detail/ActivityDetail';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Activities from "./Components/Activities/Activities";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
         <Route path="/backoffice/news" component={NewsList} />
         <Route path="/backoffice/organization/edit" component={EditForm} />
         <Route path="/Novedades/:id" component={NewsDetail} />
+        <Route path='/Actividades' component={Activities} />
       </Switch>
       <Footer />
     </BrowserRouter>
