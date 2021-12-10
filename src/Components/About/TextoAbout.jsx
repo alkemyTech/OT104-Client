@@ -12,12 +12,11 @@ const TextoAbout = () => {
       setAboutText(response.data.data.short_description)
     }
     loadUsers()
-
   }, []);
 
   return (
     <div>
-      <h1>{aboutText}</h1>
+      <h5>{aboutText}</h5>
     </div>
   )
 }
