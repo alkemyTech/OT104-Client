@@ -12,7 +12,6 @@ const About = () => {
         <Col>
           <TituloAbout />
           <TextoAbout />
-
         </Col>
       </Row>
     </Container>
