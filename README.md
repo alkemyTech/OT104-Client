@@ -37,6 +37,7 @@ To use the skeleton loader, first import the component from / skeleton / Skeleto
 
 Recommendation when rendering and using <Skeleton /> keep the final structure. Example:
 
+```
 <Table striped bordered hover className="align-middle">
             <thead>
               <tr>
@@ -51,3 +52,4 @@ Recommendation when rendering and using <Skeleton /> keep the final structure. E
                 </tr>
             </tbody>
           </Table>
+```
