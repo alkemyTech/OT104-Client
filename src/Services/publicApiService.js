@@ -19,6 +19,7 @@ export const Post = async (route, body) => {
         const res = await axios.post(route, {
             body: body
         })
+        return res
     } catch (err) {
         throw err;
     }
