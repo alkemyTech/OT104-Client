@@ -1,4 +1,3 @@
-
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
@@ -11,9 +10,10 @@ import UserForm from "./Components/Users/UsersForm";
 import SchoolCampaign from "./Campaigns/School/SchoolCampaign";
 import ToysCampaign from "./Campaigns/Toys/ToysCampaign";
 import MembersForm from "./Components/Members/MembersForm";
-import ProjectsForm from "./Components/Projects/ProjectsForm";
+import ProjectsForm from "./Components/Projects/ProjectsForm";           
 import About from "./Components/About/About";
 import Categories from "./Components/Categories/Categories";
+import LoginForm from "./Components/Auth/LoginForm";
 import RegisterForm from "./Components/Auth/RegisterForm";
 import NewsList from "./Components/News/NewsList";
 import EditForm from "./Components/Organization/EditForm";
@@ -26,6 +26,7 @@ function App() {
     <BrowserRouter>
       <Switch>
         {/* <Route path="/" exact component={} />           Esta ruta debe ser para el Home */}
+         <Route path="/login" component={LoginForm} />
         <Route path="/create-activity" component={ActivitiesForm} />
         <Route path="/create-category" component={CategoriesForm} />
         <Route path="/create-news" component={NewsForm} />
