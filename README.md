@@ -2,6 +2,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
+The [React Loader Spinner](https://www.npmjs.com/package/react-loader-spinner) was implemented to render a spinner while API requests are being made. This spinner was created in a separate component, and can be imported and rendered from other components when necessary.
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -28,3 +30,5 @@ The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+

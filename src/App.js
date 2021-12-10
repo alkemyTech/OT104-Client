@@ -1,9 +1,10 @@
-import React from "react";
 
+import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
 import CategoriesForm from "./Components/Categories/CategoriesForm";
 import NewsForm from "./Components/News/NewsForm";
+import NewsDetail from "./Components/News/Detail/NewsDetail";
 import SlidesForm from "./Components/Slides/SlidesForm";
 import TestimonialForm from "./Components/Testimonials/TestimonialsForm";
 import UserForm from "./Components/Users/UsersForm";
@@ -17,6 +18,8 @@ import RegisterForm from "./Components/Auth/RegisterForm";
 import NewsList from "./Components/News/NewsList";
 import EditForm from "./Components/Organization/EditForm";
 import Footer from "./Components/Footer";
+import ActivityDetail from './Components/Activities/Detail/ActivityDetail';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
@@ -38,6 +41,7 @@ function App() {
         <Route path="/Nosotros" component={About} />
         <Route path="/backoffice/news" component={NewsList} />
         <Route path="/backoffice/organization/edit" component={EditForm} />
+        <Route path="/Novedades/:id" component={NewsDetail} />
       </Switch>
       <Footer />
     </BrowserRouter>

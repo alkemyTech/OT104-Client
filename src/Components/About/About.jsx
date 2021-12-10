@@ -1,15 +1,21 @@
 import React from 'react'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import TextoAbout from './TextoAbout'
 import TituloAbout from './TituloAbout'
 
-const index = () => {
+const About = () => {
   return (
-    <div>
-      <TituloAbout />
-      <TextoAbout />
-
-    </div>
+    <Container fluid="md">
+      <Row>
+        <Col>
+          <TituloAbout />
+          <TextoAbout />
+        </Col>
+      </Row>
+    </Container>
   )
 }
 
-export default index
+export default About
