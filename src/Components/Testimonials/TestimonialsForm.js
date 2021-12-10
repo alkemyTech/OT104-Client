@@ -35,66 +35,65 @@ const TestimonialForm = ({ testimonial = null }) => {
         <div>
         <h3 className="text p-5">Submit a new testimonial</h3>
         <Formik
-        initialValues= {initialValues}
-        validationSchema = {schema}
-        onSubmit={async (values)=> {
-            setSubmitting(true)
-            if (isEditing) {
-            try {
-                await axios.patch(`http://ongapi.alkemy.org/api/testimonials/${testimonial.id}`, values)
-                setSubmitting(false)
-                setMessage("Testimonio editado correctamente");
-                setTimeout(()=>{
-            setMessage("")
-            }, 4000)
-            } catch (error) {
-                setSubmitting(false)
-                setMessage("Ha habido un error.");
-                setTimeout(()=>{
-                setMessage("")
-                }, 4000)
-            }
-        }
-            try {
-                await axios.post(`http://ongapi.alkemy.org/api/testimonials`, values)
-                .then((response)=>{
-                setSubmitting(false)
-                setMessage("Testimonio creado correctamente");
-                setTimeout(()=>{
-                setMessage("")
-                }, 4000)
-            })
-           } catch (error) {
-                setSubmitting(false)
-                setMessage("Ha habido un error.");
-                setTimeout(()=>{
-                setMessage("")
-                }, 4000)
-            }
+            initialValues= {initialValues}
+            validationSchema = {schema}
+            onSubmit={async (values)=> {
+                setSubmitting(true)
+                if (isEditing) {
+                    try {
+                        await axios.patch(`http://ongapi.alkemy.org/api/testimonials/${testimonial.id}`, values)
+                        setSubmitting(false)
+                        setMessage("Testimonio editado correctamente");
+                        setTimeout(()=>{
+                        setMessage("")
+                        }, 4000)
+                    } catch (error) {
+                        setSubmitting(false)
+                        setMessage("Ha habido un error.");
+                        setTimeout(()=>{
+                        setMessage("")
+                        }, 4000)
+                    }}
+                    try {
+                        await axios.post(`http://ongapi.alkemy.org/api/testimonials`, values)
+                        .then((response)=>{
+                        setSubmitting(false)
+                        setMessage("Testimonio creado correctamente");
+                        setTimeout(()=>{
+                        setMessage("")
+                        }, 4000)
+                    })
+                    } catch (error) {
+                        setSubmitting(false)
+                        setMessage("Ha habido un error.");
+                        setTimeout(()=>{
+                        setMessage("")
+                        }, 4000)
+                }
          }}
         >
         {({values, setFieldValue, touched, errors}) => (
         <div className="form-container">
             <Form>
                 <Field 
-                className={`form-control mb-4 shadow-none ${touched.name && errors.name && `is-invalid`}`}
-                type="text" 
-                name="name" 
-                placeholder="Testimonial title"
+                    className={`form-control mb-4 shadow-none ${touched.name && errors.name && `is-invalid`}`}
+                    type="text" 
+                    name="name" 
+                    placeholder="Testimonial title"
                 />
                 {touched && errors.name && <p className="text-danger">{errors.name}</p>}
                 <CKEditor
-                name="description"
-                data={values.description}
-                editor={ClassicEditor}
-                onChange={(_, editor) => setFieldValue("description", editor.getData())}
-                onBlur={( _, editor ) => editor.getData() === "" ? setCkEditorError(true) : setCkEditorError(false)}
+                    name="description"
+                    data={values.description}
+                    editor={ClassicEditor}
+                    onChange={(_, editor) => setFieldValue("description", editor.getData())}
+                    onBlur={( _, editor ) => editor.getData() === "" ? setCkEditorError(true) : setCkEditorError(false)}
                 /> 
                 {ckEditorError && <p className="text-danger mb-3 mt-3">Please, write a description.</p>}
                 <Field 
-                className={`form-control mb-4 mt-4 shadow-none ${errors.image && `is-invalid`}`}
-                type="file" 
-                name="image" 
+                    className={`form-control mb-4 mt-4 shadow-none ${errors.image && `is-invalid`}`}
+                    type="file" 
+                    name="image" 
                 />
                 {touched.image && errors.image && <p className="text-danger">{errors.image}</p>}
                 <button className="submit-btn d-inline-block" type="submit">Submit</button>
