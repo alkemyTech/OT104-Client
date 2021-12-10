@@ -49,4 +49,4 @@ const activitiesSlice = createSlice({
   },
 });
 
-export default getActivities.reducer;
+export default activitiesSlice.reducer;
