@@ -14,4 +14,14 @@ const Get = () => {
     .catch((err) => console.log(err));
 };
 
+export const Post = async (route, body) => {
+    try {
+        const res = await axios.post(route, {
+            body: body
+        })
+        return res
+    } catch (err) {
+        throw err;
+    }
+}
 export default Get;
