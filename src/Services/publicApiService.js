@@ -1,8 +1,9 @@
 import axios from 'axios';
+import VerifyToken from './privateApiService';
 
 const config = {
   headers: {
-    Group: 01, //Aqui va el ID del equipo!!
+    Group: 104, //Aqui va el ID del equipo!!
   },
 };
 
@@ -13,19 +14,21 @@ const Get = () => {
     .catch((err) => console.log(err));
 };
 
-export const postRequest = async (path_url, dataBody) => {
-  const response = await axios.post(
-    `http://ongapi.alkemy.org/${path_url}`,
-    JSON.stringify({
-      dataBody,
-    }),
-    {
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+const postRequest = async (path_url, dataBody) => {
+  try {
+    const header = VerifyToken();
+    let res = await axios.post(
+      `${path_url}`,
+      { header },
+      JSON.stringify({
+        dataBody,
+      })
+    );
+    return res;
+  } catch (err) {
+    throw Error(err.message);
+  }
 };
 
+export { postRequest };
 export default Get;
