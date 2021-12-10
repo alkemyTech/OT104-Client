@@ -11,20 +11,24 @@ import SchoolCampaign from "./Campaigns/School/SchoolCampaign";
 import ToysCampaign from "./Campaigns/Toys/ToysCampaign";
 import MembersForm from "./Components/Members/MembersForm";
 import ProjectsForm from "./Components/Projects/ProjectsForm";
-import RegisterForm from "./Components/Auth/RegisterForm";
 import About from "./Components/About/About";
+import Categories from "./Components/Categories/Categories";
+import LoginForm from "./Components/Auth/LoginForm";
+import RegisterForm from "./Components/Auth/RegisterForm";
 import NewsList from "./Components/News/NewsList";
 import EditForm from "./Components/Organization/EditForm";
 import Footer from "./Components/Footer";
-import ActivityDetail from './Components/Activities/Detail/ActivityDetail';
+import ActivityDetail from "./Components/Activities/Detail/ActivityDetail";
+import "bootstrap/dist/css/bootstrap.min.css";
 import SlidesList from './Components/Slides/SlidesList'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import Activities from "./Components/Activities/Activities";
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
         {/* <Route path="/" exact component={} />           Esta ruta debe ser para el Home */}
+        <Route path="/login" component={LoginForm} />
         <Route path="/create-activity" component={ActivitiesForm} />
         <Route path="/create-category" component={CategoriesForm} />
         <Route path="/create-news" component={NewsForm} />
@@ -36,10 +40,12 @@ function App() {
         <Route path="/school-campaign" component={SchoolCampaign} />
         <Route path="/toys-campaign" component={ToysCampaign} />
         <Route path="/registerform" component={RegisterForm} />
+        <Route path="/backoffice/categories" component={Categories} />
         <Route path="/Nosotros" component={About} />
         <Route path="/backoffice/news" component={NewsList} />
         <Route path="/backoffice/organization/edit" component={EditForm} />
         <Route path="/Novedades/:id" component={NewsDetail} />
+        <Route path="/Actividades" component={Activities} />
         <Route path="/backoffice/slides" component={SlidesList} />
       </Switch>
       <Footer />
