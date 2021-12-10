@@ -1,3 +1,4 @@
+
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
@@ -16,6 +17,8 @@ import About from "./Components/About/About";
 import NewsList from "./Components/News/NewsList";
 import EditForm from "./Components/Organization/EditForm";
 import Footer from "./Components/Footer";
+import ActivityDetail from './Components/Activities/Detail/ActivityDetail';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
