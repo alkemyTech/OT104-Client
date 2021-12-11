@@ -12,7 +12,6 @@ const TextoAbout = () => {
       setAboutText(response.data.data.short_description)
     }
     loadUsers()
-
   }, []);
 
   return (
