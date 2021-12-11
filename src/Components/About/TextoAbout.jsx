@@ -16,7 +16,7 @@ const TextoAbout = () => {
 
   return (
     <div>
-      <h5>{aboutText}</h5>
+      <h5 >{aboutText}</h5>
     </div>
   )
 }
