@@ -1,0 +1,57 @@
+.createPostPage {
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100vw;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3%;
+}
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 3%;
+  width: 500px;
+  height: auto;
+  padding: 20px;
+  border: 5px solid dodgerblue;
+  border-radius: 5px;
+}
+
+.formContainer input {
+  height: 30px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  border: 1px solid grey;
+  border-radius: 2px;
+  padding-left: 10px;
+  font-size: 18px;
+}
+.formContainer textarea {
+  height: 70px;
+  width: 75%;
+}
+
+.formContainer button {
+  margin-top: 1px;
+  height: 40px;
+  border: none;
+  background-color: lightskyblue;
+  border-radius: 5px;
+  color: white;
+  margin-left: 50%;
+}
+
+.formContainer button:hover {
+  cursor: pointer;
+  background-color: dodgerblue;
+}
+
+span {
+  color: red;
+}
+.slideLabel {
+  color: rgb(112, 109, 76);
+  margin-left: 10%;
+}
