@@ -33,11 +33,11 @@
 }
 
 .input-feedback {
-    color: red;
-    margin-top: .25rem;
+  color: red;
+  margin-top: 0.25rem;
 }
 
-.form-group{
-    display: flex;
-    flex-direction: column;
+.form-group {
+  display: flex;
+  flex-direction: column;
 }
