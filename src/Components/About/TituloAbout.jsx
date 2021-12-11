@@ -21,4 +21,3 @@ const TituloAbout = () => {
   )
 }
 export default TituloAbout
-
