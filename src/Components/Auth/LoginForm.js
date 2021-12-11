@@ -1,33 +1,95 @@
-import React, { useState } from 'react';
-import '../FormStyles.css';
+import React from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import axios from "axios";
+function LoginForm() {
+  const logInAuth = async (data) => {
+    await axios
+      .post("http://ongapi.alkemy.org/api/login", {
+        email: data.emailUser,
+        password: data.passwordUser,
+      })
+      .then((response) => {
+        localStorage.setItem(
+          "sessionToken",
+          JSON.stringify(response.data.data)
+        );
+      })
+      .catch((err) => {
+        alert("Error" + err);
+      });
+  };
 
-const LoginForm = () => {
-    const [initialValues, setInitialValues] = useState({
-        email: '',
-        password: ''
-    });
-
-    const handleChange = (e) => {
-        if(e.target.name === 'email'){
-            setInitialValues({...initialValues, email: e.target.value})
-        } if(e.target.name === 'password'){
-            setInitialValues({...initialValues, password: e.target.value})
+  return (
+    <Formik
+      initialValues={{
+        emailUser: "",
+        passwordUser: "",
+      }}
+      validate={(data) => {
+        let err = {};
+        if (!data.emailUser) {
+          err.emailUser = "Enter your email";
+        } else if (
+          !/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(
+            data.emailUser
+          )
+        ) {
+          err.emailUser = "Invalid email";
         }
-    }
-    
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(initialValues);
-        localStorage.setItem('token', 'tokenValueExample')
-    }
 
-    return (
-        <form className="form-container" onSubmit={handleSubmit}>
-            <input className="input-field" type="text" name="email" value={initialValues.name} onChange={handleChange} placeholder="Enter email"></input>
-            <input className="input-field" type="text" name="password" value={initialValues.password} onChange={handleChange} placeholder="Enter password"></input>
-            <button className="submit-btn" type="submit">Log In</button>
-        </form>
-    );
+        if (!data.passwordUser) {
+          err.passwordUser = "Enter your password";
+        } else if (
+          !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(
+            data.passwordUser
+          )
+        ) {
+          err.passwordUser = "Invalid password";
+        }
+
+        return err;
+      }}
+      onSubmit={(data, { resetForm }) => {
+        resetForm();
+        logInAuth(data);
+      }}
+    >
+      {({ errors }) => (
+        <Form className="form-container">
+          <label className="form-label">Email</label>
+          <Field
+            type="text"
+            className="input-field "
+            id="username"
+            name="emailUser"
+            placeholder="Enter email"
+          />
+          <ErrorMessage
+            name="emailUser"
+            component={() => <div className="error"> {errors.emailUser} </div>}
+          />
+
+          <label className="form-label">Password</label>
+          <Field
+            type="password"
+            className="input-field "
+            id="password"
+            name="passwordUser"
+            placeholder="Enter password"
+          />
+          <ErrorMessage
+            name="passwordUser"
+            component={() => (
+              <div className="error"> {errors.passwordUser} </div>
+            )}
+          />
+          <button type="submit" className="submit-btn">
+            Login
+          </button>
+        </Form>
+      )}
+    </Formik>
+  );
 }
- 
+
 export default LoginForm;
