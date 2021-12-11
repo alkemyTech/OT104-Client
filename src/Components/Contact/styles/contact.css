@@ -1,0 +1,9 @@
+@media (max-width: 600px) {
+  #contact-container {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
+  }
+}
