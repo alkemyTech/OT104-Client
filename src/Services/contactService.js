@@ -1,7 +1,11 @@
-import { getRequest } from './publicApiService';
-import { postRequest, putRequest, deleteRequest } from './privateApiService';
+import {
+  getRequest,
+  postRequest,
+  putRequest,
+  deleteRequest,
+} from "./privateApiService";
 
-const baseURL = 'http://ongapi.alkemy.org/api/contacts';
+const baseURL = "http://ongapi.alkemy.org/api/contacts";
 
 const getContacts = () => {
   return getRequest(baseURL);
@@ -12,15 +16,15 @@ const createContact = (contact) => {
 };
 
 const getContact = (id) => {
-  return getRequest(baseURL + id);
+  return getRequest(`${baseURL}/${id}`);
 };
 
 const editContact = (contact) => {
-  return putRequest(baseURL + contact.id, contact);
+  return putRequest(baseURL, contact.id, contact);
 };
 
 const deleteContact = (id) => {
-  return deleteRequest(baseURL + id);
+  return deleteRequest(baseURL, id);
 };
 
 const contactService = {
