@@ -11,7 +11,7 @@ import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
 import userService from "../../Services/userService";
 
-const UserForm = ({ user = {id:393} }) => {
+const UserForm = ({ user = null }) => {
   const [imageString, setImageString] = useState("") //imageString is the base64 string of the image
   const [imageUrl, setImageUrl] = useState(()=>user?.profile_image || ""); //ImageUrl is the url of the image to be displayed
   const [message, setMessage] = useState("");
