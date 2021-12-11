@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "../FormStyles.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
@@ -10,8 +9,9 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
+import userService from "../../Services/userService";
 
-const UserForm = ({ user = null }) => {
+const UserForm = ({ user = {id:393} }) => {
   const [imageString, setImageString] = useState("") //imageString is the base64 string of the image
   const [imageUrl, setImageUrl] = useState(()=>user?.profile_image || ""); //ImageUrl is the url of the image to be displayed
   const [message, setMessage] = useState("");
@@ -59,33 +59,37 @@ const UserForm = ({ user = null }) => {
         setMessage("");
         let {profile_image, ...userData} = values;
         userData = {...userData, profile_image: imageString};
+        // if the response is successful will have a data property with the user data and success property with true
+        //Otherwise will have a response property with a data property whit an array of errors
         if (isEditing) {
-          try {
-            await axios.put(`http://ongapi.alkemy.org/api/users/${user.id}`, userData) 
-            setMessage("Usuario actualizado correctamente.");
-            setLoading(false);
+          const res = await userService.update(user.id, userData);
+          setLoading(false);
+          if(res.response) {
+            res.response.data.errors?.email ? // if the error is from the email field
+            setMessage("No se pudo editar el usuario, el email ya está registrado.")
+            : setMessage("No se pudo editar el usuario.")
           }
-          catch (error) {
-            error.response.data.errors?.email ? // if the error is from the email field
-              setMessage("No se pudo editar el usuario, el email ya está registrado.") 
-              : setMessage("No se pudo actualizar el usuario.")
-            setLoading(false);
+          else if(res.data.success) {
+            setMessage("Usuario actualizado correctamente.");
+          }else{
+            setMessage("No se pudo aditar el usuario.");
           }
         } else {
-          try {
-            await axios.post(`http://ongapi.alkemy.org/api/users`, userData)
-            setMessage("Usuario creado correctamente.");
-            setLoading(false);
+          const res = await userService.create(userData);
+          setLoading(false);
+          if(res.response) {
+            res.response.data.errors?.email ? // if the error is from the email field
+            setMessage("No se pudo crear el usuario, el email ya está registrado.")
+            : setMessage("No se pudo crear el usuario.")
           }
-          catch (error) {
-            error.response.data.errors.email 
-              ? setMessage("No se pudo crear el usuario, el email ya está registrado.") 
-              : setMessage("Error al crear el usuario.");
-            setLoading(false);
+          else if(res.data.success) {
+            setMessage("Usuario creado correctamente.");
+          }else{
+            setMessage("No se pudo crear el usuario.");
           }
         }
       }
-    });
+  });
 
   const handleChangeImg = (event) => {
     handleChange(event); 

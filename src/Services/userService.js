@@ -1,54 +1,36 @@
 import axios from "axios"
-const baseUrl = "http://ongapi.alkemy.org/api/"
+import {
+  putRequest,
+  deleteRequest,
+  postRequest,
+  getRequest,
+} from "./privateApiService" 
 
-const getUsers = async () => {
-  try{
-    const response = await axios.get(`${baseUrl}users`)
-    return response.data
-  }
-  catch(err){
-    return err
-  }
+const baseUrl = "http://ongapi.alkemy.org/api/users" 
+
+const getUsers = () => {
+  const response = getRequest(`${baseUrl}`)
+  return response
 }
 
-const createUser = async (user) => {
-  try{
-    const response = await axios.post(`${baseUrl}users`, user)
-    return response.data
-  }
-  catch(err){
-    return err.response
-  }
+const createUser =  (user) => {
+  const response = postRequest(`${baseUrl}`, user)
+  return response
 }
 
 const getUserById = async (id) => {
-  try{
-    const response = await axios.get(`${baseUrl}users/${id}`)
-    return response.data
-  }
-  catch(err){
-    return err.response
-  }
+  const response = getRequest(`${baseUrl}/${id}`)
+  return response
 }
 
 const updateUser = async (id, user) => {
-  try{
-    const response = await axios.put(`${baseUrl}users/${id}`, user)
-    return response.data
-  }
-  catch(err){
-    return err.response
-  }
+  const response = putRequest(`${baseUrl}`,id, user)
+  return response
 }
 
 const deleteUser = async (id) => {
-  try{
-    const response = await axios.delete(`${baseUrl}users/${id}`)
-    return response.data
-  }
-  catch(err){
-    return err.response
-  }
+  const response = deleteRequest(`${baseUrl}`, id)
+  return response
 }
 
 const userService = {
