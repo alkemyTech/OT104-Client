@@ -9,7 +9,7 @@ import Breadcrumb from "react-bootstrap/Breadcrumb";
 import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
 import { PencilFill, TrashFill } from "react-bootstrap-icons";
-import { getActivities } from "../../Services/activitiesService";
+import { getActivities } from "../../../Services/activitiesService";
 
 const ActivitiesList = () => {
   const [activities, setActivities] = useState({
