@@ -27,6 +27,7 @@ import SlidesList from "./Components/Slides/SlidesList";
 import Activities from "./Components/Activities/Activities";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -52,7 +53,7 @@ function App() {
         <Route path="/Novedades/:id" component={NewsDetail} />
         <Route path="/Actividades" component={Activities} />
         <Route path="/backoffice/slides" component={SlidesList} />
-      </Switch>
+          </Switch>
       <Footer />
     </BrowserRouter>
   );
