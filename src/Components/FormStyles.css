@@ -30,14 +30,14 @@
 .submit-btn:hover {
   cursor: pointer;
   background-color: #3498db;
-
-
-.input-feedback {
-    color: red;
-    margin-top: .25rem;
 }
 
-.form-group{
-    display: flex;
-    flex-direction: column;
+.input-feedback {
+  color: red;
+  margin-top: 0.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
 }
