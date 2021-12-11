@@ -1,48 +1,31 @@
-import axios from "axios";
+// TODO >>> we need to replace the baseUrl with the one from .env variable
+// const baseUrl = process.env.REACT_APP_HERE_THE_BASE_URL_FOR_ACTIVITIES;
 const baseUrl = "http://ongapi.alkemy.org/api/activities/";
 
-const getActivities = async () => {
-  try {
-    const response = await axios.get(baseUrl);
-    return response.data;
-  } catch (error) {
-    return new Error(error);
-  }
+import {
+  putRequest,
+  deleteRequest,
+  postRequest,
+  getRequest,
+} from "./privateApiService";
+
+const getActivities = () => {
+  return getRequest(baseUrl);
 };
-const getActivity = async (activityId) => {
-  try {
-    const response = await axios.get(`${baseUrl}${activityId}`);
-    return response.data;
-  } catch (error) {
-    return new Error(error);
-  }
+const getActivity = (activityId) => {
+  return getRequest(`${baseUrl}${activityId}`);
 };
 
-const createActivity = async (dataToCreateActivity) => {
-  try {
-    const response = await axios.post(baseUrl, dataToCreateActivity);
-    return response.data;
-  } catch (error) {
-    return new Error(error);
-  }
+const createActivity = (dataToCreateActivity) => {
+  return postRequest(baseUrl, dataToCreateActivity);
 };
 
-const updateActivity = async (activityId, dataToUpdate) => {
-  try {
-    const response = await axios.put(`${baseUrl}${activityId}`, dataToUpdate);
-    return response.data;
-  } catch (error) {
-    return new Error(error);
-  }
+const updateActivity = (activityId, dataToUpdate) => {
+  return putRequest(`${baseUrl}${activityId}`, dataToUpdate);
 };
 
-const deleteActivity = async (activityId) => {
-  try {
-    const response = await axios.delete(`${baseUrl}${activityId}`);
-    return response.data;
-  } catch (error) {
-    return new Error(error);
-  }
+const deleteActivity = (activityId) => {
+  return deleteRequest(`${baseUrl}${activityId}`);
 };
 
 export {
