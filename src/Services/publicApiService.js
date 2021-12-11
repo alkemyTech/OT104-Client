@@ -7,11 +7,20 @@ const config = {
   },
 };
 
-const Get = () => {
-  axios
-    .get('https://jsonplaceholder.typicode.com/users', config)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+export const get = async (url, id) => {
+  const res =
+    id === null ? await axios.get(url) : await axios.get(`${url}/${id}`);
+  return res;
 };
 
-export default Get;
+export const Post = async (route, body) => {
+    try {
+        const res = await axios.post(route, {
+            body: body
+        })
+        return res
+    } catch (err) {
+        throw err;
+    }
+}
+
