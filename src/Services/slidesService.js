@@ -5,7 +5,7 @@ import {
   getRequest,
 } from "./privateApiService";
 
-const baseUrl = "http://ongapi.alkemy.org/api/slides";
+const baseUrl = process.env.REACT_APP_SLIDES_ENDPOINT;
 
 const getSlides = () => {
   return getRequest(baseUrl);
