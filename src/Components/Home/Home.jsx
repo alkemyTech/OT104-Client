@@ -5,25 +5,38 @@ import Slider from "./Slider/Slider";
 import service from "../../Services/slidesService";
 import Loader from "../../Components/Home/Loader";
 import fakeSlides from "./fakeSlides";
+import Alert from "react-bootstrap/Alert";
+
+// const Alert = () => {
+//   return <Alert variant="danger" />;
+// };
 
 function Home() {
   // we need to replace the fakeSlides with the real data from the server
   // remove the fakeSlides from the code
 
-  const [slides, setSlides] = React.useState([...fakeSlides]);
+  const [slides, setSlides] = React.useState([]);
+  const [slidesError, setSlidesError] = React.useState(false);
   // uncomment the lines below to get slides from server
-  // const getSlides = async () => {
-  //   const res = await service.getAll();
-  //   const slidesFromServer = res.data.data;
-  //   setSlides([...slidesFromServer]);
-  // };
-  // React.useEffect(() => {
-  //   getSlides();
-  // }, []);
+  const getSlides = async () => {
+    const res = await service.getAll();
+    if (res && res.status !== 200) {
+      setSlidesError(true);
+      return;
+    }
+    console.log("res", res);
+    const slidesFromServer = res.data.data;
+    setSlides([...slidesFromServer]);
+  };
+  React.useEffect(() => {
+    getSlides();
+  }, []);
 
   const [news, setNews] = useState([]);
+  const [newsError, setNewsError] = useState(false);
   // this need to use the service api
   useEffect(() => {
+    setNewsError(false);
     const getNewsData = async () => {
       await axios
         .get("http://ongapi.alkemy.org/api/news?limit=4")
@@ -31,7 +44,7 @@ function Home() {
           setNews((news) => newData.data.data);
         })
         .catch((err) => {
-          alert("Error", err);
+          setNewsError(true);
         });
     };
     getNewsData();
@@ -40,6 +53,7 @@ function Home() {
   return (
     <div className="home-container">
       <Slider slides={slides} />
+      {slidesError && <Alert variant="danger">Error loading slides</Alert>}
       <h1 className="text-center m-2">
         Bienvenidos <br />a <br />
         Somos más
@@ -48,6 +62,7 @@ function Home() {
       {news.length === 0 && <Loader />}
       <h2 className="text-center mt-3">Ultimas Novedades</h2>
       <Newness news={news} />
+      {newsError && <Alert variant="danger">Error loading news</Alert>}
     </div>
   );
 }
