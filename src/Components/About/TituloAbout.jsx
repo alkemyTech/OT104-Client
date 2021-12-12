@@ -15,10 +15,9 @@ const TituloAbout = () => {
   }, []);
 
   return (
-    <div>
-      <h1>{aboutTitle}</h1>
+    <div >
+      <h1 >{aboutTitle}</h1>
     </div>
   )
 }
 export default TituloAbout
-
