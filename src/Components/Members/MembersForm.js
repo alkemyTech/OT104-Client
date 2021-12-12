@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import '../FormStyles.css';
 import * as yup from "yup";
 import { Formik, Form, ErrorMessage, Field } from 'formik';
@@ -11,6 +11,8 @@ const MembersForm = ({member = null}) => {
   const [ckEditorError, setCkEditorError] = useState(false);
   const [message, setMessage] = useState("");
   const isEditing = !!member;
+  const [handledFile, setHandledFile] = useState(false);
+  const fileInput = useRef();
 
   const initialValues = {
         name: member?.name || "",
@@ -19,7 +21,7 @@ const MembersForm = ({member = null}) => {
         facebook: member?.facebook || "",
         instagram: member?.instagram || "",
         linkedin: member?.linkedin || ""   
-    };
+  };
 
   const schema = yup.object().shape({
       name: yup.string().min(4, "Name must be at least 4 characters long.").required("You have to provide a name."),
@@ -48,7 +50,10 @@ const MembersForm = ({member = null}) => {
             'Please, provide a valid website.'
         )
         .required('Please, provide a website for your social media.')
-    });
+  });
+    
+  const handleFileChange = (e) => {
+  }
 
     return (
         <Formik
@@ -93,19 +98,36 @@ const MembersForm = ({member = null}) => {
               type="text" 
               name="name" 
               placeholder="Name"/>
-                {touched.name && errors.name && <p className="text-danger">{errors.name}</p>}
+              {touched.name && errors.name && <p className="text-danger">{errors.name}</p>}
               <Field 
-               className={`form-control mb-4 shadow-none ${touched.image && errors.image && `is-invalid`}`}
-               type="file" 
-               name="image" 
-               placeholder="Member image"/>
-                   {touched.image && errors.image && <p className="text-danger">{errors.image}</p>}
+                className={`form-control mb-4 shadow-none ${touched.image && errors.image && `is-invalid`}`}
+                type="file"
+                name="image"
+                refs={fileInput} 
+                onChange={ (e) => {
+                  e.preventDefault();
+                  if (e.target.files[0] !== undefined) {
+                      const reader = new FileReader();
+                      reader.readAsDataURL(e.target.files[0]);
+                      reader.onload = () => {
+                          setFieldValue("image",reader.result, true);
+                      };
+                      reader.onerror = (e) => {
+                          fileInput.current.value = "";
+                          setFieldValue("image","",true);
+                      }
+                  } else {
+                      setFieldValue("image","", true);
+                  }
+                }}
+                placeholder="Member image"/>
+              {handledFile && errors.image && <p className="text-danger">{errors.image}</p>}
               <CKEditor
                 className="input-field"
                 name="description"
-               data={values.description}
-               editor={ClassicEditor}
-               onChange={(_, editor) => setFieldValue("description", editor.getData())}
+                data={values.description}
+                editor={ClassicEditor}
+                onChange={(_, editor) => setFieldValue("description", editor.getData())}
                   onBlur={( _, editor ) => editor.getData() === "" ? setCkEditorError(true) : setCkEditorError(false)}
               /> 
                   {ckEditorError && <p className="text-danger mb-3 mt-3">Please, write a description.</p>}
