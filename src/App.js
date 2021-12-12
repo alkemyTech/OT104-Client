@@ -1,5 +1,4 @@
 import React from "react";
-
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
 import Home from "./Components/Home/Home";
@@ -27,9 +26,13 @@ import SlidesList from "./Components/Slides/SlidesList";
 import Activities from "./Components/Activities/Activities";
 import ActivitiesList from "./Components/Activities/backofficce/ActivitiesList.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Provider } from "react-redux";
+import store from "./app/store";
+import OrganizationInfo from "./Components/Organization/OrganizationInfo";
 
 function App() {
   return (
+    <Provider store={store}>
     <BrowserRouter>
       <Switch>
         <Route path="/" exact component={Home} />
@@ -55,9 +58,11 @@ function App() {
         <Route path="/Actividades" component={Activities} />
         <Route path="/backoffice/activities" component={ActivitiesList} />
         <Route path="/backoffice/slides" component={SlidesList} />
+        <Route path="./Components/Organization/OrganizationInfo"component={OrganizationInfo} />
       </Switch>
-      <Footer />
+      <OrganizationInfo/>
     </BrowserRouter>
+    </Provider>
   );
 }
 
