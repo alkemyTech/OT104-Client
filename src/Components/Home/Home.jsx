@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Newness from "./Newness";
 import Slider from "./Slider/Slider";
 import service from "../../Services/slidesService";
@@ -20,6 +21,22 @@ function Home() {
   //   getSlides();
   // }, []);
 
+  const [news, setNews] = useState([]);
+  // this need to use the service api
+  useEffect(() => {
+    const getNewsData = async () => {
+      await axios
+        .get("http://ongapi.alkemy.org/api/news?limit=4")
+        .then((newData) => {
+          setNews((news) => newData.data.data);
+        })
+        .catch((err) => {
+          alert("Error", err);
+        });
+    };
+    getNewsData();
+  }, []);
+
   return (
     <div className="home-container">
       <Slider slides={slides} />
@@ -28,8 +45,9 @@ function Home() {
         Somos más
       </h1>
       {slides.length === 0 && <Loader />}
+      {news.length === 0 && <Loader />}
       <h2 className="text-center mt-3">Ultimas Novedades</h2>
-      <Newness />
+      <Newness news={news} />
     </div>
   );
 }
