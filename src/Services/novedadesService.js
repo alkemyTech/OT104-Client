@@ -1,55 +1,44 @@
-import axios from 'axios';
-const baseUrl = 'http://ongapi.alkemy.org/api/news';
+import axios from "axios";
+import {
+  putRequest,
+  deleteRequest,
+  postRequest,
+  getRequest,
+} from "./privateApiService";
 
-const getNews = async () => {
-  try {
-    const response = await axios.get(`${baseUrl}`);
-    return response.data;
-  } catch (err) {
-    return err;
-  }
+const baseUrl = "http://ongapi.alkemy.org/api/news";
+
+const getNews = () => {
+  const response = getRequest(`${baseUrl}`);
+  return response;
 };
 
-const createNews = async (news) => {
-  try {
-    const response = await axios.post(`${baseUrl}`, news);
-    return response.data;
-  } catch (err) {
-    return err.response;
-  }
+const createNews = (news) => {
+  const response = postRequest(`${baseUrl}`, news);
+  return response;
 };
 
-const getNewsById = async (id) => {
-  try {
-    const response = await axios.get(`${baseUrl}/${id}`);
-    return response.data;
-  } catch (err) {
-    return err.response;
-  }
+const getNewsById = (id) => {
+  const response = getRequest(`${baseUrl}/${id}`);
+  return response;
 };
 
-const updateNews = async (id, news) => {
-  try {
-    const response = await axios.put(`${baseUrl}/${id}`, news);
-    return response.data;
-  } catch (err) {
-    return err.response;
-  }
+const updateNews = (id, news) => {
+  const response = putRequest(`${baseUrl}`, id, news);
+  return response;
 };
 
-const deleteNews = async (id) => {
-  try {
-    const response = await axios.delete(`${baseUrl}/${id}`);
-    return response.data;
-  } catch (err) {
-    return err.response;
-  }
+const deleteNews = (id) => {
+  const response = deleteRequest(`${baseUrl}`, id);
+  return response;
 };
 
-export const NovedadesService = {
+const novedadesService = {
   delete: deleteNews,
   getDetail: getNewsById,
   getAll: getNews,
   create: createNews,
   update: updateNews,
 };
+
+export default novedadesService;
