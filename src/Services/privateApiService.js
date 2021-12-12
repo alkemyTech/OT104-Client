@@ -49,18 +49,15 @@ const patchRequest = async (url, id, body) => {
   }
 };
 
-const deleteRequest = (url, id) => {
+const deleteRequest = async (url, id) => {
   const headers = VerifyToken();
-  axios
-    .delete(`${url}/${id}`, { headers })
-    .then((res) => res.json())
-    .catch((error) =>
-      alert("No se pudo borrar el recurso. Error: " + error + ".")
-    )
-    .then((data) => alert("El recurso fue borrado correctamente."))
-    .catch((error) =>
-      alert("No se pudo borrar el recurso. Error: " + error + ".")
-    );
+
+  try {
+    const res = await axios.delete(`${url}/${id}`, { headers });
+    return res;
+  } catch (error) {
+    return error;
+  }
 };
 
 // Method to verify if the token is in the localStorage and return a header with the token
