@@ -13,7 +13,7 @@ function NewsDetail({ id }) {
   useEffect(() => {
     const getNewsData = async () => {
       await axios
-        .get(`http://ongapi.alkemy.org/api/news/${id}`)
+        .get(`${process.env.REACT_APP_GET_NEWS}/${id}`)
         .then((newData) => {
           setNews((news) => newData.data.data);
         })
