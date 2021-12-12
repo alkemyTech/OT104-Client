@@ -6,7 +6,7 @@ export const getCategories = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       let res = await CategoriesService.getAll();
-      if (!res.success) {
+      if (!res.data.success) {
         return rejectWithValue(res.message);
       }
       return res;
