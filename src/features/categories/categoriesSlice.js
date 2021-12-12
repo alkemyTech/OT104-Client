@@ -1,13 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import CategoriesService from "../../Services/CategoriesService";
 
 export const getCategories = createAsyncThunk(
   "categories/getCategories",
   async (_, { rejectWithValue }) => {
     try {
-      let res = await fetch("http://ongapi.alkemy.org/api/categories").then(
-        (data) => data.json()
-      );
-      console.log(res);
+      let res = await CategoriesService.getAll();
       if (!res.success) {
         return rejectWithValue(res.message);
       }
