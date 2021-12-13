@@ -1,18 +1,19 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import '../FormStyles.css';
 import * as yup from "yup";
-import { Formik, Form, ErrorMessage, Field } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
+import { FormControl } from 'react-bootstrap';
 
 const MembersForm = ({member = null}) => {
   
   const [ckEditorError, setCkEditorError] = useState(false);
   const [message, setMessage] = useState("");
   const isEditing = !!member;
-  const [handledFile, setHandledFile] = useState(false);
-  const fileInput = useRef();
+  const [imageString, setImageString] = useState("");
+  const [imageUrl, setImageUrl] = useState(()=>member?.image || "");
 
   const initialValues = {
         name: member?.name || "",
@@ -51,18 +52,20 @@ const MembersForm = ({member = null}) => {
         )
         .required('Please, provide a website for your social media.')
   });
-    
-  const handleFileChange = (e) => {
-  }
 
     return (
         <Formik
           initialValues= {initialValues}
           validationSchema = {schema}
           onSubmit={async (values)=> {
+            let {image, ...userData} = values;
+            userData = {
+              ...userData, 
+              image: imageString
+            };
             if (isEditing) {
             try {
-                await axios.patch(`http://ongapi.alkemy.org/api/members/${member.id}`, values)
+                await axios.patch(`http://ongapi.alkemy.org/api/members/${member.id}`, userData)
                 setMessage("Miembro editado correctamente");
                 setTimeout(()=>{
             setMessage("")
@@ -74,7 +77,7 @@ const MembersForm = ({member = null}) => {
                 }, 4000)
             }}
             try {
-                await axios.post(`http://ongapi.alkemy.org/api/members`, values)
+                await axios.post(`http://ongapi.alkemy.org/api/members`, userData)
                 .then((response)=>{
                 setMessage("Miembro creado correctamente");
                 setTimeout(()=>{
@@ -89,9 +92,9 @@ const MembersForm = ({member = null}) => {
             }
          }}
         >
-        {({values, setFieldValue, touched, errors}) => (
+        {({values, setFieldValue, touched, errors, handleChange}) => (
         <div>
-                    <h3 className="text p-5">Member registration</h3>
+          <h3 className="p-4 text-center">Member registration</h3>
           <Form className="form-container">
               <Field 
               className={`form-control mb-4 shadow-none ${touched.name && errors.name && `is-invalid`}`}
@@ -103,25 +106,24 @@ const MembersForm = ({member = null}) => {
                 className={`form-control mb-4 shadow-none ${touched.image && errors.image && `is-invalid`}`}
                 type="file"
                 name="image"
-                refs={fileInput} 
-                onChange={ (e) => {
-                  e.preventDefault();
-                  if (e.target.files[0] !== undefined) {
-                      const reader = new FileReader();
-                      reader.readAsDataURL(e.target.files[0]);
-                      reader.onload = () => {
-                          setFieldValue("image",reader.result, true);
-                      };
-                      reader.onerror = (e) => {
-                          fileInput.current.value = "";
-                          setFieldValue("image","",true);
-                      }
-                  } else {
-                      setFieldValue("image","", true);
+                accept="image/png, image/jpeg"
+                onChange={(e)=> {
+                  handleChange(e)
+                  touched.image = true;
+                  const file = e.target.files[0];
+                  if (file) {
+                  setImageUrl(URL.createObjectURL(file))
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                  setImageString(reader.result)
                   }
-                }}
-                placeholder="Member image"/>
-              {handledFile && errors.image && <p className="text-danger">{errors.image}</p>}
+                  reader.readAsDataURL(file)
+                }}}
+                />
+                {touched.image && errors.image && <p className="text-danger">{errors.image}</p>}
+                {(imageUrl && !errors.image) ? 
+                <img src={imageUrl} alt="member-image" className="rounded-fluid"/>
+                : null}
               <CKEditor
                 className="input-field"
                 name="description"
@@ -150,7 +152,7 @@ const MembersForm = ({member = null}) => {
                placeholder="Linkedin profile"/>
                   {touched.linkedin && errors.linkedin && <p className="text-danger">{errors.linkedin}</p>}
                <button className="submit-btn" type="submit">Send</button>
-                {message && <div>{message}</div>}
+                {message && <div className="text-danger text-center">{message}</div>}
             </Form>
         </div>
         )}
