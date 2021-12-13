@@ -4,11 +4,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ActivitiesList from "./ActivitiesList";
 import ActivitiesTitle from "./ActivitiesTitle";
-import {
-  alertServiceError,
-  alertServiceSimple,
-  alertServiceTimer,
-} from "../Alert/AlertService";
+
 const Activities = () => {
   return (
     <Container fluid>
@@ -26,31 +22,7 @@ const Activities = () => {
             <ActivitiesList data={undefined} />
           </div>
         </Col>
-        <Col>
-          <button
-            onClick={() =>
-              alertServiceTimer(
-                "top-end",
-                "success",
-                "Your work has been saved",
-                false,
-                1500
-              )
-            }
-          >
-            este boton dispara la alerta
-          </button>
-          <button onClick={() => alertServiceSimple("Something went wrong!")}>
-            este boton dispara la alerta SIMPLE
-          </button>
-          <button
-            onClick={() =>
-              alertServiceError("Something went !", "Something went wrong!")
-            }
-          >
-            este boton dispara la alerta ERROR
-          </button>
-        </Col>
+        <Col></Col>
       </Row>
     </Container>
   );

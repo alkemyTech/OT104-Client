@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 
-export function alertServiceTimer(
+export function alertServiceInfoTimer(
   position,
   icon,
   title,
@@ -16,14 +16,25 @@ export function alertServiceTimer(
   });
 }
 
-export function alertServiceSimple(text) {
-  Swal.fire(text);
-}
-
-export function alertServiceError(title, text) {
+export function alertServiceConfirm(
+  title,
+  showDenyButton,
+  showCancelButton,
+  confirmButtonText,
+  denyButtonText
+) {
   Swal.fire({
-    icon: "error",
     title,
-    text,
+    showDenyButton,
+    showCancelButton,
+    confirmButtonText,
+    denyButtonText,
+  }).then((result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      Swal.fire("Saved!", "", "success");
+    } else if (result.isDenied) {
+      Swal.fire("Changes are not saved", "", "info");
+    }
   });
 }
