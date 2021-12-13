@@ -10,6 +10,7 @@ import Col from "react-bootstrap/Col";
 
 const About = () => {
   const [aboutTitle, setAboutTitle] = useState("");
+  const [aboutText, setAboutText] = useState("");
 
   useEffect(() => {
     const loadUsers = async () => {
@@ -17,9 +18,11 @@ const About = () => {
         `http://ongapi.alkemy.org/api/organization`
       );
       setAboutTitle(response.data.data.name);
+      setAboutText(response.data.data.short_description);
     };
     loadUsers();
   }, []);
+
   return (
     <Container fluid>
       <Row style={{ marginTop: "5%" }}>
@@ -32,7 +35,7 @@ const About = () => {
       <Row style={{ marginTop: "2%" }}>
         <Col></Col>
         <Col xs={10}>
-          <TextoAbout />
+          <TextoAbout aboutDescription={aboutText} />
         </Col>
         <Col></Col>
         <div style={{ marginTop: "5%" }}>
