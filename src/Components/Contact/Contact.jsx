@@ -3,16 +3,15 @@ import { Spinner, Container, Table, Breadcrumb } from "react-bootstrap";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./styles/contact.css";
-//import titleCOmponent from '...'
+import contactService from "../../Services/contactService";
 
 function Contact() {
   const [data, setData] = useState([]);
   useEffect(() => {
-    const getData = async () => {
-      const response = await axios.get("http://ongapi.alkemy.org/api/contacts");
-      setData(response.data.data);
-    };
-    getData();
+    (async () => {
+      let res = await contactService.get();
+      setData(res.data.data);
+    })();
   }, []);
 
   return (
