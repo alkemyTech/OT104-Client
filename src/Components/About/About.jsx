@@ -12,6 +12,7 @@ import Loader from "../../Components/About/Loader";
 const About = () => {
   const [aboutTitle, setAboutTitle] = useState("");
   const [aboutText, setAboutText] = useState("");
+  const [memberList, setmemberList] = useState([]);
   const content = (
     <>
       <Row style={{ marginTop: "5%" }}>
@@ -29,7 +30,7 @@ const About = () => {
         <Col></Col>
         <div style={{ marginTop: "5%" }}>
           {" "}
-          <MiembrosAbout />
+          <MiembrosAbout memberList={memberList} />
         </div>
       </Row>
     </>
@@ -45,10 +46,21 @@ const About = () => {
     loadUsers();
   }, []);
 
+  useEffect(() => {
+    const loadUsers = async () => {
+      const response = await axios.get(`http://ongapi.alkemy.org/api/members`);
+      setmemberList(response.data.data);
+    };
+    loadUsers();
+  }, []);
+
   return (
     <Container fluid>
-      {aboutTitle === "" && aboutText === "" && <Loader />}
-      {aboutTitle !== "" && aboutText !== "" && content}
+      {aboutTitle === "" && aboutText === "" && memberList.length === 0 ? (
+        <Loader />
+      ) : (
+        content
+      )}
     </Container>
   );
 };
