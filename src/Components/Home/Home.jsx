@@ -11,7 +11,7 @@ function Home() {
   // we need to replace the fakeSlides with the real data from the server
   // remove the fakeSlides from the code
 
-  const [slides, setSlides] = React.useState([]);
+  const [slides, setSlides] = React.useState([...fakeSlides]);
   const [slidesError, setSlidesError] = React.useState(false);
   // uncomment the lines below to get slides from server
   // const getSlides = async () => {
