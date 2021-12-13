@@ -15,6 +15,7 @@ function Home() {
   const [slidesError, setSlidesError] = React.useState(false);
   // uncomment the lines below to get slides from server
   // const getSlides = async () => {
+  //   setSlidesError(false);
   //   const res = await service.getAll();
   //   if (res && res.status !== 200) {
   //     setSlidesError(true);

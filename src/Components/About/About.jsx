@@ -11,14 +11,20 @@ import Loader from "../../Components/About/Loader";
 
 const About = () => {
   const [aboutTitle, setAboutTitle] = useState("");
+  const [aboutTitleError, setAboutTitleError] = useState(false);
   const [aboutText, setAboutText] = useState("");
-  const [memberList, setmemberList] = useState([]);
+  const [aboutTextError, setAboutTextError] = useState(false);
+  const [memberList, setMemberList] = useState([]);
+  const [memberListError, setMemberListError] = useState(false);
   const content = (
     <>
       <Row style={{ marginTop: "5%" }}>
         <Col></Col>
         <Col xs={5}>
           <TituloAbout title={aboutTitle} />
+          {aboutTitleError && (
+            <Alert variant="danger">Error loading the title</Alert>
+          )}
         </Col>
         <Col></Col>
       </Row>
@@ -26,20 +32,33 @@ const About = () => {
         <Col></Col>
         <Col xs={10}>
           <TextoAbout aboutDescription={aboutText} />
+          {aboutTextError && (
+            <Alert variant="danger">Error loading the text cotent</Alert>
+          )}
         </Col>
         <Col></Col>
         <div style={{ marginTop: "5%" }}>
           {" "}
           <MiembrosAbout memberList={memberList} />
+          {memberListError && (
+            <Alert variant="danger">Error loading List of Members</Alert>
+          )}
         </div>
       </Row>
     </>
   );
   useEffect(() => {
     const loadUsers = async () => {
+      setAboutTitleError(false);
+      setAboutTextError(false);
       const response = await axios.get(
         `http://ongapi.alkemy.org/api/organization`
       );
+      if (response && response.status !== 200) {
+        setAboutTitleError(true);
+        setAboutTextError(true);
+        return;
+      }
       setAboutTitle(response.data.data.name);
       setAboutText(response.data.data.short_description);
     };
@@ -48,8 +67,13 @@ const About = () => {
 
   useEffect(() => {
     const loadUsers = async () => {
+      setMemberListError(false);
       const response = await axios.get(`http://ongapi.alkemy.org/api/members`);
-      setmemberList(response.data.data);
+      if (response && response.status !== 200) {
+        setMemberListError(true);
+        return;
+      }
+      setMemberList(response.data.data);
     };
     loadUsers();
   }, []);
