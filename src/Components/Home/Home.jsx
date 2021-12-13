@@ -7,10 +7,6 @@ import Loader from "../../Components/Home/Loader";
 import fakeSlides from "./fakeSlides";
 import Alert from "react-bootstrap/Alert";
 
-// const Alert = () => {
-//   return <Alert variant="danger" />;
-// };
-
 function Home() {
   // we need to replace the fakeSlides with the real data from the server
   // remove the fakeSlides from the code
@@ -18,19 +14,18 @@ function Home() {
   const [slides, setSlides] = React.useState([]);
   const [slidesError, setSlidesError] = React.useState(false);
   // uncomment the lines below to get slides from server
-  const getSlides = async () => {
-    const res = await service.getAll();
-    if (res && res.status !== 200) {
-      setSlidesError(true);
-      return;
-    }
-    console.log("res", res);
-    const slidesFromServer = res.data.data;
-    setSlides([...slidesFromServer]);
-  };
-  React.useEffect(() => {
-    getSlides();
-  }, []);
+  // const getSlides = async () => {
+  //   const res = await service.getAll();
+  //   if (res && res.status !== 200) {
+  //     setSlidesError(true);
+  //     return;
+  //   }
+  //   const slidesFromServer = res.data.data;
+  //   setSlides([...slidesFromServer]);
+  // };
+  // React.useEffect(() => {
+  //   getSlides();
+  // }, []);
 
   const [news, setNews] = useState([]);
   const [newsError, setNewsError] = useState(false);
@@ -38,6 +33,7 @@ function Home() {
   useEffect(() => {
     setNewsError(false);
     const getNewsData = async () => {
+      setNewsError(false);
       await axios
         .get("http://ongapi.alkemy.org/api/news?limit=4")
         .then((newData) => {
