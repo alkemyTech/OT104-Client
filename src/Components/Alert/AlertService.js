@@ -16,25 +16,19 @@ export function alertServiceInfoTimer(
   });
 }
 
-export function alertServiceConfirm(
-  title,
-  showDenyButton,
-  showCancelButton,
-  confirmButtonText,
-  denyButtonText
-) {
+export function alertServiceConfirm(title, confirmButtonText) {
   Swal.fire({
     title,
-    showDenyButton,
-    showCancelButton,
-    confirmButtonText,
-    denyButtonText,
+    showDenyButton: true,
+    showCancelButton: true,
+    denyButtonText: `No ${confirmButtonText || "Confirmar"}`,
+    confirmButtonText: confirmButtonText || "Confirmar",
   }).then((result) => {
     /* Read more about isConfirmed, isDenied below */
     if (result.isConfirmed) {
-      Swal.fire("Saved!", "", "success");
+      Swal.fire(confirmButtonText || "Hecho", "", "success");
     } else if (result.isDenied) {
-      Swal.fire("Changes are not saved", "", "info");
+      Swal.fire("No se han hecho los cambios", "", "info");
     }
   });
 }
