@@ -29,6 +29,22 @@ function Home() {
 
   const [news, setNews] = useState([]);
   const [newsError, setNewsError] = useState(false);
+
+  const content = (
+    <>
+      <Slider slides={slides} />
+      {slidesError && <Alert variant="danger">Error loading slides</Alert>}
+      <h1 className="text-center m-2">
+        Bienvenidos <br />a <br />
+        Somos más
+      </h1>
+
+      <h2 className="text-center mt-3">Ultimas Novedades</h2>
+      <Newness news={news} />
+      {newsError && <Alert variant="danger">Error loading news</Alert>}
+    </>
+  );
+
   // this need to use the service api
   useEffect(() => {
     setNewsError(false);
@@ -48,17 +64,7 @@ function Home() {
 
   return (
     <div className="home-container">
-      <Slider slides={slides} />
-      {slidesError && <Alert variant="danger">Error loading slides</Alert>}
-      <h1 className="text-center m-2">
-        Bienvenidos <br />a <br />
-        Somos más
-      </h1>
-      {slides.length === 0 && <Loader />}
-      {news.length === 0 && <Loader />}
-      <h2 className="text-center mt-3">Ultimas Novedades</h2>
-      <Newness news={news} />
-      {newsError && <Alert variant="danger">Error loading news</Alert>}
+      {news.length === 0 && slides.length === 0 ? <Loader /> : content}
     </div>
   );
 }
