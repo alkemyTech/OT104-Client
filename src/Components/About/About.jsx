@@ -7,24 +7,13 @@ import TituloAbout from "./TituloAbout";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Loader from "../../Components/About/Loader";
 
 const About = () => {
   const [aboutTitle, setAboutTitle] = useState("");
   const [aboutText, setAboutText] = useState("");
-
-  useEffect(() => {
-    const loadUsers = async () => {
-      const response = await axios.get(
-        `http://ongapi.alkemy.org/api/organization`
-      );
-      setAboutTitle(response.data.data.name);
-      setAboutText(response.data.data.short_description);
-    };
-    loadUsers();
-  }, []);
-
-  return (
-    <Container fluid>
+  const content = (
+    <>
       <Row style={{ marginTop: "5%" }}>
         <Col></Col>
         <Col xs={5}>
@@ -43,6 +32,23 @@ const About = () => {
           <MiembrosAbout />
         </div>
       </Row>
+    </>
+  );
+  useEffect(() => {
+    const loadUsers = async () => {
+      const response = await axios.get(
+        `http://ongapi.alkemy.org/api/organization`
+      );
+      setAboutTitle(response.data.data.name);
+      setAboutText(response.data.data.short_description);
+    };
+    loadUsers();
+  }, []);
+
+  return (
+    <Container fluid>
+      {aboutTitle === "" && aboutText === "" && <Loader />}
+      {aboutTitle !== "" && aboutText !== "" && content}
     </Container>
   );
 };
