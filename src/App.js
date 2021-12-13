@@ -25,7 +25,7 @@ import Footer from './Components/Footer';
 import ActivityDetail from './Components/Activities/Detail/ActivityDetail';
 import SlidesList from './Components/Slides/SlidesList';
 import Activities from './Components/Activities/Activities';
-import ActivitiesList from './Components/Activities/backoffice/ActivitiesList';
+import ActivitiesList from './Components/Activities/backofficce/ActivitiesList.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -47,6 +47,7 @@ function App() {
         <Route path='/contacto' component={Contact} />
         <Route path='/registerform' component={RegisterForm} />
         <Route path='/backoffice/categories' component={Categories} />
+        <Route path='/backoffice/activities' component={ActivitiesList} />
         <Route path='/Nosotros' component={About} />
         <Route path='/backoffice/news' component={NewsList} />
         <Route path='/backoffice/organization/edit' component={EditForm} />

@@ -6,11 +6,12 @@ import styles from './OrganizationInfo.module.css'
 
 function OrganizationInfo() {
   const [orgData, setOrgData] = useState({});
+  const {REACT_APP_URL_ORGANIZATION} = process.env;
 
   useEffect(() => {
     (async () => {
       try {
-        let res = await axios.get('http://ongapi.alkemy.org/api/organization');
+        let res = await axios.get(REACT_APP_URL_ORGANIZATION);
         setOrgData(res.data.data);
       } catch(err) {
         console.error(err);
