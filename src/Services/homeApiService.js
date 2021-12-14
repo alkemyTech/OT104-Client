@@ -7,7 +7,7 @@ const getMethod = async () => {
 };
 
 const postMethod = async (path, bodyData) => {
-  const response = await axios.post(`${baseUrl}/${path}/${id}`, bodyData);
+  const response = await axios.post(`${baseUrl}/${path}`, bodyData);
   return response.data;
 };
 
