@@ -16,42 +16,45 @@ const OtherComponent = () => {
 export default OtherComponent;
 ```
 
-### Alertas
+### Alerts
 
-Para poder visualizar alertas de una forma estandarizada. Se creo un servicio de alertas. Utilizando la librería: sweetAlert https://www.npmjs.com/package/sweetalert2-react.
+To be able to view alerts in a standardized way.
+An alert service was created.
+Using the library: sweetAlert https://www.npmjs.com/package/sweetalert2-react.
 
-Alertas de:
+Type of Alerts:
 
-1. Confirmación
-   Funcion:  
+1. Confirmation
+   Function:  
     alertServiceConfirm(title, confirmButtonText)
-   parametros
-   • Title se pasa un string con el texto sera la explicacion de la accion a confirmar (“string”) se puede pasar html (“Seguro quiere borrar el archivo”)
-   • confirmButtonText se pasa un string que estara dentro del boton tanto en el boton del primer alert como en el segundo confirmando la accion
-   • si no se pasa este segundo parametro por defecto el primer boton sera Confirmar y el segundo alert dira Hecho. Y esl segundo boton sera No Confirmar el segundo alert dira “No se han Hecho Cambios”
+   parameters
+   • Title a string is passed with the text it will be the explanation of the action to be confirmed (“string”) can use html (“<strong>Seguro</strong> quiere borrar el archivo”)
+   • confirmButtonText A string is passed that will be inside the button both in the button of the first alert and in the second confirming the action
+   • If this second parameter is not passed by default, the first button will be Confirmar and the second alert will say Hecho. And the second button will be No Confirmar the second alert will say “No se han Hecho Cambios”
 
 2. Error
    Funcion:  
     alertServiceError(title, text)
-   parametros
-   • Title se pasa un string con el texto (“string”) se puede pasar html (“<strong>HTML <u>example</u></strong> ”) .
-   • Text se pasa un string con el texto (“string”) se puede pasar html (“<strong>HTML <u>example</u></strong> ”) .
+   parameters
+   • Title a string is passed with the text ("string") you can pass html ("<strong> HTML <u> example </u> </strong>")
+   • Text a string is passed with the text ("string") you can pass html ("<strong> HTML <u> example </u> </strong>")
 
-3. nformación
+3. Information
    Funcion:
    alertServiceInfoTimer(position, icon, title, showConfirmButton, timer)
-   parametros
-   • Position donde se ubicara el popup window Default Center
-   opciones 'top', 'top-start', 'top-end', 'center', 'center-start', 'center-end', 'bottom', 'bottom-start', or 'bottom-end'. (“string”).
-   • Icon Default Undefined opciones warning, error, success, info, and question (“string”).
-   • Title se pasa un string con el texto (“string”) se puede pasar html (“<strong>HTML <u>example</u></strong> ”) .
-   • ShowConfirmButton default es true si se coloca false no se mostrara el boton de fonfirmacion para cerrar la ventana (booleano).
-   • Timer default undefined se setea un tiempo en milisegundos al cabo del cual se cerrara la ventana popup. (number).
+   parameters
+   • Position where will the popup window will be display. Default Center
+   options 'top', 'top-start', 'top-end', 'center', 'center-start', 'center-end', 'bottom', 'bottom-start', or 'bottom-end'. (“string”).
+   • Icon Default Undefined options 'warning', 'error', 'success', 'info', and 'question' (“string”).
+   • Title a string is passed with the text ("string") you can pass html ("<strong> HTML <u> example </u> </strong>")
+   • ShowConfirmButton default is true.
+   If false is set, the confirmation button will not be shown to close the window (Boolean)..
+   • Timer default undefined a time is set in milliseconds after which the popup window will close. (number).
    Modo de usarla importar la funcion
 
 import { alertServiceError, alertServiceInfoTimer, alertServiceSimple } from '../Alert/AlertService'
 
-usar la funcion con los parametros descriptos
+use the function with the described parameters
 
 <button onClick={() => alertServiceInfoTimer('top-end', 'success', "<strong>HTML <u>example</u></strong> <b>bold text</b>", false, 2000)}>alertServiceTimer</button>
 
