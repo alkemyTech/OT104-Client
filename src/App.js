@@ -1,5 +1,4 @@
 import React from "react";
-
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
 import Home from "./Components/Home/Home";
@@ -32,7 +31,7 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact component={Home} />
+        {/* <Route path="/" exact component={Home} /> */}
         <Route path="/login" component={LoginForm} />
         <Route path="/create-activity" component={ActivitiesForm} />
         <Route path="/create-category" component={CategoriesForm} />
@@ -55,7 +54,7 @@ function App() {
         <Route path="/backoffice/activities" component={ActivitiesList} />
         <Route path="/backoffice/slides" component={SlidesList} />
       </Switch>
-      <Footer />
+      <NewsList />
     </BrowserRouter>
   );
 }
