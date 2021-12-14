@@ -50,6 +50,7 @@ const NewsForm = ({ newToEdit = false }) => {
   useEffect(() => {
     formik.setFieldValue("image", imageState);
   }, [imageState]);
+  
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
