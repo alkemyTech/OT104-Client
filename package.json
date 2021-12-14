@@ -27,6 +27,9 @@
     "sass": "^1.44.0",
     "yup": "^0.32.11"
   },
+  "devDependencies": {
+    "jest": "^26.6.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
