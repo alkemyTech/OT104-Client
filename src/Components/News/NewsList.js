@@ -28,8 +28,8 @@ const NewsList = () => {
             <h1 className="p-4 text-center">Novedades</h1>
             {loading && 
             <div className="row d-flex justify-content-center">
-            <Spinner animation="grow" />
-            <h3 className="p-4 text-center">se están cargando...</h3>
+                <Spinner animation="grow" />
+                <h3 className="p-4 text-center">se están cargando...</h3>
             </div>
             }
             <div className="row d-flex justify-content-center p-3">
