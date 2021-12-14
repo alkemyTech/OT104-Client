@@ -1,55 +1,37 @@
-import axios from 'axios';
-const baseUrl = 'http://ongapi.alkemy.org/api/';
+import {
+  getRequest,
+  postRequest,
+  putRequest,
+  deleteRequest,
+} from './privateApiService';
+const baseURL = 'http://ongapi.alkemy.org/api/categories';
 
-const getCategories = async () => {
-  try {
-    const response = await axios.get(`${baseUrl}categories`);
-    return response.data;
-  } catch (err) {
-    return err;
-  }
+const getCategories = () => {
+  return getRequest(baseURL);
 };
 
-const creatCategories = async (category) => {
-  try {
-    const response = await axios.post(`${baseUrl}categories`, category);
-    return response.data;
-  } catch (err) {
-    return err.response;
-  }
+const creatCategories = (category) => {
+  return postRequest(baseURL, category);
 };
 
-const getCategoriesById = async (id) => {
-  try {
-    const response = await axios.get(`${baseUrl}categories/${id}`);
-    return response.data;
-  } catch (err) {
-    return err.response;
-  }
+const getCategoriesById = (id) => {
+  return getRequest(`${baseURL}/${id}`);
 };
 
-const updateCategories = async (id, category) => {
-  try {
-    const response = await axios.put(`${baseUrl}categories/${id}`, category);
-    return response.data;
-  } catch (err) {
-    return err.response;
-  }
+const updateCategories = (id, category) => {
+  return putRequest(baseURL, id, category);
 };
 
-const deleteCategories = async (id) => {
-  try {
-    const response = await axios.delete(`${baseUrl}categories/${id}`);
-    return response.data;
-  } catch (err) {
-    return err.response;
-  }
+const deleteCategories = (id) => {
+  return deleteRequest(baseURL, id);
 };
 
-const userService = {
+const categoryService = {
   delete: deleteCategories,
   get: getCategoriesById,
   getAll: getCategories,
   create: creatCategories,
   update: updateCategories,
 };
+
+export default categoryService;
