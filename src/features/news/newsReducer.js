@@ -9,7 +9,7 @@ const initialState = {
   error: null,
 };
 
-export const getAllNews = createAsyncThunk("news/getAllNews", async () => {
+export const getNews = createAsyncThunk("news/getNews", async () => {
   try {
     const response = await axios.get(baseURL);
     return response.data.data;
@@ -24,15 +24,15 @@ const newsReducer = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getAllNews.pending, (state) => {
+    builder.addCase(getNews.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(getAllNews.fulfilled, (state, action) => {
+    builder.addCase(getNews.fulfilled, (state, action) => {
       state.loading = false;
       state.news = action.payload;
     });
-    builder.addCase(getAllNews.rejected, (state) => {
+    builder.addCase(getNews.rejected, (state) => {
       state.loading = false;
       state.error = "Error al obtener las noticias"
     });
