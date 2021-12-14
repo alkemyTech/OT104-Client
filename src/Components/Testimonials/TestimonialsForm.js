@@ -62,16 +62,14 @@ const TestimonialForm = ({ testimonial = null }) => {
                         }, 4000)
                     }}
                     try {
-                        await axios.post(`http://ongapi.alkemy.org/api/testimonials`, testimonialData)
-                        .then((response)=>{
-                        console.log(response)
+                        const response = await axios.post(`http://ongapi.alkemy.org/api/testimonials`, testimonialData)
+                        if (response) {
                         setSubmitting(false)
                         setMessage("Testimonio creado correctamente");
                         setTimeout(()=>{
                         setMessage("")
                         }, 4000)
-                    })
-                    } catch (error) {
+                    }} catch (error) {
                         setSubmitting(false)
                         setMessage("Ha habido un error.");
                         setTimeout(()=>{
