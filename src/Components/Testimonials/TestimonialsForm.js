@@ -12,6 +12,8 @@ const TestimonialForm = ({ testimonial = null }) => {
     const [submitting, setSubmitting] = useState(false);
     const [ckEditorError, setCkEditorError] = useState(false);
     const [message, setMessage] = useState("");
+    const [imageString, setImageString] = useState("");
+    const [imageUrl, setImageUrl] = useState(()=>testimonial?.image || "");
     const isEditing = !!testimonial;
 
     const initialValues = {
@@ -33,15 +35,20 @@ const TestimonialForm = ({ testimonial = null }) => {
 
     return (
         <div>
-        <h3 className="text p-5">Submit a new testimonial</h3>
+        <h3 className="text p-5 text-center">Submit a new testimonial</h3>
         <Formik
             initialValues= {initialValues}
             validationSchema = {schema}
             onSubmit={async (values)=> {
                 setSubmitting(true)
+                let {image, ...testimonialData} = values;
+                testimonialData = {
+                ...testimonialData, 
+                image: imageString
+                };
                 if (isEditing) {
                     try {
-                        await axios.patch(`http://ongapi.alkemy.org/api/testimonials/${testimonial.id}`, values)
+                        await axios.patch(`http://ongapi.alkemy.org/api/testimonials/${testimonial.id}`, testimonialData)
                         setSubmitting(false)
                         setMessage("Testimonio editado correctamente");
                         setTimeout(()=>{
@@ -55,15 +62,14 @@ const TestimonialForm = ({ testimonial = null }) => {
                         }, 4000)
                     }}
                     try {
-                        await axios.post(`http://ongapi.alkemy.org/api/testimonials`, values)
-                        .then((response)=>{
+                        const response = await axios.post(`http://ongapi.alkemy.org/api/testimonials`, testimonialData)
+                        if (response) {
                         setSubmitting(false)
                         setMessage("Testimonio creado correctamente");
                         setTimeout(()=>{
                         setMessage("")
                         }, 4000)
-                    })
-                    } catch (error) {
+                    }} catch (error) {
                         setSubmitting(false)
                         setMessage("Ha habido un error.");
                         setTimeout(()=>{
@@ -72,9 +78,9 @@ const TestimonialForm = ({ testimonial = null }) => {
                 }
          }}
         >
-        {({values, setFieldValue, touched, errors}) => (
+        {({values, setFieldValue, touched, errors, handleChange}) => (
         <div className="form-container">
-            <Form>
+            <Form className="form-container">
                 <Field 
                     className={`form-control mb-4 shadow-none ${touched.name && errors.name && `is-invalid`}`}
                     type="text" 
@@ -93,12 +99,25 @@ const TestimonialForm = ({ testimonial = null }) => {
                 <Field 
                     className={`form-control mb-4 mt-4 shadow-none ${errors.image && `is-invalid`}`}
                     type="file" 
-                    name="image" 
+                    name="image"
+                    accept="image/png, image/jpeg"
+                    onChange={(e)=> {
+                        handleChange(e)
+                        touched.image = true;
+                        const file = e.target.files[0];
+                        if (file) {
+                        setImageUrl(URL.createObjectURL(file))
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                        setImageString(reader.result)
+                        }
+                        reader.readAsDataURL(file)
+                    }}} 
                 />
                 {touched.image && errors.image && <p className="text-danger">{errors.image}</p>}
-                <button className="submit-btn d-inline-block" type="submit">Submit</button>
-                {message && <div className="text-danger p-3">{message}</div>}
-                {submitting && <div className="d-block mt-3"><Spinner animation="grow" /></div>}
+                <button className="submit-btn m-auto" type="submit">Submit</button>
+                {message && <div className="text-danger p-3 text-center">{message}</div>}
+                {submitting && <div className="d-block mx-auto my-3"><Spinner animation="grow" /></div>}
             </Form>
         </div>
         )}

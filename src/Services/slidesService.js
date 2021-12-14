@@ -4,15 +4,16 @@ import {
   deleteRequest,
   getRequest,
 } from "./privateApiService";
+import { get } from "./publicApiService";
 
 const baseUrl = process.env.REACT_APP_URL_SLIDES;
 
 const getSlides = () => {
-  return getRequest(baseUrl);
+  return get(baseUrl);
 };
 
 const getSlide = (id) => {
-  return getRequest(`${baseUrl}/${id}`);
+  return get(`${baseUrl}/${id}`);
 };
 
 const createSlide = (slide) => {

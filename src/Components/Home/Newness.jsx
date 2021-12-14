@@ -11,7 +11,7 @@ function Newness() {
   useEffect(() => {
     const getNewsData = async () => {
       await axios
-        .get("http://ongapi.alkemy.org/api/news?limit=4")
+        .get(process.env.REACT_APP_URL_GET_NEWS + `?limit=4`)
         .then((newData) => {
           setNews((news) => newData.data.data);
         })

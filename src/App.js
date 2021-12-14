@@ -19,7 +19,7 @@ import Contact from './Components/Contact/Contact';
 import Categories from './Components/Backoffice/Categories';
 import LoginForm from './Components/Auth/LoginForm';
 import RegisterForm from './Components/Auth/RegisterForm';
-import NewsList from './Components/Backoffice/NewsList';
+import NewsList from './Components/News/NewsSection';
 import EditForm from './Components/Organization/EditForm';
 import Footer from './Components/Footer';
 import ActivityDetail from './Components/Activities/Detail/ActivityDetail';

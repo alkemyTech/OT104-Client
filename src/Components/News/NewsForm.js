@@ -72,7 +72,7 @@ const NewsForm = ({ newToEdit = false }) => {
     let isError = false;
 
     const newsSubmission = axios.create({
-      baseURL: "http://ongapi.alkemy.org/api/",
+      baseURL: process.env.REACT_APP_URL_ONG,
     });
 
     if (newToEdit) {
