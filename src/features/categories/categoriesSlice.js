@@ -1,15 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import CategoriesService from "../../Services/CategoriesService";
+import categoryService from "../../Services/categoriesService";
 
 export const getCategories = createAsyncThunk(
   "categories/getCategories",
   async (_, { rejectWithValue }) => {
     try {
-      let res = await CategoriesService.getAll();
+      let res = await categoryService.getAll();
       if (!res.data.success) {
         return rejectWithValue(res.message);
       }
-      return res;
+      return res.data;
     } catch ({ message }) {
       return rejectWithValue(message);
     }
@@ -17,14 +17,14 @@ export const getCategories = createAsyncThunk(
 );
 
 export const getCategoryById = createAsyncThunk(
-  "categories/getCategories",
+  "categories/getCategoryById",
   async (id, { rejectWithValue }) => {
     try {
-      let res = await CategoriesService.get(id);
+      let res = await categoryService.get(id);
       if (!res.data.success) {
         return rejectWithValue(res.message);
       }
-      return res;
+      return res.data;
     } catch ({ message }) {
       return rejectWithValue(message);
     }

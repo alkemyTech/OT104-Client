@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Table, Container, Breadcrumb, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { TrashFill, PencilFill } from "react-bootstrap-icons";
-import ConfirmModal from "./ConfirmModal";
-import categoryService from "../../Services/CategoriesService";
-// import { useDispatch, useSelector } from "react-redux";
+import ConfirmModal from "../Categories/ConfirmModal";
+import { useSelector, useDispatch } from "react-redux";
+import { getCategories } from "../../features/categories/categoriesSlice";
 
 //format the date to local time
 const formatDate = (date) => {
@@ -15,15 +15,12 @@ const formatDate = (date) => {
 export default function Categories() {
   const [modalData, setModalData] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state.categories);
 
   // fetch categories from api
   useEffect(() => {
-    const fetchCategories = async () => {
-      const res = await categoryService.getAll();
-      setCategories(res.data.data);
-    };
-    fetchCategories();
+    dispatch(getCategories());
   }, []);
 
   const onDelete = (category) => {
@@ -70,29 +67,31 @@ export default function Categories() {
             </tr>
           </thead>
           <tbody>
-            {categories.map((category) => (
-              <tr key={category.id.toString()}>
-                <td>{category.name}</td>
-                <td>{formatDate(category.created_at)}</td>
-                <td className="d-flex justify-content-center gap-1">
-                  <button
-                    className="btn btn-outline-danger"
-                    title="Eliminar"
-                    onClick={() => onDelete(category)}
-                  >
-                    <TrashFill />
-                  </button>
+            {categories.status === "fulfilled" &&
+              categories.data.length > 0 &&
+              categories.data.map((category) => (
+                <tr key={category.id.toString()}>
+                  <td>{category.name}</td>
+                  <td>{formatDate(category.created_at)}</td>
+                  <td className="d-flex justify-content-center gap-1">
+                    <button
+                      className="btn btn-outline-danger"
+                      title="Eliminar"
+                      onClick={() => onDelete(category)}
+                    >
+                      <TrashFill />
+                    </button>
 
-                  <button
-                    className="btn btn-outline-primary"
-                    title="Editar"
-                    onClick={() => onEdit(category)}
-                  >
-                    <PencilFill />
-                  </button>
-                </td>
-              </tr>
-            ))}
+                    <button
+                      className="btn btn-outline-primary"
+                      title="Editar"
+                      onClick={() => onEdit(category)}
+                    >
+                      <PencilFill />
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </Table>
       </div>

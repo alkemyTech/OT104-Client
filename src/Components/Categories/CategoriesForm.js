@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import categoryService from "../../Services/CategoriesService";
+import categoryService from "../../Services/categoriesService";
 
 // React Bootstrap
 // import { Form } from "react-bootstrap/Button";
