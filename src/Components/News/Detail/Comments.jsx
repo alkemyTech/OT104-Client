@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import Spinner from "../../../Components/Spinner/Spinner";
+import Skeleton from "./../../../skeleton/Skeleton";
 import axios from "axios";
 
 //function to format date to time ago string
@@ -50,6 +51,7 @@ export default function Comments({ inView }) {
     return (
       <div className="text-center">
         <Spinner />
+        <Skeleton />
       </div>
     );
   }
