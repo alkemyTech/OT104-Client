@@ -5,7 +5,7 @@ import {
   deleteRequest,
 } from "./privateApiService";
 
-const baseURL = "http://ongapi.alkemy.org/api/contacts";
+const baseURL = process.env.REACT_APP_URL_CONTACTS;
 
 const getContacts = () => {
   return getRequest(baseURL);

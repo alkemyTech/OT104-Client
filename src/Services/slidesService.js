@@ -5,7 +5,7 @@ import {
   getRequest,
 } from "./privateApiService";
 
-const baseUrl = process.env.REACT_APP_SLIDES_ENDPOINT;
+const baseUrl = process.env.REACT_APP_URL_SLIDES;
 
 const getSlides = () => {
   return getRequest(baseUrl);
