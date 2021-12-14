@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 const config = {
   headers: {
@@ -16,7 +16,7 @@ async function getRequest(url) {
       return err;
     }
   }
-  return new Error("The token is needed for this method");
+  return new Error('The token is needed for this method');
 }
 
 const postRequest = async (url, dataBody) => {
@@ -73,7 +73,7 @@ const deleteRequest = async (url, id) => {
 
 // Method to verify if the token is in the localStorage and return a header with the token
 const VerifyToken = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
   if (token) {
     const header = {
       Authorization: `Bearer ${token}`,

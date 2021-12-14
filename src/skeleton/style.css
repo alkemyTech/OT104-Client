@@ -1,0 +1,10 @@
+.skeleton-container {
+  background-color: #eee;
+  border: 1px solid rgb(184, 183, 183);
+  position: relative;
+  height: 4vh;
+  width: 25vw;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0 auto;
+}
