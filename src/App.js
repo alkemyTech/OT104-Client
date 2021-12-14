@@ -16,7 +16,7 @@ import ProjectsForm from './Components/Projects/ProjectsForm';
 import About from './Components/About/About';
 import BackofficeUserList from './Components/Backoffice/BackofficeUserList';
 import Contact from './Components/Contact/Contact';
-import Categories from './Components/Categories/Categories';
+import Categories from './Components/Backoffice/Categories';
 import LoginForm from './Components/Auth/LoginForm';
 import RegisterForm from './Components/Auth/RegisterForm';
 import NewsList from './Components/Backoffice/NewsList';
