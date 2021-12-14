@@ -55,7 +55,7 @@ function App() {
         <Route path='/backoffice/activities' component={ActivitiesList} />
         <Route path='/backoffice/slides' component={SlidesList} />
       </Switch>
-      <Footer />
+      <NewsList />
     </BrowserRouter>
   );
 }
