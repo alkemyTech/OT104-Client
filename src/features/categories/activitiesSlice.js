@@ -5,7 +5,7 @@ export const getActivities = createAsyncThunk(
   'activities/getActivities',
   async (_, { rejectWithValue }) => {
     try {
-      let res = await getActivities.getAll();
+      let res = await activitiesServices.getActivities();
       if (!res.success) {
         return rejectWithValue(res.message);
       }
