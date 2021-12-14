@@ -1,5 +1,4 @@
 import React from "react";
-
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
 import Home from "./Components/Home/Home";
@@ -25,14 +24,14 @@ import Footer from "./Components/Footer";
 import ActivityDetail from "./Components/Activities/Detail/ActivityDetail";
 import SlidesList from "./Components/Slides/SlidesList";
 import Activities from "./Components/Activities/Activities";
-import ActivitiesList from "./Components/Activities/backofficce/ActivitiesList.jsx";
+import ActivitiesList from "./Components/Backoffice/ActivitiesList";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact component={Home} />
+        {/* <Route path="/" exact component={Home} /> */}
         <Route path="/login" component={LoginForm} />
         <Route path="/create-activity" component={ActivitiesForm} />
         <Route path="/create-category" component={CategoriesForm} />
@@ -47,7 +46,6 @@ function App() {
         <Route path="/contacto" component={Contact} />
         <Route path="/registerform" component={RegisterForm} />
         <Route path="/backoffice/categories" component={Categories} />
-        <Route path="/backoffice/activities" component={ActivitiesList} />
         <Route path="/Nosotros" component={About} />
         <Route path="/backoffice/news" component={NewsList} />
         <Route path="/backoffice/organization/edit" component={EditForm} />
@@ -56,7 +54,7 @@ function App() {
         <Route path="/backoffice/activities" component={ActivitiesList} />
         <Route path="/backoffice/slides" component={SlidesList} />
       </Switch>
-      <Footer />
+      <NewsList />
     </BrowserRouter>
   );
 }
