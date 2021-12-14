@@ -58,7 +58,7 @@ const CategoriesForm = ({ cateroryToEdit }) => {
           if (category.id) {
             await categoriesService.update(category.id, values);
           } else {
-            await categoriesService.create(value);
+            await categoriesService.create(values);
           }
 
           setSubmitting(false);
@@ -106,12 +106,8 @@ const CategoriesForm = ({ cateroryToEdit }) => {
                     // this pass the data to the formik
                     values.description = data;
                   }}
-                  onBlur={(event, editor) => {
-                    console.log('Blur.', editor);
-                  }}
-                  onFocus={(event, editor) => {
-                    console.log('Focus.', editor);
-                  }}
+                  onBlur={(event, editor) => {}}
+                  onFocus={(event, editor) => {}}
                 />
                 {errors.description &&
                   touched.description &&
