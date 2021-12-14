@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Container, Breadcrumb, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { TrashFill, PencilFill } from 'react-bootstrap-icons';
-import ConfirmModal from './ConfirmModal';
-import categoriesService from '../../Services/categoriesService';
+import React, { useState, useEffect } from "react";
+import { Table, Container, Breadcrumb, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { TrashFill, PencilFill } from "react-bootstrap-icons";
+import ConfirmModal from "./ConfirmModal";
+import categoryService from "../../Services/CategoriesService";
+// import { useDispatch, useSelector } from "react-redux";
 
 //format the date to local time
 const formatDate = (date) => {
@@ -19,7 +20,7 @@ export default function Categories() {
   // fetch categories from api
   useEffect(() => {
     const fetchCategories = async () => {
-      const res = await categoriesService.getAll();
+      const res = await categoryService.getAll();
       setCategories(res.data.data);
     };
     fetchCategories();
@@ -44,28 +45,28 @@ export default function Categories() {
   };
 
   return (
-    <Container className='d-flex flex-column'>
+    <Container className="d-flex flex-column">
       <ConfirmModal showModal={showModal} data={modalData} />
-      <div className='row'>
-        <div className='col'>
-          <Breadcrumb className='mt-3'>
-            <Link className='breadcrumb-item' to='/backoffice'>
+      <div className="row">
+        <div className="col">
+          <Breadcrumb className="mt-3">
+            <Link className="breadcrumb-item" to="/backoffice">
               Backoffice
             </Link>
             <Breadcrumb.Item active>Categories</Breadcrumb.Item>
           </Breadcrumb>
           <h1>Listado de categorias</h1>
-          <Button as={Link} to='/backoffice/categories/create' className='mb-3'>
+          <Button as={Link} to="/backoffice/categories/create" className="mb-3">
             Nueva categoria
           </Button>
         </div>
 
-        <Table striped bordered hover className='align-middle'>
+        <Table striped bordered hover className="align-middle">
           <thead>
             <tr>
               <th>Nombre:</th>
               <th>Creada:</th>
-              <th className='text-center'>Acciones:</th>
+              <th className="text-center">Acciones:</th>
             </tr>
           </thead>
           <tbody>
@@ -73,18 +74,18 @@ export default function Categories() {
               <tr key={category.id.toString()}>
                 <td>{category.name}</td>
                 <td>{formatDate(category.created_at)}</td>
-                <td className='d-flex justify-content-center gap-1'>
+                <td className="d-flex justify-content-center gap-1">
                   <button
-                    className='btn btn-outline-danger'
-                    title='Eliminar'
+                    className="btn btn-outline-danger"
+                    title="Eliminar"
                     onClick={() => onDelete(category)}
                   >
                     <TrashFill />
                   </button>
 
                   <button
-                    className='btn btn-outline-primary'
-                    title='Editar'
+                    className="btn btn-outline-primary"
+                    title="Editar"
                     onClick={() => onEdit(category)}
                   >
                     <PencilFill />
