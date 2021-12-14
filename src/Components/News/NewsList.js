@@ -38,10 +38,10 @@ const NewsList = () => {
                         return (
                             <div className="col-sm-6 col-md-4 p-3">
                             <Card 
-                            key={id}
-                            name={name}
-                            description={description}
-                            image={image}
+                                key={id}
+                                name={name}
+                                description={description}
+                                image={image}
                             />
                             </div>
                         )
