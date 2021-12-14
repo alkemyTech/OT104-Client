@@ -12,8 +12,6 @@ import Modal from 'react-bootstrap/Modal';
 import { Pencil, Trash } from 'react-bootstrap-icons';
 
 const BackOfficeMembersList = () => {
-
-
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState("");
     const [members, setMembers] = useState([]);
