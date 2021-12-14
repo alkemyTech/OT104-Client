@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import '../CardListStyles.css';
+import Card from "../Card/Card";
 
 const NewsList = () => {
     const [news, setNews] = useState([]);
 
     const getNews = async () => {
-        await axios.get("http://ongapi.alkemy.org/api/news")
+        await axios.get(process.env.REACT_APP_URL_GET_NEWS)
         .then((response)=>setNews(response.data.data)
         )}
     
@@ -21,11 +22,14 @@ const NewsList = () => {
             <ul className="list-container">
                 {news ? 
                     news.map((element) => {
-                        return(
-                            <li className="card-info" key={element.id}>
-                                <h3>{element.name}</h3>
-                                <p>{element.description}</p>
-                            </li>
+                      const {id, name, description, image} = element;
+                        return (
+                            <Card 
+                            key={id}
+                            name={name}
+                            description={description}
+                            image={image}
+                            />
                         )
                     })
                 :
@@ -35,5 +39,5 @@ const NewsList = () => {
         </div>
     );
 }
- 
+
 export default NewsList;
