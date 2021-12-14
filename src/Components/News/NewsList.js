@@ -9,12 +9,14 @@ const NewsList = () => {
     const [loading, setLoading] = useState(true);
 
     const getNews = async () => {
-        await axios.get("http://ongapi.alkemy.org/api/news")
-        .then((response)=>{
+        const response = await axios.get("http://ongapi.alkemy.org/api/news")
+        if (response.success = true) {
             setNews(response.data.data)
             setLoading(false)
+        } else {
+            throw new error (response.status)
         }
-        )}
+    }
     
         
     useEffect(()=>{
