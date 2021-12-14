@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Container, Breadcrumb, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { TrashFill, PencilFill } from 'react-bootstrap-icons';
-import ConfirmModal from './ConfirmModal';
+import ConfirmModal from '../Categories/ConfirmModal';
 import categoriesService from '../../Services/categoriesService';
 
 //format the date to local time
