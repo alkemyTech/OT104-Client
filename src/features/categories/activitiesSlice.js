@@ -1,13 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import activitiesServices from '../../Services/activitiesService';
 
 export const getActivities = createAsyncThunk(
   'activities/getActivities',
   async (_, { rejectWithValue }) => {
     try {
-      let res = await fetch('http://ongapi.alkemy.org/api/activities').then(
-        (data) => data.json()
-      );
-      console.log(res);
+      let res = await getActivities.getAll();
       if (!res.success) {
         return rejectWithValue(res.message);
       }
