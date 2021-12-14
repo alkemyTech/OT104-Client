@@ -84,3 +84,26 @@ The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `Skeleton Loader`
+
+To use the skeleton loader, first import the component from / skeleton / Skeleton .jsx. When you want to use skeleton, use the <Skeleton/> tag.
+
+Recommendation when rendering and using <Skeleton /> keep the final structure. Example:
+
+```
+<Table striped bordered hover className="align-middle">
+            <thead>
+              <tr>
+                <th className="text-center"><Skeleton/></th>
+                <th className="text-center"><Skeleton/></th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td className="text-center"><Skeleton/></td>
+                  <td className="text-center"><Skeleton/></td>
+                </tr>
+            </tbody>
+          </Table>
+```

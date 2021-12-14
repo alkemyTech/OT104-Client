@@ -4,7 +4,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ActivitiesList from "./ActivitiesList";
 import ActivitiesTitle from "./ActivitiesTitle";
-
 const Activities = () => {
   return (
     <Container fluid>

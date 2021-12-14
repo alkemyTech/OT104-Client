@@ -32,3 +32,10 @@ export function alertServiceConfirm(title, confirmButtonText) {
     }
   });
 }
+export function alertServiceError(title, text) {
+  Swal.fire({
+    icon: "error",
+    title,
+    text,
+  });
+}
