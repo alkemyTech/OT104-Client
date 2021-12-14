@@ -16,6 +16,21 @@ export const getCategories = createAsyncThunk(
   }
 );
 
+export const getCategoryById = createAsyncThunk(
+  "categories/getCategories",
+  async (id, { rejectWithValue }) => {
+    try {
+      let res = await CategoriesService.get(id);
+      if (!res.data.success) {
+        return rejectWithValue(res.message);
+      }
+      return res;
+    } catch ({ message }) {
+      return rejectWithValue(message);
+    }
+  }
+);
+
 const initialState = {
   data: [],
   status: "",
@@ -38,6 +53,23 @@ const categoriesSlice = createSlice({
         };
       })
       .addCase(getCategories.rejected, (_, { payload }) => {
+        return {
+          data: undefined,
+          status: "rejected",
+          message: payload,
+        };
+      })
+      .addCase(getCategoryById.pending, (state) => {
+        state.status = "pending";
+      })
+      .addCase(getCategoryById.fulfilled, (_, { payload }) => {
+        return {
+          data: payload.data,
+          status: "fulfilled",
+          message: payload.message,
+        };
+      })
+      .addCase(getCategoryById.rejected, (_, { payload }) => {
         return {
           data: undefined,
           status: "rejected",
