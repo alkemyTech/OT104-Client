@@ -8,8 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getActividades } from "./../../features/activities/activitiesSlice";
 
 const Activities = () => {
-  const activities = useSelector((state) => state.activities.datos);
-  const storeLoading = useSelector((state) => state.activities.status);
+  const activities = useSelector((state) => state.activities.data);
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getActividades } from "../../features/activities/activitiesSlice";
 
 const ActivitiesList = () => {
-  const activities = useSelector((state) => state.activities.datos);
+  const activities = useSelector((state) => state.activities.data);
   const storeLoading = useSelector((state) => state.activities.status);
   const [modalDetail, setModalDetail] = useState({});
   const [modalDelete, setModalDelete] = useState({});

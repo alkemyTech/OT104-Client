@@ -17,7 +17,7 @@ export const getActividades = createAsyncThunk(
 );
 
 const initialState = {
-  datos: [],
+  data: [],
   status: "",
   message: "",
 };
@@ -32,14 +32,14 @@ const activitiesSlice = createSlice({
       })
       .addCase(getActividades.fulfilled, (_, { payload }) => {
         return {
-          datos: payload.data.data,
+          data: payload.data.data,
           status: "fulfilled",
           message: payload.message,
         };
       })
       .addCase(getActividades.rejected, (_, { payload }) => {
         return {
-          datos: undefined,
+          data: undefined,
           status: "rejected",
           message: payload,
         };
