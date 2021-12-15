@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import backofficeMembersSlice from "../features/slices/backoffice_members/membersSlice";
+import backofficeReducer from "../features/backoffice_members/backofficeMembersReducer";
 export default configureStore({
   reducer: {
-    getBackofficeMembers: backofficeMembersSlice,
+    getBackofficeMembers: backofficeReducer,
   },
 });
