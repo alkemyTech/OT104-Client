@@ -1,22 +1,25 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import { Breadcrumb, Table, Container, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { TrashFill, PencilFill } from "react-bootstrap-icons";
+import { useDispatch, useSelector } from 'react-redux';
+import { getUsers } from '../../features/backOfficeUsers/backOfficeUsersSlice';
+
 
 function BackofficeUserList() {
-  const [dataContact, setData] = useState([]);
+  
+  const dispatch = useDispatch();
+  const users = useSelector(state => state.users.users);
+
   useEffect(() => {
-    const getData = async () => {
-      const response = await axios.get("http://ongapi.alkemy.org/api/users");
-      setData(response.data.data);
-    };
-    getData();
-  }, []);
+    if(users.length===0){
+      dispatch(getUsers());
+    }
+  });
 
   return (
     <Container className="d-flex flex-column">
-      {dataContact.length === 0 ? (
+      {users.length === 0 ? (
         <Spinner animation="border" className="text-center" />
       ) : (
         <div className="row">
@@ -39,7 +42,7 @@ function BackofficeUserList() {
               </tr>
             </thead>
             <tbody>
-              {dataContact.map((data) => (
+              {users.map((data) => (
                 <tr key={data.id}>
                   <td className="text-center">{data.name}</td>
                   <td className="text-center">{data.email}</td>
