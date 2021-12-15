@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import categoryService from "../../Services/categoriesService";
 
 // React Bootstrap
 // import { Form } from "react-bootstrap/Button";
@@ -53,25 +54,14 @@ const CategoriesForm = ({ cateroryToEdit }) => {
       <Formik
         initialValues={initialValues}
         validationSchema={validateYupSchema}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            console.log("submit", values);
-            if (category.id) {
-              axios
-                .put(`${BASE_URL}/${category.id}`, values)
-                .then((res) => alert("Category updated successfully"))
-                .catch((err) => console.log("PUT method ERROR: ", err));
-            } else {
-              axios
-                .post(BASE_URL, values)
-                .then((res) => alert("Category created successfully"))
-                .catch((err) =>
-                  console.log("POST method ERROR: ", err.response)
-                );
-            }
+        onSubmit={async (values, { setSubmitting }) => {
+          if (category.id) {
+            await categoryService.update(category.id, values);
+          } else {
+            await categoryService.create(values);
+          }
 
-            setSubmitting(false);
-          }, 400);
+          setSubmitting(false);
         }}
       >
         {({
@@ -109,19 +99,14 @@ const CategoriesForm = ({ cateroryToEdit }) => {
                   data={values.description}
                   onReady={(editor) => {
                     // You can store the "editor" and use when it is needed.
-                    console.log("Editor is ready to use!", editor);
                   }}
                   onChange={(event, editor) => {
                     const data = editor.getData();
                     // this pass the data to the formik
                     values.description = data;
                   }}
-                  onBlur={(event, editor) => {
-                    console.log("Blur.", editor);
-                  }}
-                  onFocus={(event, editor) => {
-                    console.log("Focus.", editor);
-                  }}
+                  onBlur={(event, editor) => {}}
+                  onFocus={(event, editor) => {}}
                 />
                 {errors.description &&
                   touched.description &&

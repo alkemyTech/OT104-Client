@@ -4,29 +4,24 @@ import Newness from "./Newness";
 import Slider from "./Slider/Slider";
 import service from "../../Services/slidesService";
 import Loader from "../../Components/Home/Loader";
-import fakeSlides from "./fakeSlides";
 import Alert from "react-bootstrap/Alert";
 
 function Home() {
-  // we need to replace the fakeSlides with the real data from the server
-  // remove the fakeSlides from the code
-
-  const [slides, setSlides] = React.useState([...fakeSlides]);
+  const [slides, setSlides] = React.useState([]);
   const [slidesError, setSlidesError] = React.useState(false);
-  // uncomment the lines below to get slides from server
-  // const getSlides = async () => {
-  //   setSlidesError(false);
-  //   const res = await service.getAll();
-  //   if (res && res.status !== 200) {
-  //     setSlidesError(true);
-  //     return;
-  //   }
-  //   const slidesFromServer = res.data.data;
-  //   setSlides([...slidesFromServer]);
-  // };
-  // React.useEffect(() => {
-  //   getSlides();
-  // }, []);
+  const getSlides = async () => {
+    setSlidesError(false);
+    const res = await service.getAll();
+    if (res && res.status !== 200) {
+      setSlidesError(true);
+      return;
+    }
+    const slidesFromServer = res.data.data;
+    setSlides([...slidesFromServer]);
+  };
+  React.useEffect(() => {
+    getSlides();
+  }, []);
 
   const [news, setNews] = useState([]);
   const [newsError, setNewsError] = useState(false);
