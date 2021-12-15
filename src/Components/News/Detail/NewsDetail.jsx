@@ -24,21 +24,12 @@ function NewsDetail(props) {
         setNews(response.data.data);
         setLoading(false);
       } catch (error) {
-        console.log(error);
         setError(true);
         setLoading(false);
       }
     };
     getNewsData();
   }, []);
-
-  // if (!news) {
-  //   return (
-  //     <div className="container text-center py-5">
-  //       <Spinner />
-  //     </div>
-  //   );
-  // }
 
   return (
     <>
