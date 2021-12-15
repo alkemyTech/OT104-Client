@@ -26,6 +26,7 @@ import ActivityDetail from "./Components/Activities/Detail/ActivityDetail";
 import SlidesList from "./Components/Backoffice/SlidesList";
 import Activities from "./Components/Activities/Activities";
 import ActivitiesList from "./Components/Backoffice/ActivitiesList";
+import BackOfficeMembersList from "./Components/Backoffice/BackOfficeMembersList";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
         <Route path='/Actividades' component={Activities} />
         <Route path='/backoffice/activities' component={ActivitiesList} />
         <Route path='/backoffice/slides' component={SlidesList} />
+        <Route path='/backoffice/members' component={BackOfficeMembersList} />
       </Switch>
       <NewsList />
     </BrowserRouter>
