@@ -10,6 +10,7 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Spinner from 'react-bootstrap/Spinner';
 import Modal from 'react-bootstrap/Modal';
 import { Pencil, Trash } from 'react-bootstrap-icons';
+import membersService from '../../Services/membersService';
 
 const BackOfficeMembersList = () => {
     const [loading, setLoading] = useState(true);
@@ -17,20 +18,19 @@ const BackOfficeMembersList = () => {
     const [members, setMembers] = useState([]);
 
     const getMembers = async () => {
-        await axios.get("http://ongapi.alkemy.org/api/members")
-        .then((response)=>{
-            setMembers(response.data.data)
-            setLoading(false)
-        }
-        ).catch((e)=>{
-            setLoading(false)
-            setMessage("Ha habido un error cargando los miembros.")
-        })
+      const response = await membersService.get()
+      if(response instanceof Error){
+        setLoading(false)
+        setMessage("Ha habido un error cargando los miembros.")
+      }else{
+        setMembers(response.data.data)
+        setLoading(false)
+      }
     }
     
         
     useEffect(()=>{
-        getMembers();
+        if(members.length===0)getMembers();
     }, [members])
 
     const [modalDetail, setModalDetail] = useState({});
