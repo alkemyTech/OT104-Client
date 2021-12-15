@@ -1,14 +1,17 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import axios from 'axios';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import userService from '../../Services/userService';
 
 export const getUsers = createAsyncThunk(
     "users/getUsers",
-    async ( dispatch ) => {
+    async (_, { rejectWithValue } ) => {
         try{
-            const response = await axios.get(`http://ongapi.alkemy.org/api/members`);
+            const response = await userService.get();
+            if(!response.data.success){
+                return rejectWithValue(response.message);
+            }
             return response.data.data;
-        }catch(error){
-            return error;
+        }catch({message}){
+            return rejectWithValue(message);
         }
     }
 )
@@ -23,14 +26,14 @@ export const backOfficeUsersSlice = createSlice({
   name: 'users',
   initialState,
   extraReducers: {
-    [getUsers.pending]: (state, action) => {
+    [getUsers.pending]: (state, _) => {
         state.status = "Loading"
     },
     [getUsers.fulfilled]: (state, action) => {
         state.status = "Success";
         state.users = action.payload
     },
-    [getUsers.rejected]: (state, action) => {
+    [getUsers.rejected]: (state, _) => {
         state.status = "Failed";
     },
   },
