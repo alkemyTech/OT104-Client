@@ -27,6 +27,7 @@ import SlidesList from './Components/Backoffice/SlidesList';
 import Activities from './Components/Activities/Activities';
 import ActivitiesList from './Components/Backoffice/ActivitiesList';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import News from './Components/News/NewsSection';
 
 function App() {
   return (
@@ -55,8 +56,8 @@ function App() {
         <Route path='/Actividades' component={Activities} />
         <Route path='/backoffice/activities' component={ActivitiesList} />
         <Route path='/backoffice/slides' component={SlidesList} />
+        <Route path='/Novedades' component={News} />
       </Switch>
-      <NewsList />
     </BrowserRouter>
   );
 }
