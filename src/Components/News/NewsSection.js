@@ -2,25 +2,17 @@ import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import '../CardListStyles.css';
 import Card from "../Card/Card";
-import { Spinner } from 'react-bootstrap';
+import Spinner from "../Spinner/Spinner";
+import { getNews } from '../../features/news/newsReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { alertServiceError } from '../Alert/AlertService';
 
-const NewsList = () => {
-    const [news, setNews] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    const getNews = async () => {
-        const response = await axios.get("http://ongapi.alkemy.org/api/news")
-        if (response.success = true) {
-            setNews(response.data.data)
-            setLoading(false)
-        } else {
-            throw new error (response.status)
-        }
-    }
-    
+const News = () => {
+    const {news, loading, error} = useSelector(state => state.news);
+    const dispatch = useDispatch();
         
     useEffect(()=>{
-        getNews();
+        dispatch(getNews());
     }, [])
 
     return (
@@ -28,7 +20,7 @@ const NewsList = () => {
             <h1 className="p-4 text-center">Novedades</h1>
             {loading && 
             <div className="row d-flex justify-content-center">
-                <Spinner animation="grow" />
+                <Spinner/>
                 <h3 className="p-4 text-center">se están cargando...</h3>
             </div>
             }
@@ -36,13 +28,13 @@ const NewsList = () => {
             
                 {news ? 
                     news.map((element) => {
-                      const {id, name, description, image} = element;
+                      const {id, name, content, image} = element;
                         return (
                             <div className="col-sm-6 col-md-4 p-3">
                             <Card 
                                 key={id}
                                 name={name}
-                                description={description}
+                                description={content}
                                 image={image}
                             />
                             </div>
@@ -51,9 +43,12 @@ const NewsList = () => {
                 :
                     <p>No hay novedades</p>
                 }
+                {error && 
+                    alertServiceError("Error", error)
+                }
             </div>
         </>
     );
 }
 
-export default NewsList;
+export default News;

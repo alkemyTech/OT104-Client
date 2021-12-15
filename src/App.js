@@ -30,6 +30,7 @@ import Donation from "./Components/Donations/Donation";
 import Thanks from "./Components/Donations/Thanks";
 import BackOfficeMembersList from "./Components/Backoffice/BackOfficeMembersList";
 import "bootstrap/dist/css/bootstrap.min.css";
+import News from "./Components/News/NewsSection";
 
 function App() {
   return (
@@ -63,8 +64,8 @@ function App() {
         </Route>
         <Route path="/gracias" component={Thanks} />
         <Route path="/backoffice/members" component={BackOfficeMembersList} />
+        <Route path="/Novedades" component={News} />
       </Switch>
-      <NewsList />
     </BrowserRouter>
   );
 }
