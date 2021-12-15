@@ -28,6 +28,7 @@ import Activities from "./Components/Activities/Activities";
 import ActivitiesList from "./Components/Backoffice/ActivitiesList";
 import Donation from "./Components/Donations/Donation";
 import Thanks from "./Components/Donations/Thanks";
+import BackOfficeMembersList from "./Components/Backoffice/BackOfficeMembersList";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
           <Donation text={"!Hacé tu donación ya mismo :)"} />
         </Route>
         <Route path="/gracias" component={Thanks} />
+        <Route path="/backoffice/members" component={BackOfficeMembersList} />
       </Switch>
       <NewsList />
     </BrowserRouter>
