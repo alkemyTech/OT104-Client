@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { VerifyToken } from './privateApiService';
+import axios from "axios";
 
 const config = {
   headers: {
@@ -7,20 +6,22 @@ const config = {
   },
 };
 
-export const get = async (url, id) => {
-  const res =
-    id === null ? await axios.get(url) : await axios.get(`${url}/${id}`);
-  return res;
+export const get = async (url) => {
+  try {
+    const res = await axios.get(url);
+    return res;
+  } catch (error) {
+    return error;
+  }
 };
 
 export const Post = async (route, body) => {
-    try {
-        const res = await axios.post(route, {
-            body: body
-        })
-        return res
-    } catch (err) {
-        throw err;
-    }
-}
-
+  try {
+    const res = await axios.post(route, {
+      body: body,
+    });
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
