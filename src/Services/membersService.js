@@ -4,7 +4,7 @@ const path = "http://ongapi.alkemy.org/api/members";
 
 
 const getMembers = () => {
-    return getRequest(path, null);
+    return getRequest(null);
 };
 
 const getMemberById = (id) => {
@@ -32,3 +32,4 @@ const membersService = {
 };
 
 export default membersService;
+

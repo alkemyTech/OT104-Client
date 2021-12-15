@@ -8,15 +8,7 @@ import axios from 'axios';
 import { FormControl } from 'react-bootstrap';
 import membersService from '../../Services/membersService';
 
-const MembersForm = ({member = null/* {
-  id: 331,
-  name: "Juan Juarez",
-  image: "",
-  description: "Soy Juan Juarez.",
-  facebook: "https://www.facebook.com.ar/juanjuarez",
-  instagram: "https://www.instagram.com.ar/juanjuarez", 
-  linkedin: "https://www.linkedin.com.ar/juanjuarez"
-} */}) => {
+const MembersForm = ({member = null}) => {
   
   const [ckEditorError, setCkEditorError] = useState(false);
   const [message, setMessage] = useState("");
