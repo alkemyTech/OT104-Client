@@ -32,7 +32,7 @@ const activitiesSlice = createSlice({
       })
       .addCase(getActividades.fulfilled, (_, { payload }) => {
         return {
-          datos: payload.datos,
+          datos: payload.data.data,
           status: "fulfilled",
           message: payload.message,
         };

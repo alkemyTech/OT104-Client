@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Container, Row, Button, Col, Table, Modal } from 'react-bootstrap';
-import { TrashFill, PencilFill } from 'react-bootstrap-icons';
-import { useDispatch, useSelector } from 'react-redux';
-import { getNews } from '../../features/news/newsReducer';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Container, Row, Button, Col, Table, Modal } from "react-bootstrap";
+import { TrashFill, PencilFill } from "react-bootstrap-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { getNews } from "../../features/news/newsReducer";
 
 const NewsList = () => {
   const [modalImg, setModalImg] = useState({});
-  const {_loading, news, _error} = useSelector(state => state.news);
+  const { _loading, news, _error } = useSelector((state) => state.news);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,17 +28,17 @@ const NewsList = () => {
   };
 
   const toEditForm = () => {
-    alert('direcciona a formulario de edicion');
+    alert("direcciona a formulario de edicion");
   };
 
   const RemoveNew = () => {
-    alert('elimina la novedad');
+    alert("elimina la novedad");
   };
 
-  const parseDate = isoDate  => {
-    const date = new Date(isoDate); // ISO 8601 date string to Date object 
-    return date.toLocaleDateString('en-GB'); // returns a string like 'dd/mm/yyyy'
-  }
+  const parseDate = (isoDate) => {
+    const date = new Date(isoDate); // ISO 8601 date string to Date object
+    return date.toLocaleDateString("en-GB"); // returns a string like 'dd/mm/yyyy'
+  };
 
   return (
     <Container fluid>
@@ -67,7 +67,7 @@ const NewsList = () => {
             </thead>
             <tbody>
               {news.length > 0 ? (
-                news.map(({id,name,image,created_at}) => {
+                news.map(({ id, name, image, created_at }) => {
                   const parsedDate = parseDate(created_at);
                   return (
                     <tr key={id.toString()}>
