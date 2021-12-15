@@ -5,6 +5,7 @@ import { Card } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import "./styles/newness.css";
+import { alertServiceError } from '../Alert/AlertService';
 
 function Newness() {
   const [news, setNews] = useState([]);
@@ -16,7 +17,7 @@ function Newness() {
           setNews((news) => newData.data.data);
         })
         .catch((err) => {
-          alert("Error", err);
+          alertServiceError("Error", err);
         });
     };
     getNewsData();
