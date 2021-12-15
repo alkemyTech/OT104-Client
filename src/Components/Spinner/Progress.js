@@ -1,18 +1,31 @@
 import React, {useState, useEffect} from "react";
-import { Row, ProgressBar, Container } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
+import { ProgressBar } from "react-bootstrap";
 
-const Progress = ({now}) => {
+const Progress = () => {
 
-const percentage = now ? now : 50;
+const [progress, setProgress] = useState(0);
+
+useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((oldProgress) => {
+        if (oldProgress === 100) {
+          return 0;
+        }
+        const diff = Math.random() * 10;
+        return Math.min(oldProgress + diff, 100);
+      });
+    }, 500);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
 return (
-
+        
         <Container>
-            <Row>
-            <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            </Row>
+            <ProgressBar className="mt-5" now={progress}/>
         </Container>
     )
 }
