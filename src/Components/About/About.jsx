@@ -21,8 +21,6 @@ const About = () => {
         <div style={{ marginTop: "5%" }}> <MiembrosAbout /></div>
       </Row>
     </Container >
-
-
   )
 }
 

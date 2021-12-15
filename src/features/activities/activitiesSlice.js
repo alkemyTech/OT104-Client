@@ -1,8 +1,8 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getActivities } from '../../Services/activitiesService';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { getActivities } from "../../Services/activitiesService";
 
 export const getActividades = createAsyncThunk(
-  'activities/getActivities',
+  "activities/getActivities",
   async (_, { rejectWithValue }) => {
     try {
       let res = await getActivities();
@@ -18,29 +18,29 @@ export const getActividades = createAsyncThunk(
 
 const initialState = {
   datos: [],
-  status: '',
-  message: '',
+  status: "",
+  message: "",
 };
 
 const activitiesSlice = createSlice({
-  name: 'activities',
+  name: "activities",
   initialState,
   extraReducers(builder) {
     builder
       .addCase(getActividades.pending, (state) => {
-        state.status = 'pending';
+        state.status = "pending";
       })
       .addCase(getActividades.fulfilled, (_, { payload }) => {
         return {
           datos: payload.datos,
-          status: 'fulfilled',
+          status: "fulfilled",
           message: payload.message,
         };
       })
       .addCase(getActividades.rejected, (_, { payload }) => {
         return {
           datos: undefined,
-          status: 'rejected',
+          status: "rejected",
           message: payload,
         };
       });

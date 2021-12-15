@@ -6,10 +6,13 @@ const config = {
   },
 };
 
-export const get = async (url, id) => {
-  const res =
-    id === null ? await axios.get(url) : await axios.get(`${url}/${id}`);
-  return res;
+export const get = async (url) => {
+  try {
+    const res = await axios.get(url);
+    return res;
+  } catch (error) {
+    return error;
+  }
 };
 
 export const Post = async (route, body) => {
