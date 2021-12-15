@@ -1,0 +1,26 @@
+#news-container {
+  width: auto;
+  height: auto;
+}
+#news-container h1 {
+  text-align: center;
+
+  margin-top: 1rem;
+}
+
+#cards-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#card {
+  width: 15rem;
+  height: auto;
+  margin: 1rem;
+}
+
+#card .card-body p {
+  font-size: 0.8rem;
+}
