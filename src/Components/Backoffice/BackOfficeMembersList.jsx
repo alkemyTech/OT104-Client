@@ -9,31 +9,22 @@ import Col from "react-bootstrap/Col";
 import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
 import { Pencil, Trash } from "react-bootstrap-icons";
-import membersService from "../../Services/membersService";
+import { useDispatch, useSelector } from "react-redux";
+import { getMembers } from "../../features/backoffice_members/backofficeMembersReducer";
 
 const BackOfficeMembersList = () => {
-  const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
-  const [members, setMembers] = useState([]);
-
-  const getMembers = async () => {
-    const response = await membersService.get();
-    if (response instanceof Error) {
-      setLoading(false);
-      setMessage("Ha habido un error cargando los miembros.");
-    } else {
-      setMembers(response.data.data);
-      setLoading(false);
-    }
-  };
+  const dispatch = useDispatch();
+  const { members, loading, _error } = useSelector(
+    (state) => state.getBackofficeMembers
+  );
 
   useEffect(() => {
-    if (members.length === 0) getMembers();
-  }, [members]);
+    dispatch(getMembers());
+  }, [dispatch]);
 
   const [modalDetail, setModalDetail] = useState({});
   const [modalDelete, setModalDelete] = useState({});
-
   const deleteMember = (id) => {
     axios
       .delete(`http://ongapi.alkemy.org/api/members/${id}`)
@@ -112,7 +103,7 @@ const BackOfficeMembersList = () => {
                 <tbody>
                   {members.length > 0 ? (
                     members.map((member) => (
-                      <tr>
+                      <tr key={member.id}>
                         <td className="fw-bold align-middle">{member.name}</td>
                         <td>
                           <Button
