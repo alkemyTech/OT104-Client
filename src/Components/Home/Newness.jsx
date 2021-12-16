@@ -3,6 +3,7 @@ import { Container } from "react-bootstrap";
 import { Card } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import "./styles/newness.css";
+import { alertServiceError } from "../Alert/AlertService";
 
 function Newness({ news }) {
   return (
