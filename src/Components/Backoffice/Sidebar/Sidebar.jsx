@@ -47,7 +47,6 @@ const backofficeRoutes = [
 
 export default function Sidebar() {
   const location = useRouteMatch("/backoffice");
-  console.log(location);
   const [show, setShow] = useState(false);
 
   const toggle = () => setShow(!show);
@@ -62,14 +61,22 @@ export default function Sidebar() {
       <Offcanvas show={show} onHide={toggle}>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>
-            <Link to="/backoffice" className="btn btn-outline-primary">Backoffice</Link>
+            <Link to="/backoffice" className="btn btn-outline-primary">
+              Backoffice
+            </Link>
           </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
           <ul className="nav flex-column mb-auto list-group">
             {backofficeRoutes.map((route) => (
               <li key={route.name}>
-                <Link exact activeClassName="active" to={route.path} onClick={toggle} className="list-group-item list-group-item-action  border-0">
+                <Link
+                  exact
+                  activeClassName="active"
+                  to={route.path}
+                  onClick={toggle}
+                  className="list-group-item list-group-item-action border-0"
+                >
                   <i className={route.icon}></i> {route.name}
                 </Link>
               </li>
