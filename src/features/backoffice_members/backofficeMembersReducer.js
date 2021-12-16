@@ -10,12 +10,15 @@ const initialState = {
 
 export const getMembers = createAsyncThunk(
   "backoffice/getMembers",
-  async () => {
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await get("http://ongapi.alkemy.org/api/members");
-      return response.data.data;
-    } catch (error) {
-      throw new Error("Error get members backoffice");
+      let res = await get("http://ongapi.alkemy.org/api/members");
+      if (!res.data.success) {
+        return rejectWithValue(res.message);
+      }
+      return res.data.data;
+    } catch ({ message }) {
+      return rejectWithValue(message);
     }
   }
 );
