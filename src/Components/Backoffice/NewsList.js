@@ -4,7 +4,6 @@ import { Container, Row, Button, Col, Table, Modal } from "react-bootstrap";
 import { TrashFill, PencilFill } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getNews } from "../../features/news/newsReducer";
-import Header from "./Header";
 
 const NewsList = () => {
   const [modalImg, setModalImg] = useState({});
@@ -45,7 +44,6 @@ const NewsList = () => {
     <Container fluid>
       <Row>
         <Col>
-          <Header />
           <h3>Listado de Novedades</h3>
           <Button className="mb-3" as={Link} to={`/backoffice/news/create`}>
             Crear Novedad

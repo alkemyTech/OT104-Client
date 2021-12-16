@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Button, Table, Container, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { TrashFill, PencilFill } from "react-bootstrap-icons";
-import Header from "./Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../features/backOfficeUsers/backOfficeUsersSlice";
 
@@ -23,7 +22,6 @@ function BackofficeUserList() {
       ) : (
         <div className="row">
           <div className="col">
-            <Header />
             <h3>Usuarios</h3>
             <Button as={Link} to="/backoffice/users/create" className="mb-3">
               Nuevo usuario

@@ -10,7 +10,6 @@ import Modal from "react-bootstrap/Modal";
 import { PencilFill, TrashFill } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getActividades } from "../../features/activities/activitiesSlice";
-import Header from "./Header";
 
 const ActivitiesList = () => {
   const activities = useSelector((state) => state.activities.data);
@@ -59,7 +58,6 @@ const ActivitiesList = () => {
     <Container fluid>
       <Row>
         <Col>
-          <Header />
           <h3>Listado de actividades</h3>
           <Button as={Link} to="/backoffice/activities/create" className="mb-3">
             Nueva actividad

@@ -3,11 +3,12 @@ import { Navbar, Stack, Button } from "react-bootstrap";
 import { getRequest } from "../../../Services/privateApiService";
 import { List } from "react-bootstrap-icons";
 
-const Nav = () => {
+const Nav = ({ openSidebar }) => {
   const [orgName, setOrgName] = useState("");
   const [_, setMenuIsOpen] = useState(false);
 
   const openMenu = () => {
+    openSidebar();
     setMenuIsOpen((prev) => {
       if (!prev) {
         document.getElementById("menuIcon").style.transform = "rotate(90deg)";

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Table, Container, Modal } from "react-bootstrap";
 import slidesService from "./../../Services/slidesService";
-import Header from "./Header";
-
 const SlidesList = () => {
   const [slides, setSlides] = useState([]);
   const [showImage, setShowImage] = useState(false);
@@ -39,7 +37,6 @@ const SlidesList = () => {
 
   return (
     <Container>
-      <Header />
       <h3>Slides</h3>
       <Button as={Link} className="mb-3" to="/backoffice/slides/create">
         Crear Slide

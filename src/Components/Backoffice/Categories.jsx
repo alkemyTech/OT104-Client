@@ -5,7 +5,6 @@ import { TrashFill, PencilFill } from "react-bootstrap-icons";
 import ConfirmModal from "../Categories/ConfirmModal";
 import { useSelector, useDispatch } from "react-redux";
 import { getCategories } from "../../features/categories/categoriesSlice";
-import Header from "./Header";
 
 //format the date to local time
 const formatDate = (date) => {
@@ -47,7 +46,6 @@ export default function Categories() {
       <ConfirmModal showModal={showModal} data={modalData} />
       <div className="row">
         <div className="col">
-          <Header />
           <h3>Listado de categorias</h3>
           <Button as={Link} to="/backoffice/categories/create" className="mb-3">
             Nueva categoria

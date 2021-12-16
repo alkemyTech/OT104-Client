@@ -31,10 +31,12 @@ import Thanks from "./Components/Donations/Thanks";
 import BackOfficeMembersList from "./Components/Backoffice/BackOfficeMembersList";
 import "bootstrap/dist/css/bootstrap.min.css";
 import News from "./Components/News/NewsSection";
+import Header from "./Components/Backoffice/Header";
 
 function App() {
   return (
     <BrowserRouter>
+      <Header />
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/login" component={LoginForm} />

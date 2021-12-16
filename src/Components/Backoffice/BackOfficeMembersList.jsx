@@ -10,7 +10,6 @@ import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
 import { Pencil, Trash } from "react-bootstrap-icons";
 import membersService from "../../Services/membersService";
-import Header from "./Header";
 
 const BackOfficeMembersList = () => {
   const [loading, setLoading] = useState(true);
@@ -80,7 +79,6 @@ const BackOfficeMembersList = () => {
       <BrowserRouter>
         <Row>
           <Col>
-            <Header />
             <h3>Listado de miembros</h3>
             <Button as={Link} to="/backoffice/members/create" className="mb-3">
               Nuevo miembro
