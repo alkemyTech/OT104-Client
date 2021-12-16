@@ -9,9 +9,10 @@ const config = {
 export const get = async (url) => {
   try {
     const res = await axios.get(url);
+    throw new Error();
     return res;
   } catch (err) {
-    return alertServiceError("Error to Get", JSON.stringify(err.message));
+    return alertServiceError("Error to Get", err.message);
   }
 };
 
@@ -22,6 +23,6 @@ export const Post = async (route, body) => {
     });
     return res;
   } catch (err) {
-    return alertServiceError("Error to Post", JSON.stringify(err.message));
+    return alertServiceError("Error to Post", err.message);
   }
 };
