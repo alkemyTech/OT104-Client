@@ -19,7 +19,7 @@ import Contact from "./Components/Contact/Contact";
 import Categories from "./Components/Backoffice/Categories";
 import LoginForm from "./Components/Auth/LoginForm";
 import RegisterForm from "./Components/Auth/RegisterForm";
-import NewsList from "./Components/News/NewsSection";
+import NewsList from "./Components/Backoffice/NewsList";
 import EditForm from "./Components/Organization/EditForm";
 import Footer from "./Components/Footer";
 import ActivityDetail from "./Components/Activities/Detail/ActivityDetail";
@@ -65,6 +65,7 @@ function App() {
         <Route path="/gracias" component={Thanks} />
         <Route path="/backoffice/members" component={BackOfficeMembersList} />
         <Route path="/Novedades" component={News} />
+        <Route path="/backoffice/users" component={BackofficeUserList} />
       </Switch>
     </BrowserRouter>
   );

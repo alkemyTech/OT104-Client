@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Breadcrumb, Table, Container, Spinner } from "react-bootstrap";
+import { Button, Table, Container, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { TrashFill, PencilFill } from "react-bootstrap-icons";
+import Header from "./Header";
 
 function BackofficeUserList() {
   const [dataContact, setData] = useState([]);
@@ -21,13 +22,11 @@ function BackofficeUserList() {
       ) : (
         <div className="row">
           <div className="col">
-            <Breadcrumb className="mt-3">
-              <Link className="breadcrumb-item" to="/backoffice/users/create">
-                Backoffice
-              </Link>
-              <Breadcrumb.Item active>Create</Breadcrumb.Item>
-            </Breadcrumb>
-            <h1 className="text-center">Usuarios</h1>
+            <Header />
+            <h3>Usuarios</h3>
+            <Button as={Link} to="/backoffice/users/create" className="mb-3">
+              Nuevo usuario
+            </Button>
           </div>
 
           <Table striped bordered hover className="align-middle">

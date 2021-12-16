@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Table, Container, Breadcrumb, Button } from "react-bootstrap";
+import { Table, Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { TrashFill, PencilFill } from "react-bootstrap-icons";
 import ConfirmModal from "../Categories/ConfirmModal";
 import { useSelector, useDispatch } from "react-redux";
 import { getCategories } from "../../features/categories/categoriesSlice";
+import Header from "./Header";
 
 //format the date to local time
 const formatDate = (date) => {
@@ -46,13 +47,8 @@ export default function Categories() {
       <ConfirmModal showModal={showModal} data={modalData} />
       <div className="row">
         <div className="col">
-          <Breadcrumb className="mt-3">
-            <Link className="breadcrumb-item" to="/backoffice">
-              Backoffice
-            </Link>
-            <Breadcrumb.Item active>Categories</Breadcrumb.Item>
-          </Breadcrumb>
-          <h1>Listado de categorias</h1>
+          <Header />
+          <h3>Listado de categorias</h3>
           <Button as={Link} to="/backoffice/categories/create" className="mb-3">
             Nueva categoria
           </Button>

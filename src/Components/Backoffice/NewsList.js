@@ -4,6 +4,7 @@ import { Container, Row, Button, Col, Table, Modal } from "react-bootstrap";
 import { TrashFill, PencilFill } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getNews } from "../../features/news/newsReducer";
+import Header from "./Header";
 
 const NewsList = () => {
   const [modalImg, setModalImg] = useState({});
@@ -43,26 +44,23 @@ const NewsList = () => {
   return (
     <Container fluid>
       <Row>
-        <h1 className='text-center mt-4 mb-4'>Listado de Novedades</h1>
         <Col>
-          <Button
-            className='mt-4 mb-4'
-            as={Link}
-            to={`/backoffice/news/create`}
-          >
+          <Header />
+          <h3>Listado de Novedades</h3>
+          <Button className="mb-3" as={Link} to={`/backoffice/news/create`}>
             Crear Novedad
           </Button>
         </Col>
       </Row>
       <Row>
         <Col>
-          <Table hover striped bordered className='align-middle'>
+          <Table hover striped bordered className="align-middle">
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Image</th>
                 <th>createdAt</th>
-                <th className='text-center'>Actions</th>
+                <th className="text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -74,7 +72,7 @@ const NewsList = () => {
                       <td>{name}</td>
                       <td>
                         <Button
-                          variant='link'
+                          variant="link"
                           onClick={() => openModalImg(image)}
                         >
                           Ver imagen
@@ -82,14 +80,14 @@ const NewsList = () => {
                       </td>
                       <td>{parsedDate}</td>
                       <td>
-                        <div className='d-flex justify-content-around gap-1'>
+                        <div className="d-flex justify-content-around gap-1">
                           <Button
-                            variant='outline-primary'
+                            variant="outline-primary"
                             onClick={toEditForm}
                           >
                             <PencilFill />
                           </Button>
-                          <Button variant='outline-danger' onClick={RemoveNew}>
+                          <Button variant="outline-danger" onClick={RemoveNew}>
                             <TrashFill />
                           </Button>
                         </div>
@@ -108,10 +106,10 @@ const NewsList = () => {
       </Row>
       <Modal show={modalImg.open} onHide={closeModalImg}>
         <Modal.Body>
-          <img src={modalImg.src} alt='detail' width='100%' />
+          <img src={modalImg.src} alt="detail" width="100%" />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant='danger' onClick={closeModalImg}>
+          <Button variant="danger" onClick={closeModalImg}>
             Close
           </Button>
         </Modal.Footer>

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button, Table, Container, Modal, Breadcrumb } from "react-bootstrap";
+import { Button, Table, Container, Modal } from "react-bootstrap";
 import slidesService from "./../../Services/slidesService";
+import Header from "./Header";
 
 const SlidesList = () => {
   const [slides, setSlides] = useState([]);
@@ -38,17 +39,11 @@ const SlidesList = () => {
 
   return (
     <Container>
-      <Breadcrumb>
-        <Breadcrumb.Item href="#">Backoffice</Breadcrumb.Item>
-        <Breadcrumb.Item active>Slides</Breadcrumb.Item>
-      </Breadcrumb>
-      <h1>Slides</h1>
-      <Link
-        className="btn btn-primary mt-2 mb-2"
-        to="/backoffice/slides/create"
-      >
+      <Header />
+      <h3>Slides</h3>
+      <Button as={Link} className="mb-3" to="/backoffice/slides/create">
         Crear Slide
-      </Link>
+      </Button>
       <Table striped bordered hover>
         <thead>
           <tr>
