@@ -1,0 +1,19 @@
+.thanksMessageContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  height: 100vh;
+  width: 100vw;
+  padding: 1rem;
+}
+
+.thanksMessage {
+  font-size: 3rem;
+  text-align: center;
+}
+
+.thanksLogo:hover {
+  cursor: pointer;
+}

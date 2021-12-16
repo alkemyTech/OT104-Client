@@ -1,41 +1,18 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Container, Row, Button, Col, Table, Modal } from 'react-bootstrap';
-import { TrashFill, PencilFill } from 'react-bootstrap-icons';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Container, Row, Button, Col, Table, Modal } from "react-bootstrap";
+import { TrashFill, PencilFill } from "react-bootstrap-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { getNews } from "../../features/news/newsReducer";
 
 const NewsList = () => {
   const [modalImg, setModalImg] = useState({});
+  const { _loading, news, _error } = useSelector((state) => state.news);
+  const dispatch = useDispatch();
 
-  const newsMock = [
-    {
-      id: 1,
-      name: 'Titulo de prueba 1',
-      image:
-        'http://www.w-h-p-h.com/wp-content/uploads/2016/06/Test-Cover-01.jpg',
-      createdAt: '17/11/21',
-    },
-    {
-      id: 2,
-      name: 'Titulo de prueba 2',
-      image:
-        'http://www.w-h-p-h.com/wp-content/uploads/2016/06/Test-Cover-02.jpg',
-      createdAt: '18/11/21',
-    },
-    {
-      id: 3,
-      name: 'Titulo de prueba 3',
-      image:
-        'http://www.w-h-p-h.com/wp-content/uploads/2016/06/Test-Cover-03.jpg',
-      createdAt: '19/12/21',
-    },
-    {
-      id: 4,
-      name: 'Titulo de prueba 4',
-      image:
-        'http://www.w-h-p-h.com/wp-content/uploads/2016/06/Test-Cover-04.jpg',
-      createdAt: '20/12/21',
-    },
-  ];
+  useEffect(() => {
+    news.length === 0 && dispatch(getNews());
+  }, [dispatch]);
 
   const openModalImg = (src, name) => {
     setModalImg({
@@ -51,11 +28,16 @@ const NewsList = () => {
   };
 
   const toEditForm = () => {
-    alert('direcciona a formulario de edicion');
+    alert("direcciona a formulario de edicion");
   };
 
   const RemoveNew = () => {
-    alert('elimina la novedad');
+    alert("elimina la novedad");
+  };
+
+  const parseDate = (isoDate) => {
+    const date = new Date(isoDate); // ISO 8601 date string to Date object
+    return date.toLocaleDateString("en-GB"); // returns a string like 'dd/mm/yyyy'
   };
 
   return (
@@ -84,20 +66,21 @@ const NewsList = () => {
               </tr>
             </thead>
             <tbody>
-              {newsMock.length > 0 ? (
-                newsMock.map((element) => {
+              {news.length > 0 ? (
+                news.map(({ id, name, image, created_at }) => {
+                  const parsedDate = parseDate(created_at);
                   return (
-                    <tr key={element.id.toString()}>
-                      <td>{element.name}</td>
+                    <tr key={id.toString()}>
+                      <td>{name}</td>
                       <td>
                         <Button
                           variant='link'
-                          onClick={() => openModalImg(element.image)}
+                          onClick={() => openModalImg(image)}
                         >
                           Ver imagen
                         </Button>
                       </td>
-                      <td>{element.createdAt}</td>
+                      <td>{parsedDate}</td>
                       <td>
                         <div className='d-flex justify-content-around gap-1'>
                           <Button

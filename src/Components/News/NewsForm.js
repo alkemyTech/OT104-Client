@@ -49,8 +49,8 @@ const NewsForm = ({ newToEdit = false }) => {
   // handle image change in formik state
   useEffect(() => {
     formik.setFieldValue("image", imageState);
-  }, [imageState]); // eslint-disable-line
-
+  }, [imageState]);
+  
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -72,7 +72,7 @@ const NewsForm = ({ newToEdit = false }) => {
     let isError = false;
 
     const newsSubmission = axios.create({
-      baseURL: "http://ongapi.alkemy.org/api/",
+      baseURL: process.env.REACT_APP_URL_ONG,
     });
 
     if (newToEdit) {
