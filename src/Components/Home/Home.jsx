@@ -4,16 +4,14 @@ import Newness from "./Newness";
 import Slider from "./Slider/Slider";
 import service from "../../Services/slidesService";
 import Loader from "../../Components/Home/Loader";
-import Alert from "react-bootstrap/Alert";
+import { alertServiceError } from "../Alert/AlertService";
 
 function Home() {
   const [slides, setSlides] = React.useState([]);
-  const [slidesError, setSlidesError] = React.useState(false);
   const getSlides = async () => {
-    setSlidesError(false);
     const res = await service.getAll();
     if (res && res.status !== 200) {
-      setSlidesError(true);
+      alertServiceError("Error loading slides");
       return;
     }
     const slidesFromServer = res.data.data;
@@ -24,12 +22,10 @@ function Home() {
   }, []);
 
   const [news, setNews] = useState([]);
-  const [newsError, setNewsError] = useState(false);
 
   const content = (
     <>
       <Slider slides={slides} />
-      {slidesError && <Alert variant="danger">Error loading slides</Alert>}
       <h1 className="text-center m-2">
         Bienvenidos <br />a <br />
         Somos más
@@ -37,22 +33,18 @@ function Home() {
 
       <h2 className="text-center mt-3">Ultimas Novedades</h2>
       <Newness news={news} />
-      {newsError && <Alert variant="danger">Error loading news</Alert>}
     </>
   );
 
-  // this need to use the service api
   useEffect(() => {
-    setNewsError(false);
     const getNewsData = async () => {
-      setNewsError(false);
       await axios
         .get("http://ongapi.alkemy.org/api/news?limit=4")
         .then((newData) => {
           setNews((news) => newData.data.data);
         })
         .catch((err) => {
-          setNewsError(true);
+          alertServiceError("Error loading news");
         });
     };
     getNewsData();
