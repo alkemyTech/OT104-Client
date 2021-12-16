@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { get } from "../../../Services/publicApiService";
+import { get } from "../../Services/publicApiService";
 
 const initialState = {
-  membersList: [],
+  members: [],
   loading: false,
   error: null,
 };
@@ -12,7 +12,7 @@ export const getMembers = createAsyncThunk(
   "backoffice/getMembers",
   async () => {
     try {
-      const response = await get("http://ongapi.alkemy.org/api/members", null);
+      const response = await get("http://ongapi.alkemy.org/api/members");
       return response.data.data;
     } catch (error) {
       throw new Error("Error get members backoffice");
@@ -31,7 +31,7 @@ const backofficeReducer = createSlice({
     });
     builder.addCase(getMembers.fulfilled, (state, action) => {
       state.loading = false;
-      state.membersList = action.payload;
+      state.members = action.payload;
     });
     builder.addCase(getMembers.rejected, (state) => {
       state.loading = false;
