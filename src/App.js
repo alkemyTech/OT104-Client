@@ -26,8 +26,11 @@ import ActivityDetail from "./Components/Activities/Detail/ActivityDetail";
 import SlidesList from "./Components/Backoffice/SlidesList";
 import Activities from "./Components/Activities/Activities";
 import ActivitiesList from "./Components/Backoffice/ActivitiesList";
+import Donation from "./Components/Donations/Donation";
+import Thanks from "./Components/Donations/Thanks";
 import BackOfficeMembersList from "./Components/Backoffice/BackOfficeMembersList";
 import "bootstrap/dist/css/bootstrap.min.css";
+import News from "./Components/News/NewsSection";
 
 function App() {
   return (
@@ -56,12 +59,13 @@ function App() {
         <Route path="/Actividades" component={Activities} />
         <Route path="/backoffice/activities" component={ActivitiesList} />
         <Route path="/backoffice/slides" component={SlidesList} />
-        <Route
-          path="/backoffice/backofficememberslist"
-          component={BackOfficeMembersList}
-        />
+        <Route path="/donar">
+          <Donation text={"!Hacé tu donación ya mismo :)"} />
+        </Route>
+        <Route path="/gracias" component={Thanks} />
+        <Route path="/backoffice/members" component={BackOfficeMembersList} />
+        <Route path="/Novedades" component={News} />
       </Switch>
-      <NewsList />
     </BrowserRouter>
   );
 }

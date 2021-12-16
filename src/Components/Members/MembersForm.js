@@ -6,6 +6,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
 import { FormControl } from 'react-bootstrap';
+import membersService from '../../Services/membersService';
 
 const MembersForm = ({member = null}) => {
   
@@ -64,31 +65,31 @@ const MembersForm = ({member = null}) => {
               image: imageString
             };
             if (isEditing) {
-            try {
-                await axios.patch(`http://ongapi.alkemy.org/api/members/${member.id}`, userData)
-                setMessage("Miembro editado correctamente");
-                setTimeout(()=>{
-            setMessage("")
-            }, 4000)
-            } catch (error) {
-                setMessage("Ha habido un error.");
-                setTimeout(()=>{
-                setMessage("")
-                }, 4000)
-            }}
-            try {
-                await axios.post(`http://ongapi.alkemy.org/api/members`, userData)
-                .then((response)=>{
-                setMessage("Miembro creado correctamente");
-                setTimeout(()=>{
-                setMessage("")
-                }, 4000)
-            })
-           } catch (error) {
-                    setMessage("Ha habido un error.");
-                setTimeout(()=>{
-                setMessage("")
-                }, 4000)
+              try {
+                  await membersService.edit(member.id, userData);
+                  setMessage("Miembro editado correctamente");
+                  setTimeout(()=>{
+                    setMessage("")
+                  }, 4000)
+              } catch (error) {
+                  setMessage("Ha habido un error.");
+                  setTimeout(()=>{
+                    setMessage("")
+                  }, 4000)
+              }
+            }else{
+              try {
+                  await membersService.create(userData);
+                  setMessage("Miembro creado correctamente");
+                  setTimeout(()=>{
+                  setMessage("")
+                  }, 4000)
+              } catch (error) {
+                  setMessage("Ha habido un error.");
+                  setTimeout(()=>{
+                  setMessage("")
+                  }, 4000)
+              }
             }
          }}
         >
