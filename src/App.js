@@ -15,21 +15,28 @@ import ProjectsForm from "./Components/Projects/ProjectsForm";
 import About from "./Components/About/About";
 import BackofficeUserList from "./Components/Backoffice/BackofficeUserList";
 import Contact from "./Components/Contact/Contact";
-import Categories from "./Components/Categories/Categories";
+import Categories from "./Components/Backoffice/Categories";
 import LoginForm from "./Components/Auth/LoginForm";
 import RegisterForm from "./Components/Auth/RegisterForm";
-import NewsList from "./Components/News/NewsList";
+import NewsList from "./Components/News/NewsSection";
 import EditForm from "./Components/Organization/EditForm";
 import Footer from "./Components/Footer";
 import ActivityDetail from "./Components/Activities/Detail/ActivityDetail";
-import SlidesList from "./Components/Slides/SlidesList";
+import SlidesList from "./Components/Backoffice/SlidesList";
 import Activities from "./Components/Activities/Activities";
-import ActivitiesList from "./Components/Activities/backofficce/ActivitiesList.jsx";
+import ActivitiesList from "./Components/Backoffice/ActivitiesList";
+import Donation from "./Components/Donations/Donation";
+import Thanks from "./Components/Donations/Thanks";
+import BackOfficeMembersList from "./Components/Backoffice/BackOfficeMembersList";
 import "bootstrap/dist/css/bootstrap.min.css";
+<<<<<<< HEAD
 import { Provider } from "react-redux";
 import store from "./app/store";
 import OrganizationInfo from "./Components/Organization/OrganizationInfo";
 
+=======
+import News from "./Components/News/NewsSection";
+>>>>>>> main
 function App() {
   return (
     <Provider store={store}>
@@ -37,6 +44,7 @@ function App() {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/login" component={LoginForm} />
+        <Route path="/toys-campaign" component={ToysCampaign} />
         <Route path="/create-activity" component={ActivitiesForm} />
         <Route path="/create-category" component={CategoriesForm} />
         <Route path="/create-news" component={NewsForm} />
@@ -50,7 +58,6 @@ function App() {
         <Route path="/contacto" component={Contact} />
         <Route path="/registerform" component={RegisterForm} />
         <Route path="/backoffice/categories" component={Categories} />
-        <Route path="/backoffice/activities" component={ActivitiesList} />
         <Route path="/Nosotros" component={About} />
         <Route path="/backoffice/news" component={NewsList} />
         <Route path="/backoffice/organization/edit" component={EditForm} />
@@ -58,9 +65,19 @@ function App() {
         <Route path="/Actividades" component={Activities} />
         <Route path="/backoffice/activities" component={ActivitiesList} />
         <Route path="/backoffice/slides" component={SlidesList} />
+<<<<<<< HEAD
         <Route path="./Components/Organization/OrganizationInfo"component={OrganizationInfo} />
       </Switch>
       <OrganizationInfo/>
+=======
+        <Route path="/donar">
+          <Donation text={"!Hacé tu donación ya mismo :)"} />
+        </Route>
+        <Route path="/gracias" component={Thanks} />
+        <Route path="/backoffice/members" component={BackOfficeMembersList} />
+        <Route path="/Novedades" component={News} />
+      </Switch>
+>>>>>>> main
     </BrowserRouter>
     </Provider>
   );

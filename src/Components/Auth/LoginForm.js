@@ -1,23 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { login, logout } from "../../features/auth/authReducer";
 import axios from "axios";
+import { useHistory } from "react-router";
+
 function LoginForm() {
+  const isAuth = useSelector((state) => state.auth.isAuthenticated);
+  const history = useHistory();
+  const dispatch = useDispatch();
   const logInAuth = async (data) => {
-    await axios
-      .post("http://ongapi.alkemy.org/api/login", {
-        email: data.emailUser,
-        password: data.passwordUser,
-      })
-      .then((response) => {
-        localStorage.setItem(
-          "sessionToken",
-          JSON.stringify(response.data.data)
-        );
-      })
-      .catch((err) => {
-        alert("Error" + err);
-      });
+    dispatch(login({ email: data.emailUser, password: data.passwordUser }));
   };
+
+  useEffect(() => {
+    if (isAuth) history.push("/");
+  }, [isAuth]);
 
   return (
     <Formik

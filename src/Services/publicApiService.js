@@ -1,15 +1,19 @@
 import axios from "axios";
-
+import { alertServiceError } from "../Components/Alert/AlertService";
 const config = {
   headers: {
     Group: 104, //Aqui va el ID del equipo!!
   },
 };
 
-export const get = async (url, id) => {
-  const res =
-    id === null ? await axios.get(url) : await axios.get(`${url}/${id}`);
-  return res;
+export const get = async (url) => {
+  try {
+    const res = await axios.get(url);
+    throw new Error();
+    return res;
+  } catch (err) {
+    return alertServiceError("Error to Get", err.message);
+  }
 };
 
 export const Post = async (route, body) => {
@@ -19,6 +23,6 @@ export const Post = async (route, body) => {
     });
     return res;
   } catch (err) {
-    throw err;
+    return alertServiceError("Error to Post", err.message);
   }
 };

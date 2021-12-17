@@ -5,18 +5,19 @@ import { Card } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import "./styles/newness.css";
+import { alertServiceError } from '../Alert/AlertService';
 
 function Newness() {
   const [news, setNews] = useState([]);
   useEffect(() => {
     const getNewsData = async () => {
       await axios
-        .get("http://ongapi.alkemy.org/api/news?limit=4")
+        .get(process.env.REACT_APP_URL_GET_NEWS + `?limit=4`)
         .then((newData) => {
           setNews((news) => newData.data.data);
         })
         .catch((err) => {
-          alert("Error", err);
+          alertServiceError("Error", err);
         });
     };
     getNewsData();
