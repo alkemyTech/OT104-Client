@@ -32,6 +32,7 @@ import BackOfficeMembersList from "./Components/Backoffice/BackOfficeMembersList
 import News from "./Components/News/NewsSection";
 import Header from "./Components/Header/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 function App() {
   return (
     <>
