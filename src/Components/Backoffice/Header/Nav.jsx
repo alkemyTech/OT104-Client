@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Navbar, Stack, Button } from "react-bootstrap";
-import { getRequest } from "../../../Services/privateApiService";
 import { List } from "react-bootstrap-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOrgData } from "../../../features/about/aboutReducer";
 
 const Nav = ({ openSidebar }) => {
-  const [orgName, setOrgName] = useState("");
   const [_, setMenuIsOpen] = useState(false);
+  const organization = useSelector((state) => state.about.orgData);
+  const dispatch = useDispatch();
 
   const openMenu = () => {
     openSidebar();
@@ -21,14 +23,7 @@ const Nav = ({ openSidebar }) => {
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        let res = await getRequest(process.env.REACT_APP_URL_ORGANIZATION);
-        setOrgName(res.data.data.name);
-      } catch (err) {
-        console.error(err);
-      }
-    })();
+    dispatch(fetchOrgData());
   }, []);
   return (
     <div>
@@ -42,7 +37,9 @@ const Nav = ({ openSidebar }) => {
             }}
           />
         </Button>
-        <Navbar.Brand className="mr-0 fw-bold">{orgName}</Navbar.Brand>
+        <Navbar.Brand className="mr-0 fw-bold">
+          {organization.name}
+        </Navbar.Brand>
       </Stack>
     </div>
   );
