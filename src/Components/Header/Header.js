@@ -12,7 +12,12 @@ const Header = () => {
           <img className='logoCampaña' src={LogoCampaña} alt='logoCampaña' />
         </div>
         <div>
-          <h2 className='slogan'>Slogan Campaña</h2>
+          <h2 className='slogan'>
+            Mejorar la calidad de vida de niños y familias en situación de
+            vulnerabilidad en el barrio La Cava otorgando <br></br> un cambio de
+            rumbo en cada individuo a través de la educación, salud, trabajo,
+            deporte, responsabilidad y compromiso
+          </h2>
         </div>
         <div>
           <img className='logoONG' src={LogoONG} alt='logoONG' />

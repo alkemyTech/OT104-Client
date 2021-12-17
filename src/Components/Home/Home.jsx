@@ -1,7 +1,6 @@
 import React from "react";
 import Newness from "./Newness";
 import Slider from "./Slider";
-import Header from "../Header/Header";
 
 function Home() {
   return (
