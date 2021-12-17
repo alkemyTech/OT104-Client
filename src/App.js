@@ -29,14 +29,7 @@ import Donation from "./Components/Donations/Donation";
 import Thanks from "./Components/Donations/Thanks";
 import BackOfficeMembersList from "./Components/Backoffice/BackOfficeMembersList";
 import "bootstrap/dist/css/bootstrap.min.css";
-<<<<<<< HEAD
-import { Provider } from "react-redux";
-import store from "./app/store";
-import OrganizationInfo from "./Components/Organization/OrganizationInfo";
-
-=======
 import News from "./Components/News/NewsSection";
->>>>>>> main
 function App() {
   return (
     <Provider store={store}>
@@ -65,11 +58,6 @@ function App() {
         <Route path="/Actividades" component={Activities} />
         <Route path="/backoffice/activities" component={ActivitiesList} />
         <Route path="/backoffice/slides" component={SlidesList} />
-<<<<<<< HEAD
-        <Route path="./Components/Organization/OrganizationInfo"component={OrganizationInfo} />
-      </Switch>
-      <OrganizationInfo/>
-=======
         <Route path="/donar">
           <Donation text={"!Hacé tu donación ya mismo :)"} />
         </Route>
@@ -77,7 +65,6 @@ function App() {
         <Route path="/backoffice/members" component={BackOfficeMembersList} />
         <Route path="/Novedades" component={News} />
       </Switch>
->>>>>>> main
     </BrowserRouter>
     </Provider>
   );
