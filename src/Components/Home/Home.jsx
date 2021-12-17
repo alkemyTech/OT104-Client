@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Newness from "./Newness";
 import Slider from "./Slider/Slider";
 import service from "../../Services/slidesService";
 import newsServices from "../../Services/novedadesService";
-import Loader from "../../Components/Home/Loader";
 import { alertServiceError } from "../Alert/AlertService";
+import Spinner from "../Spinner/Spinner";
 
 function Home() {
   const [slides, setSlides] = React.useState([]);
@@ -40,7 +39,6 @@ function Home() {
   useEffect(() => {
     const getNewsData = async () => {
       const res = await newsServices.getAll();
-      console.log("res", res);
       if (res && res.status !== 200) {
         alertServiceError("Error loading news");
         return;
@@ -52,7 +50,7 @@ function Home() {
 
   return (
     <div className="home-container">
-      {news.length === 0 && slides.length === 0 ? <Loader /> : content}
+      {news.length === 0 && slides.length === 0 ? <Spinner /> : content}
     </div>
   );
 }
