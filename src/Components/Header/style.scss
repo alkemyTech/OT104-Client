@@ -1,6 +1,7 @@
 .navbar-container {
   background-color: #fafa88;
 }
+
 .active {
   background-color: #db5752;
   border: 1px solid rgb(172, 170, 170);
@@ -8,7 +9,7 @@
 
 .link-to-section {
   color: #9ac9fb;
-  padding: 1.3rem;
+  padding: 0.5rem;
   margin: 0.1rem;
   text-decoration: none;
   border-radius: 0.7rem;
@@ -16,4 +17,10 @@
 
 .logo-img {
   height: 8vh;
+}
+
+@media (max-width: 600px) {
+  .img-logo {
+    height: auto;
+  }
 }

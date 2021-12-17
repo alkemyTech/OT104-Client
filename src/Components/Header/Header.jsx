@@ -24,11 +24,14 @@ function Header() {
             ) : (
               navBarItems.map((item) => {
                 return (
-                  <Nav.Link key={item.id}>
-                    <NavLink to={item.path} className="link-to-section">
-                      {item.name}
-                    </NavLink>
-                  </Nav.Link>
+                  <NavLink
+                    to={item.path}
+                    exact
+                    className="link-to-section"
+                    key={item.id}
+                  >
+                    {item.name}
+                  </NavLink>
                 );
               })
             )}
