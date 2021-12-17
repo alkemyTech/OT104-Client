@@ -7,8 +7,8 @@ import TituloAbout from "./TituloAbout";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Loader from "../../Components/About/Loader";
 import { alertServiceError } from "../Alert/AlertService";
+import Spinner from "../Spinner/Spinner";
 
 const About = () => {
   const [aboutTitle, setAboutTitle] = useState("");
@@ -66,7 +66,7 @@ const About = () => {
   return (
     <Container fluid>
       {aboutTitle === "" && aboutText === "" && memberList.length === 0 ? (
-        <Loader />
+        <Spinner />
       ) : (
         content
       )}
