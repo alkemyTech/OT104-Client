@@ -2,6 +2,7 @@ import React from 'react'
 import MiembrosAbout from './MiembrosAbout'
 import TextoAbout from './TextoAbout'
 import TituloAbout from './TituloAbout'
+import RedesAbout from './RedesAbout'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -20,6 +21,7 @@ const About = () => {
         <Col></Col>
         <div style={{ marginTop: "5%" }}> <MiembrosAbout /></div>
       </Row>
+      <RedesAbout/>
     </Container >
   )
 }
