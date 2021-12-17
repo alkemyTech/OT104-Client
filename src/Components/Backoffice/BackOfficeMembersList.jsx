@@ -15,9 +15,7 @@ import { getMembers } from "../../features/backoffice_members/backofficeMembersR
 const BackOfficeMembersList = () => {
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
-  const { members, loading, _error } = useSelector(
-    (state) => state.getBackofficeMembers
-  );
+  const { members, loading, _error } = useSelector((state) => state.members);
 
   useEffect(() => {
     dispatch(getMembers());

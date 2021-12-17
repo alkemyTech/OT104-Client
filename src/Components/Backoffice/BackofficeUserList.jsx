@@ -10,9 +10,7 @@ function BackofficeUserList() {
   const users = useSelector((state) => state.users.users);
 
   useEffect(() => {
-    if (users.length === 0) {
-      dispatch(getUsers());
-    }
+    dispatch(getUsers());
   });
 
   return (
