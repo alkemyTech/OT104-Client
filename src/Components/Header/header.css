@@ -1,0 +1,46 @@
+.navbar {
+  background-color: rgba(154, 201, 251, 0.8);
+  padding: 10px;
+}
+
+.logoCampaña {
+  height: 40px;
+}
+
+.logoONG {
+  display: none;
+}
+
+.slogan {
+  display: none;
+}
+
+/* media query for tablets*/
+@media (min-width: 768px) and (max-width: 992px) {
+  .navbar {
+    background-color: rgba(222, 247, 227, 1);
+  }
+
+  .logoONG {
+    display: inline;
+    height: 50px;
+  }
+}
+
+/* media query for pc*/
+@media (min-width: 993px) {
+  .navbar {
+    background-color: rgba(222, 247, 227, 1);
+  }
+  .logoCampaña {
+    height: 65px;
+  }
+  .logoONG {
+    display: inline;
+    height: 75px;
+  }
+
+  .slogan {
+    display: inline;
+  }
+}
