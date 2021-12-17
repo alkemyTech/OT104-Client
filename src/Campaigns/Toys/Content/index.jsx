@@ -5,7 +5,7 @@ import { Stack, Container, Row, Col, Card, Placeholder } from "react-bootstrap";
 import styles from "./styles.module.css";
 import Image from "../../../Components/LazyLoadImage";
 
-const DATE_CAMPAIGN = new Date("2021,12,25, 00:00");
+const DATE_CAMPAIGN = new Date("2022,8,15, 00:00");
 
 const Content = () => {
   const [campaign, setCampaign] = useState({
