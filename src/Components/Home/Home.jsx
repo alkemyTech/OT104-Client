@@ -3,6 +3,7 @@ import axios from "axios";
 import Newness from "./Newness";
 import Slider from "./Slider/Slider";
 import service from "../../Services/slidesService";
+import newsServices from "../../Services/novedadesService";
 import Loader from "../../Components/Home/Loader";
 import { alertServiceError } from "../Alert/AlertService";
 
@@ -38,14 +39,13 @@ function Home() {
 
   useEffect(() => {
     const getNewsData = async () => {
-      await axios
-        .get(process.env.REACT_APP_URL_GET_NEWS + `?limit=4`)
-        .then((newData) => {
-          setNews((news) => newData.data.data);
-        })
-        .catch((err) => {
-          alertServiceError("Error loading news");
-        });
+      const res = await newsServices.getAll();
+      console.log("res", res);
+      if (res && res.status !== 200) {
+        alertServiceError("Error loading news");
+        return;
+      }
+      setNews(res.data.data);
     };
     getNewsData();
   }, []);
