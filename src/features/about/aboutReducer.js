@@ -5,7 +5,7 @@ export const fetchOrgData = createAsyncThunk(
     "about/fetchOrgData",
     async () =>  {
     const response = await axios.get("http://ongapi.alkemy.org/api/organization")
-    if (response.success) {
+    if (response.success=true) {
         return response.data.data;
     }
         throw new Error
@@ -15,7 +15,7 @@ export const fetchMembersData = createAsyncThunk(
     "about/fetchMembersData",
     async () => {
     const response = await axios.get("http://ongapi.alkemy.org/api/members")
-    if (response.success) {
+    if (response.success=true) {
         return response.data.data;
     }
         throw new Error
