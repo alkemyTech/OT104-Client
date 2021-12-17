@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { format, formatDistanceToNow } from "date-fns";
+import { format, formatDuration, intervalToDuration } from "date-fns";
 import es from "date-fns/locale/es";
 import { Stack } from "react-bootstrap";
 import Img from "../../images/Foto5.jpg";
@@ -20,17 +20,24 @@ const Content = () => {
   });
 
   useEffect(() => {
-    (() => {
-      let distance = formatDistanceToNow(DATE_CAMPAIGN, {
+    let clock = setInterval(() => {
+      let now = new Date();
+      let countdown = intervalToDuration({ start: now, end: DATE_CAMPAIGN });
+      let formatTime = formatDuration(countdown, {
+        format: ["days", "hours", "minutes", "seconds"],
         locale: es,
       });
       setCampaign((prev) => {
         return {
           ...prev,
-          countdown: distance,
+          countdown: formatTime,
         };
       });
-    })();
+    }, 1000);
+
+    return () => {
+      clearInterval(clock);
+    };
   }, []);
 
   return (
