@@ -32,7 +32,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import News from "./Components/News/NewsSection";
 function App() {
   return (
-      <Provider store={store}>
           <BrowserRouter>
             <Switch>
               <Route path="/" exact component={Home} />
@@ -66,7 +65,6 @@ function App() {
               <Route path="/Novedades" component={News} />
             </Switch>
           </BrowserRouter>
-      </Provider>
   );
 }
 
