@@ -1,11 +1,18 @@
-import React from "react";
-// import { useDispatch } from 'react-redux'
+import React, { useEffect } from "react";
+import { fetchOrgData } from "../../features/about/aboutReducer";
+import { useDispatch, useSelector } from "react-redux";
 
-const TextoAbout = ({ aboutDescription }) => {
-  // const dispatch = useDispatch()
+const TextoAbout = () => {
+  const dispatch = useDispatch();
+  const { orgData } = useSelector((state) => state.about);
+
+  useEffect(() => {
+    dispatch(fetchOrgData());
+  }, [dispatch]);
+
   return (
     <div>
-      <h5>{aboutDescription}</h5>
+      <h5>{orgData.short_description}</h5>
     </div>
   );
 };
