@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// axios will be removed in the next version and use apiService instead.
 import axios from "axios";
 import MiembrosAbout from "./MiembrosAbout";
 import TextoAbout from "./TextoAbout";
@@ -9,24 +8,31 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { alertServiceError } from "../Alert/AlertService";
 import Spinner from "../Spinner/Spinner";
+import { fetchOrgData } from "../../features/about/aboutReducer";
+import { useDispatch, useSelector } from "react-redux";
 
 const About = () => {
-  const [aboutTitle, setAboutTitle] = useState("");
-  const [aboutText, setAboutText] = useState("");
+  const dispatch = useDispatch();
   const [memberList, setMemberList] = useState([]);
+  const { orgData } = useSelector((state) => state.about);
+
+  useEffect(() => {
+    dispatch(fetchOrgData());
+  }, [dispatch]);
+
   const content = (
     <>
       <Row style={{ marginTop: "5%" }}>
         <Col></Col>
         <Col xs={5}>
-          <TituloAbout title={aboutTitle} />
+          <TituloAbout ongName={orgData.name} />
         </Col>
         <Col></Col>
       </Row>
       <Row style={{ marginTop: "2%" }}>
         <Col></Col>
         <Col xs={10}>
-          <TextoAbout aboutDescription={aboutText} />
+          <TextoAbout aboutDescription={orgData.short_description} />
         </Col>
         <Col></Col>
         <div style={{ marginTop: "5%" }}>
@@ -36,20 +42,6 @@ const About = () => {
       </Row>
     </>
   );
-  useEffect(() => {
-    const loadUsers = async () => {
-      const response = await axios.get(
-        `http://ongapi.alkemy.org/api/organization`
-      );
-      if (response && response.status !== 200) {
-        alertServiceError("Error cargango de organizacion");
-        return;
-      }
-      setAboutTitle(response.data.data.name);
-      setAboutText(response.data.data.short_description);
-    };
-    loadUsers();
-  }, []);
 
   useEffect(() => {
     const loadUsers = async () => {
@@ -65,11 +57,7 @@ const About = () => {
 
   return (
     <Container fluid>
-      {aboutTitle === "" && aboutText === "" && memberList.length === 0 ? (
-        <Spinner />
-      ) : (
-        content
-      )}
+      {orgData && memberList.length === 0 ? <Spinner /> : content}
     </Container>
   );
 };
