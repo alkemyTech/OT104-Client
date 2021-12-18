@@ -6,7 +6,7 @@ import {
 } from "./privateApiService";
 import { get } from "./publicApiService";
 
-const baseUrl = procces.env.REACT_APP_URL_SLIDES;
+const baseUrl = process.env.REACT_APP_URL_SLIDES;
 
 const getSlides = () => {
   return get(baseUrl);
