@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import MiembrosAbout from "./MiembrosAbout";
 import TextoAbout from "./TextoAbout";
 import TituloAbout from "./TituloAbout";
@@ -8,13 +7,20 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { alertServiceError } from "../Alert/AlertService";
 import Spinner from "../Spinner/Spinner";
-import { fetchOrgData } from "../../features/about/aboutReducer";
+import {
+  fetchOrgData,
+  fetchMembersData,
+} from "../../features/about/aboutReducer";
 import { useDispatch, useSelector } from "react-redux";
 
 const About = () => {
   const dispatch = useDispatch();
-  const [memberList, setMemberList] = useState([]);
-  const { orgData } = useSelector((state) => state.about);
+  const { orgData, membersData } = useSelector((state) => state.about);
+
+  console.log("membersData", membersData);
+  useEffect(() => {
+    dispatch(fetchMembersData());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchOrgData());
@@ -37,27 +43,15 @@ const About = () => {
         <Col></Col>
         <div style={{ marginTop: "5%" }}>
           {" "}
-          <MiembrosAbout memberList={memberList} />
+          <MiembrosAbout membersData={membersData} />
         </div>
       </Row>
     </>
   );
 
-  useEffect(() => {
-    const loadUsers = async () => {
-      const response = await axios.get(`http://ongapi.alkemy.org/api/members`);
-      if (response && response.status !== 200) {
-        alertServiceError("Error cargando los miembros");
-        return;
-      }
-      setMemberList(response.data.data);
-    };
-    loadUsers();
-  }, []);
-
   return (
     <Container fluid>
-      {orgData && memberList.length === 0 ? <Spinner /> : content}
+      {orgData.length === 0 && membersData.length === 0 ? <Spinner /> : content}
     </Container>
   );
 };
