@@ -6,19 +6,16 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Breadcrumb from "react-bootstrap/Breadcrumb";
 import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
 import { Pencil, Trash } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getMembers } from "../../features/backoffice_members/backofficeMembersReducer";
-//const loading = true;
+
 const BackOfficeMembersList = () => {
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
-  const { members, loading, _error } = useSelector(
-    (state) => state.getBackofficeMembers
-  );
+  const { members, loading, _error } = useSelector((state) => state.members);
 
   useEffect(() => {
     dispatch(getMembers());
@@ -71,14 +68,10 @@ const BackOfficeMembersList = () => {
       <BrowserRouter>
         <Row>
           <Col>
-            <Breadcrumb className="mt-3">
-              <Breadcrumb.Item as={Link} to="/backoffice">
-                Backoffice
-              </Breadcrumb.Item>
-              <Breadcrumb.Item active>Members</Breadcrumb.Item>
-            </Breadcrumb>
-            <h3 className="m-3">Listado de miembros</h3>
-            <Link to="/backoffice/members/create" />
+            <h3>Listado de miembros</h3>
+            <Button as={Link} to="/backoffice/members/create" className="mb-3">
+              Nuevo miembro
+            </Button>
           </Col>
         </Row>
         {loading ? (
