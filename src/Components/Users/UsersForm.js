@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../FormStyles.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -10,18 +10,39 @@ import Row from "react-bootstrap/Row";
 import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
 import userService from "../../Services/userService";
+import UseGeoLocation from "./useGeoLocation";
+import axios from "axios";
 
 const UserForm = ({ user = null }) => {
-  const [imageString, setImageString] = useState("") //imageString is the base64 string of the image
-  const [imageUrl, setImageUrl] = useState(()=>user?.profile_image || ""); //ImageUrl is the url of the image to be displayed
+  const [imageString, setImageString] = useState(""); //imageString is the base64 string of the image
+  const [imageUrl, setImageUrl] = useState(() => user?.profile_image || ""); //ImageUrl is the url of the image to be displayed
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const isEditing = !!user;
+  const [address, setAddress] = useState("");
+  const location = UseGeoLocation();
+  const api_key = "AIzaSyByrpyi221SHk-RGPPtcgtWQmlaSXytgb8";
 
+  const getAdress = async () => {
+    try {
+      const response = await axios.get(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coordinates.lat},${location.coordinates.long}&key=${api_key}`
+      );
+      console.log(response.data.results, "la response");
+      setAddress(response.data.results[0].formatted_address);
+
+      console.log(address, "add");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getAdress();
+  }, [location]);
   const roles = {
     admin: 1,
     user: 2,
-  }
+  };
 
   const initialValues = {
     name: user?.name || "",
@@ -37,7 +58,10 @@ const UserForm = ({ user = null }) => {
       .required("El nombre es obligatorio."),
     email: Yup.string().email("Email inválido").required("Obligatorio"),
     role_id: Yup.number()
-      .oneOf([roles.admin,roles.user], "Opciones válidas: administrador, usuario.")
+      .oneOf(
+        [roles.admin, roles.user],
+        "Opciones válidas: administrador, usuario."
+      )
       .required("Obligatorio"),
     profile_image: Yup.string()
       .matches(
@@ -57,63 +81,69 @@ const UserForm = ({ user = null }) => {
       onSubmit: async (values) => {
         setLoading(true);
         setMessage("");
-        let {profile_image, ...userData} = values;
-        userData = {...userData, profile_image: imageString};
+        let { profile_image, ...userData } = values;
+        userData = { ...userData, profile_image: imageString };
         // if the response is successful will have a data property with the user data and success property with true
         //Otherwise will have a response property with a data property whit an array of errors
         if (isEditing) {
           const res = await userService.update(user.id, userData);
           setLoading(false);
-          if(res.response) {
-            res.response.data.errors?.email ? // if the error is from the email field
-            setMessage("No se pudo editar el usuario, el email ya está registrado.")
-            : setMessage("No se pudo editar el usuario.")
-          }
-          else if(res.data.success) {
+          if (res.response) {
+            res.response.data.errors?.email // if the error is from the email field
+              ? setMessage(
+                  "No se pudo editar el usuario, el email ya está registrado."
+                )
+              : setMessage("No se pudo editar el usuario.");
+          } else if (res.data.success) {
             setMessage("Usuario actualizado correctamente.");
-          }else{
+          } else {
             setMessage("No se pudo aditar el usuario.");
           }
         } else {
           const res = await userService.create(userData);
           setLoading(false);
-          if(res.response) {
-            res.response.data.errors?.email ? // if the error is from the email field
-            setMessage("No se pudo crear el usuario, el email ya está registrado.")
-            : setMessage("No se pudo crear el usuario.")
-          }
-          else if(res.data.success) {
+          if (res.response) {
+            res.response.data.errors?.email // if the error is from the email field
+              ? setMessage(
+                  "No se pudo crear el usuario, el email ya está registrado."
+                )
+              : setMessage("No se pudo crear el usuario.");
+          } else if (res.data.success) {
             setMessage("Usuario creado correctamente.");
-          }else{
+          } else {
             setMessage("No se pudo crear el usuario.");
           }
         }
-      }
-  });
+      },
+    });
 
   const handleChangeImg = (event) => {
-    handleChange(event); 
+    handleChange(event);
     touched.profile_image = true;
-    const file = event.target.files[0];    
+    const file = event.target.files[0];
     if (file) {
-      setImageUrl(URL.createObjectURL(file)) // Create a URL from the file
-      const reader = new FileReader(); 
+      setImageUrl(URL.createObjectURL(file)); // Create a URL from the file
+      const reader = new FileReader();
       reader.onloadend = () => {
-        setImageString(reader.result) // Set the base64 string
-      }
+        setImageString(reader.result); // Set the base64 string
+      };
       reader.readAsDataURL(file);
     }
   };
-
+  console.log(location);
   return (
-    <Container style={{maxWidth:"30rem"}}>
+    <Container style={{ maxWidth: "30rem" }}>
       <Row>
-        <h1 style={{ textAlign: "center", marginTop:"1em"}}>
+        <h1 style={{ textAlign: "center", marginTop: "1em" }}>
           {isEditing ? "Editar usuario" : "Crear usuario"}
         </h1>
       </Row>
       <Row>
-        <Form onSubmit={handleSubmit} className="mb-3" encType="multipart/form-data">
+        <Form
+          onSubmit={handleSubmit}
+          className="mb-3"
+          encType="multipart/form-data"
+        >
           <Form.Group className="mb-3">
             <Form.Label> Nombre</Form.Label>
             <Form.Control
@@ -126,19 +156,18 @@ const UserForm = ({ user = null }) => {
               isInvalid={errors.name && touched.name}
               isValid={!errors.name && touched.name}
             />
-            {(errors.name && touched.name) 
-              ? 
-                <Form.Control.Feedback type="invalid">
-                  {errors.name}
-                </Form.Control.Feedback>
-              :
-                <Form.Text className="text-muted">
-                  El nombre debe contener al menos 4 caracteres.
-                </Form.Text>
-            }
+            {errors.name && touched.name ? (
+              <Form.Control.Feedback type="invalid">
+                {errors.name}
+              </Form.Control.Feedback>
+            ) : (
+              <Form.Text className="text-muted">
+                El nombre debe contener al menos 4 caracteres.
+              </Form.Text>
+            )}
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label > Correo electrónico </Form.Label>
+            <Form.Label> Correo electrónico </Form.Label>
             <Form.Control
               className="input-field"
               type="email"
@@ -167,17 +196,48 @@ const UserForm = ({ user = null }) => {
               isInvalid={errors.password && touched.password}
               isValid={touched.password && !errors.password}
             />
-            {(errors.password && touched.password) 
-              ? 
-                <Form.Control.Feedback type="invalid">
-                  {errors.password}
-                </Form.Control.Feedback>
-              :
-                <Form.Text className="text-muted">
-                  La contraseña debe contener al menos 8 caracteres.
-                </Form.Text>
-            }
+            {errors.password && touched.password ? (
+              <Form.Control.Feedback type="invalid">
+                {errors.password}
+              </Form.Control.Feedback>
+            ) : (
+              <Form.Text className="text-muted">
+                La contraseña debe contener al menos 8 caracteres.
+              </Form.Text>
+            )}
           </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label> GEOLOCATION </Form.Label>
+            <Form.Control
+              className="input-field"
+              type="adress"
+              name="adress"
+              value={values.adress}
+              onChange={handleChange}
+              placeholder={!address ? "address" : address}
+              onBlur={handleBlur}
+              isInvalid={errors.adress && touched.adress}
+              isValid={touched.adress && !errors.adress}
+            />
+            {errors.adress && touched.adress ? (
+              <Form.Control.Feedback type="invalid">
+                {errors.adress}
+              </Form.Control.Feedback>
+            ) : (
+              <Form.Text className="text-muted">
+                La direccion debe contener al menos 8 caracteres.
+              </Form.Text>
+            )}
+            {location.loaded ? (
+              <img
+                src={`https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinates.lat},${location.coordinates.long}&zoom=14&size=400x300&sensor=false&markers=color:blue%7C${location.coordinates.lat},${location.coordinates.long}&key=${api_key}`}
+                alt=""
+              />
+            ) : (
+              "Location data not aveliable"
+            )}
+          </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label htmlFor="role"> Rol de usuario </Form.Label>
             <Form.Select
@@ -209,49 +269,41 @@ const UserForm = ({ user = null }) => {
               isInvalid={errors.profile_image && touched.profile_image}
               isValid={touched.profile_image && !errors.profile_image}
             />
-            {(errors.profile_image && touched.profile_image) 
-              ?
-                <Form.Control.Feedback type="invalid">
-                  {errors.profile_image}
-                </Form.Control.Feedback>
-              : 
-                <Form.Text className="text-muted">
-                  La imagen debe ser un archivo .png o .jpg
-                </Form.Text>
-            }
+            {errors.profile_image && touched.profile_image ? (
+              <Form.Control.Feedback type="invalid">
+                {errors.profile_image}
+              </Form.Control.Feedback>
+            ) : (
+              <Form.Text className="text-muted">
+                La imagen debe ser un archivo .png o .jpg
+              </Form.Text>
+            )}
           </Form.Group>
           <Form.Group className="mb-3">
-            {(imageUrl && !errors.profile_image) 
-              ? 
-                <Image src={imageUrl} alt="foto de perfil" rounded fluid />
-              : null
-            }
+            {imageUrl && !errors.profile_image ? (
+              <Image src={imageUrl} alt="foto de perfil" rounded fluid />
+            ) : null}
           </Form.Group>
           {
             <Button type="submit" disabled={loading}>
-              {loading 
-                ?
-                  <Spinner
-                    as="span"
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                  />
-                :
-                  isEditing ? "Actualizar" : "Crear"
-              }
+              {loading ? (
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              ) : isEditing ? (
+                "Actualizar"
+              ) : (
+                "Crear"
+              )}
             </Button>
           }
         </Form>
       </Row>
-      <Row>
-        {message && 
-          <Alert variant="info">
-            {message}
-          </Alert>
-        }
-      </Row>
+      <Row>{message && <Alert variant="info">{message}</Alert>}</Row>
     </Container>
   );
 };
