@@ -1,9 +1,27 @@
 .countDown {
-  height: 100vh;
-  width: 100vw;
+  display: none;
+}
+.name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #495057;
+}
+.numBox {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  font-size: 5rem;
+  margin: 1rem 0;
+  padding: 0 2rem;
+}
+.time {
+  display: flex;
+}
+@media (min-width: 768px) {
+  .countDown {
+    display: block;
+    text-align: center;
+    font-size: 5rem;
+  }
 }
