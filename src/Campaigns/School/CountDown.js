@@ -70,8 +70,26 @@ function CountDown() {
   }, [now]);
   return (
     <div className={styles.countDown}>
-      {daysLeft} : {hours} : {minutes} :{" "}
-      {`${seconds < 10 ? "0" + seconds : seconds} `}
+      <div className={styles.days}>
+        <div className={styles.numBox}>
+          <div>{daysLeft}</div>
+          <span className={styles.name}>Dias</span>
+        </div>
+      </div>
+      <div className={styles.time}>
+        <div className={styles.numBox}>
+          <div>{hours}</div>
+          <span className={styles.name}>Horas</span>
+        </div>
+        <div className={styles.numBox}>
+          <div>{minutes}</div>
+          <span className={styles.name}>Minutos</span>
+        </div>
+        <div className={styles.numBox}>
+          <div>{`${seconds < 10 ? "0" + seconds : seconds} `}</div>
+          <span className={styles.name}>Segundos</span>
+        </div>
+      </div>
     </div>
   );
 }
