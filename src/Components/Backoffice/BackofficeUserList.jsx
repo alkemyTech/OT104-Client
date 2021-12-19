@@ -1,20 +1,16 @@
 import React, { useEffect } from "react";
-import { Breadcrumb, Table, Container, Spinner } from "react-bootstrap";
+import { Button, Table, Container, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { TrashFill, PencilFill } from "react-bootstrap-icons";
-import { useDispatch, useSelector } from 'react-redux';
-import { getUsers } from '../../features/backOfficeUsers/backOfficeUsersSlice';
-
+import { useDispatch, useSelector } from "react-redux";
+import { getUsers } from "../../features/backOfficeUsers/backOfficeUsersSlice";
 
 function BackofficeUserList() {
-  
   const dispatch = useDispatch();
-  const users = useSelector(state => state.users.users);
+  const users = useSelector((state) => state.users.users);
 
   useEffect(() => {
-    if(users.length===0){
-      dispatch(getUsers());
-    }
+    dispatch(getUsers());
   });
 
   return (
@@ -24,13 +20,10 @@ function BackofficeUserList() {
       ) : (
         <div className="row">
           <div className="col">
-            <Breadcrumb className="mt-3">
-              <Link className="breadcrumb-item" to="/backoffice/users/create">
-                Backoffice
-              </Link>
-              <Breadcrumb.Item active>Create</Breadcrumb.Item>
-            </Breadcrumb>
-            <h1 className="text-center">Usuarios</h1>
+            <h3>Usuarios</h3>
+            <Button as={Link} to="/backoffice/users/create" className="mb-3">
+              Nuevo usuario
+            </Button>
           </div>
 
           <Table striped bordered hover className="align-middle">
