@@ -71,6 +71,7 @@ function CountDown() {
   return (
     <div className={styles.countDown}>
       <div className={styles.days}>
+        <h3 className={styles.daysTitle}>EMPIEZA EN </h3>
         <div className={styles.numBox}>
           <div>{daysLeft}</div>
           <span className={styles.name}>Dias</span>

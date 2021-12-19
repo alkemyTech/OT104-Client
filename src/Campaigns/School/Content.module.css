@@ -18,10 +18,19 @@
   width: 100%;
 }
 
+@media (min-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+    margin: 1rem 0;
+  }
+}
 @media (min-width: 1024px) {
   .container {
     width: 60%;
     margin: 0 auto;
+  }
+  .title {
+    font-size: 3rem;
   }
   .bg {
     background-image: url("./images/imágenes_contenido_opción_1.png");
@@ -29,5 +38,17 @@
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+  }
+}
+@media (min-width: 1440px) {
+  .container {
+    width: 70%;
+    margin: 0 auto;
+  }
+  .title {
+    font-size: 4rem;
+  }
+  .bg {
+    background-color: #fafa88;
   }
 }
