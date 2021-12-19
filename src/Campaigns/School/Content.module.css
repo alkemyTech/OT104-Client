@@ -38,6 +38,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-color: #fafa88;
   }
 }
 @media (min-width: 1440px) {
@@ -47,8 +48,5 @@
   }
   .title {
     font-size: 4rem;
-  }
-  .bg {
-    background-color: #fafa88;
   }
 }
