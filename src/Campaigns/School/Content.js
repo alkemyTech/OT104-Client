@@ -14,7 +14,7 @@ const Content = () => {
         <h3 className="text-center">Inicia el 10 de Enero</h3>
         <h4 className="text-center">Buenos Aires, 12hs</h4>
       </div>
-      {/* <CountDown /> */}
+      <CountDown />
     </div>
   );
 };
