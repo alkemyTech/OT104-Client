@@ -7,12 +7,12 @@ import "./header.css";
 const Header = () => {
   return (
     <Navbar>
-      <Container className='d-flex justify-content-between'>
+      <Container className="d-flex justify-content-between">
         <div>
-          <img className='logoCampaña' src={LogoCampaña} alt='logoCampaña' />
+          <img className="logoCampaña" src={LogoCampaña} alt="logoCampaña" />
         </div>
         <div>
-          <h2 className='slogan'>
+          <h2 className="slogan">
             Mejorar la calidad de vida de niños y familias en situación de
             vulnerabilidad en el barrio La Cava otorgando <br></br> un cambio de
             rumbo en cada individuo a través de la educación, salud, trabajo,
@@ -20,7 +20,7 @@ const Header = () => {
           </h2>
         </div>
         <div>
-          <img className='logoONG' src={LogoONG} alt='logoONG' />
+          <img className="logoONG" src={LogoONG} alt="logoONG" />
         </div>
       </Container>
     </Navbar>
