@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import axios from "axios";
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchMembersData } from "../../features/about/aboutReducer";
 
 const MiembrosAbout = () => {
-  const [memberList, setmemberList] = useState([]);
+  const dispatch = useDispatch();
+  const { membersData } = useSelector(state => state.about)
 
   useEffect(() => {
-    const loadUsers = async () => {
-      const response = await axios.get(`http://ongapi.alkemy.org/api/members`)
-      setmemberList(response.data.data)
-    }
-    loadUsers()
-  }, []);
+    dispatch(fetchMembersData());
+  }, [dispatch]);
+
 
   return (
     <div style={{
@@ -22,8 +21,8 @@ const MiembrosAbout = () => {
       gap: '3rem',
     }}>
       {
-        memberList.length > 0 ?
-          memberList.map((activity) => {
+        membersData.length > 0 ?
+        membersData.map((activity) => {
             return (
               <Card className="gap-2" bg="light" key={activity.id.toString()} style={{ width: '18rem', height: '25rem' }} >
                 <Card.Img variant="top" src={activity.image} />

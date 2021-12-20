@@ -1,5 +1,4 @@
 import React from "react";
-
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
 import Home from "./Components/Home/Home";
@@ -16,6 +15,7 @@ import About from "./Components/About/About";
 import Contact from "./Components/Contact/Contact";
 import LoginForm from "./Components/Auth/LoginForm";
 import RegisterForm from "./Components/Auth/RegisterForm";
+import EditForm from "./Components/Organization/EditForm";
 import Footer from "./Components/Footer";
 import ActivityDetail from "./Components/Activities/Detail/ActivityDetail";
 import Activities from "./Components/Activities/Activities";
@@ -24,9 +24,12 @@ import Thanks from "./Components/Donations/Thanks";
 import "bootstrap/dist/css/bootstrap.min.css";
 import News from "./Components/News/NewsSection";
 import { backofficeRoutes } from "./Components/Backoffice/BackofficeRoutes";
+import Header from "./Components/Backoffice/Header";
+
 function App() {
   return (
     <BrowserRouter>
+      <Header />
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/login" component={LoginForm} />

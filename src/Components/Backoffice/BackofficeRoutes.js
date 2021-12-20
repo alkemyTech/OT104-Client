@@ -1,10 +1,10 @@
 import SlidesForm from "../Slides/SlidesForm";
-import BackOfficeMembersList from "./BackOfficeMembersList";
-import ActivitiesList from "./ActivitiesList";
-import SlidesList from "./SlidesList";
 import Categories from "./Categories";
 import NewsList from "../News/NewsSection";
 import EditForm from "../Organization/EditForm";
+import ActivitiesList from "./ActivitiesList";
+import SlidesList from "./SlidesList";
+import BackOfficeMembersList from "./BackOfficeMembersList";
 import BackofficeUserList from "./BackofficeUserList";
 import { Switch, Route } from "react-router-dom";
 
@@ -18,6 +18,7 @@ export const backofficeRoutes = () => {
       <Route path="/backoffice/activities" component={ActivitiesList} />
       <Route path="/backoffice/slides" component={SlidesList} />
       <Route path="/backoffice/members" component={BackOfficeMembersList} />
+      <Route path="/backoffice/users" component={BackofficeUserList} />
     </Switch>
   );
 };
