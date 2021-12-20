@@ -21,7 +21,9 @@ const About = () => {
         <Col></Col>
         <div style={{ marginTop: "5%" }}> <MiembrosAbout /></div>
       </Row>
-      <RedesAbout/>
+      <Row>
+        <RedesAbout/>
+      </Row>
     </Container >
   )
 }
