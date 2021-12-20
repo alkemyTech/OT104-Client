@@ -1,12 +1,21 @@
 import React, { useState } from "react";
 import { Formik } from "formik";
-import { Container, Row, Form, Button, Col, Modal } from "react-bootstrap";
-import { Document, Page } from "react-pdf";
+import {
+  Container,
+  Row,
+  Form,
+  Button,
+  Col,
+  Modal,
+  Stack,
+} from "react-bootstrap";
+import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import pdf from "./terminos-y-condiciones.pdf";
 
 const RegisterForm = () => {
   const [show, setShow] = useState(false);
   const [terms, setTerms] = useState(null);
+  const [numPages, setNumPages] = useState(null);
 
   const handleShow = () => setShow(true);
   const handleCancel = () => {
@@ -123,7 +132,6 @@ const RegisterForm = () => {
                 {touched.name && errors.name && (
                   <div className="text-danger mb-3">{errors.name}</div>
                 )}
-
                 <Form.Group className="mb-3">
                   <Form.Control
                     type="text"
@@ -140,7 +148,6 @@ const RegisterForm = () => {
                 {touched.lastName && errors.lastName && (
                   <div className="text-danger mb-3">{errors.lastName}</div>
                 )}
-
                 <Form.Group className="mb-3">
                   <Form.Control
                     type="text"
@@ -157,7 +164,6 @@ const RegisterForm = () => {
                 {touched.email && errors.email && (
                   <div className="text-danger mb-3">{errors.email}</div>
                 )}
-
                 <Form.Group className="mb-3">
                   <Form.Control
                     type="text"
@@ -174,7 +180,6 @@ const RegisterForm = () => {
                 {touched.password && errors.password && (
                   <div className="text-danger mb-3">{errors.password}</div>
                 )}
-
                 <Form.Group className="mb-3">
                   <Form.Control
                     type="text"
@@ -191,42 +196,37 @@ const RegisterForm = () => {
                 {touched.repassword && errors.repassword && (
                   <div className="text-danger mb-3">{errors.repassword}</div>
                 )}
+                <Stack gap={2}>
+                  <Button variant="danger" onClick={handleShow}>
+                    Terminos y Condiciones
+                  </Button>
 
-                <Button variant="danger" onClick={handleShow}>
-                  Terminos y Condiciones
-                </Button>
+                  {terms == null && (
+                    <div className="text-danger">{errors.terms}</div>
+                  )}
 
-                {terms == null ? (
-                  <div className="text-danger mb-3">{errors.terms}</div>
-                ) : (
-                  <></>
-                )}
-
-                {terms == false ? (
-                  <div className="text-danger mb-3">
-                    Debes aceptar los terminos y condiciones
-                  </div>
-                ) : (
-                  <></>
-                )}
-                <Button className="submit-btn" type="submit">
-                  Register
-                </Button>
+                  {terms == false && (
+                    <div className="text-danger">
+                      Debes aceptar los terminos y condiciones
+                    </div>
+                  )}
+                  <Button className="submit-btn" type="submit">
+                    Register
+                  </Button>
+                </Stack>
               </Form>
             </Col>
           </Row>
 
-          <Modal show={show} animation={false}>
+          <Modal show={show} animation={false} size="lg" scrollable={true}>
             <Modal.Header closeButton onClick={handleCancel}>
               <Modal.Title>Terminos y condiciones</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Document
-                options={{ workerSrc: "/pdf.worker.js" }}
-                file={pdf}
-                onLoadSuccess={onDocumentLoadSuccess}
-              >
-                <Page />
+              <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
+                {Array.from(new Array(numPages), (el, index) => (
+                  <Page key={`page_${index + 1}`} pageNumber={index + 1} />
+                ))}
               </Document>
             </Modal.Body>
             <Modal.Footer>
