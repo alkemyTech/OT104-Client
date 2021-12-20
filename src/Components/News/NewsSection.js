@@ -5,7 +5,7 @@ import Spinner from "../Spinner/Spinner";
 import { getNews } from "../../features/news/newsReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { alertServiceError } from "../Alert/AlertService";
-import LastEvent from "./LastEvent";
+import LastEvent from "./LastEvent/LastEvent";
 
 const News = () => {
   const { news, loading, error } = useSelector((state) => state.news);
@@ -16,7 +16,7 @@ const News = () => {
   }, []);
 
   return (
-    <>
+    <div className="container">
       <h1 className="p-4 text-center">Novedades</h1>
       {loading && (
         <div className="row d-flex justify-content-center">
@@ -30,11 +30,7 @@ const News = () => {
             const { id, name, content, image } = element;
             return (
               <div className="col-sm-6 col-md-4 p-3" key={id}>
-                <Card
-                  name={name}
-                  description={content}
-                  image={image}
-                />
+                <Card name={name} description={content} image={image} />
               </div>
             );
           })
@@ -43,10 +39,9 @@ const News = () => {
         )}
         {error && alertServiceError("Error", error)}
       </section>
-      <section className="row d-flex justify-content-center p-3">
-        <LastEvent />
-      </section>
-    </>
+
+      <LastEvent />
+    </div>
   );
 };
 
