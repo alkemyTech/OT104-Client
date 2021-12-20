@@ -60,25 +60,27 @@ const ContactForm = () => {
   }
 
   return (
-    <Container
-      className="d-flex flex-column justify-content-center text-center p-3"
-    >
-    <h1 className="p-3">Contacto</h1> 
-    {position  && <MapContainer
-        center={JSON.parse(position)}
-        zoom={13} 
-        scrollWheelZoom={false} 
-        style={{ height: "450px", width: "50%", margin: "auto" }}
-     >
-        <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker 
-            position={JSON.parse(position)}
-            >
-        </Marker>
-    </MapContainer>}
+      <Container
+        className="d-flex flex-column justify-content-center text-center p-3"
+      >
+      <h1 className="p-3">Contacto</h1> 
+      {position  && 
+      <MapContainer
+          center={JSON.parse(position)}
+          zoom={13} 
+          scrollWheelZoom={false} 
+          style={{ height: "450px", width: "50%", margin: "auto" }}
+      >
+          <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker 
+              position={JSON.parse(position)}
+              >
+          </Marker>
+      </MapContainer>
+      }
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
