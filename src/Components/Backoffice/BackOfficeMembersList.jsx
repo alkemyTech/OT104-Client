@@ -74,19 +74,6 @@ const BackOfficeMembersList = () => {
           </Col>
         </Row>
         {loading ? (
-          <Row>
-            <Col>
-              <Breadcrumb className="mt-3">
-                <Breadcrumb.Item as={Link} to="/backoffice">
-                  Backoffice
-                </Breadcrumb.Item>
-                <Breadcrumb.Item active>Members</Breadcrumb.Item>
-              </Breadcrumb>
-              <h3 className="m-3">Listado de miembros</h3>
-              <Link to="/backoffice/members/create" />
-            </Col>
-          </Row>
-          {loading ? (
             <Row>
               <Col>
                 <Spinner
