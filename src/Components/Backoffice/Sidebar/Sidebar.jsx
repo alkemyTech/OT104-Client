@@ -49,7 +49,7 @@ export default function Sidebar() {
   const location = useRouteMatch("/backoffice");
   const [show, setShow] = useState(false);
 
-  const toggle = () => setShow(!show);
+  const toggle = () => setShow((state) => !state);
 
   if (location === null) return null;
 
