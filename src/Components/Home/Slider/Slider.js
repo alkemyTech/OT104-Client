@@ -7,7 +7,7 @@ function SliderBS({ slides }) {
       {Array.isArray(slides) &&
         slides.map((slide) => {
           return (
-            <Carousel.Item interval={5000}>
+            <Carousel.Item interval={5000} key={slide.id}>
               <img
                 height="487px"
                 className="d-block w-100"

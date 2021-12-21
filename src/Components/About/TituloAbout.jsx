@@ -1,19 +1,10 @@
-import React, { useEffect } from 'react'
-import { fetchOrgData } from "../../features/about/aboutReducer";
-import { useDispatch, useSelector } from 'react-redux'
+import React from "react";
 
-const TituloAbout = () => {
-  const dispatch = useDispatch()
-  const { orgData } = useSelector(state => state.about)
-
-  useEffect(() => {
-    dispatch(fetchOrgData());
-  }, [dispatch]);
-
+const TituloAbout = ({ ongName }) => {
   return (
-    <div >
-      <h1 >{orgData.name}</h1>
+    <div>
+      <h1>{ongName}</h1>
     </div>
-  )
-}
+  );
+};
 export default TituloAbout;
