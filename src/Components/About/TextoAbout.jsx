@@ -1,24 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import axios from "axios";
-// import { useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import { fetchOrgData } from "../../features/about/aboutReducer";
+import { useDispatch, useSelector } from 'react-redux'
 
 const TextoAbout = () => {
-  // const dispatch = useDispatch()
-  const [aboutText, setAboutText] = useState('');
+  const dispatch = useDispatch();
+  const { orgData } = useSelector(state => state.about)
 
   useEffect(() => {
-    const loadUsers = async () => {
-      const response = await axios.get(`http://ongapi.alkemy.org/api/organization`)
-      setAboutText(response.data.data.short_description)
-    }
-    loadUsers()
-  }, []);
+    dispatch(fetchOrgData());
+  }, [dispatch]);
 
   return (
     <div>
-      <h5 >{aboutText}</h5>
+      <h5>{orgData.short_description}</h5>
     </div>
   )
 }
 
-export default TextoAbout
+export default TextoAbout;
