@@ -1,19 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Newness from "./Newness";
-<<<<<<< HEAD
-import Slider from "./Slider";
-
-function Home() {
-  return (
-    <div className='home-container'>
-      <Slider />
-      <h1 className='text-center m-2'>
-        Bienvenidos <br />a <br />
-        Somos más
-      </h1>
-      <h2 className='text-center mt-3'>Ultimas Novedades</h2>
-      <Newness />
-=======
 import Slider from "./Slider/Slider";
 import service from "../../Services/slidesService";
 import newsServices from "../../Services/novedadesService";
@@ -65,7 +51,6 @@ function Home() {
   return (
     <div className="home-container">
       {news.length === 0 && slides.length === 0 ? <Spinner /> : content}
->>>>>>> main
     </div>
   );
 }
