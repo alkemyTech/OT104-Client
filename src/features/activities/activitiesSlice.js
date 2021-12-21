@@ -9,7 +9,7 @@ export const getActividades = createAsyncThunk(
       if (!res.data.success) {
         return rejectWithValue(res.message);
       }
-      return res;
+      return res.data;
     } catch ({ message }) {
       return rejectWithValue(message);
     }
@@ -32,7 +32,7 @@ const activitiesSlice = createSlice({
       })
       .addCase(getActividades.fulfilled, (_, { payload }) => {
         return {
-          data: payload.data.data,
+          data: payload.data,
           status: "fulfilled",
           message: payload.message,
         };

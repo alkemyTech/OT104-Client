@@ -1,6 +1,6 @@
 import React from "react";
-
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Sidebar from "./Components/Backoffice/Sidebar/Sidebar";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
 import Home from "./Components/Home/Home";
 import CategoriesForm from "./Components/Categories/CategoriesForm";
@@ -19,7 +19,7 @@ import Contact from "./Components/Contact/Contact";
 import Categories from "./Components/Backoffice/Categories";
 import LoginForm from "./Components/Auth/LoginForm";
 import RegisterForm from "./Components/Auth/RegisterForm";
-import NewsList from "./Components/News/NewsSection";
+import NewsList from "./Components/Backoffice/NewsList";
 import EditForm from "./Components/Organization/EditForm";
 import Footer from "./Components/Footer";
 import ActivityDetail from "./Components/Activities/Detail/ActivityDetail";
@@ -36,8 +36,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
   return (
     <>
-      <NavBar />
-      <BrowserRouter>
+    <NavBar/>
+       <BrowserRouter>
+        <Sidebar />
+        <Header />
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/login" component={LoginForm} />
@@ -68,9 +70,10 @@ function App() {
           <Route path="/gracias" component={Thanks} />
           <Route path="/backoffice/members" component={BackOfficeMembersList} />
           <Route path="/Novedades" component={News} />
+          <Route path="/backoffice/users" component={BackofficeUserList} />
         </Switch>
       </BrowserRouter>
-    </>
+  </>
   );
 }
 
