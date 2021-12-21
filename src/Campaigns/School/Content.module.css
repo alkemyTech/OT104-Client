@@ -1,0 +1,52 @@
+.container {
+  background-color: white;
+  min-width: 300px;
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.title {
+  text-align: center;
+}
+.logoBox {
+  margin: 3rem 0;
+}
+.logoBox img {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+    margin: 1rem 0;
+  }
+}
+@media (min-width: 1024px) {
+  .container {
+    width: 60%;
+    margin: 0 auto;
+  }
+  .title {
+    font-size: 3rem;
+  }
+  .bg {
+    background-image: url("./images/imágenes_contenido_opción_1.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: #fafa88;
+  }
+}
+@media (min-width: 1440px) {
+  .container {
+    width: 70%;
+    margin: 0 auto;
+  }
+  .title {
+    font-size: 4rem;
+  }
+}

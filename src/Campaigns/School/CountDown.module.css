@@ -1,0 +1,33 @@
+.countDown {
+  display: none;
+}
+.daysTitle {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-top: 2rem;
+  margin-bottom: 0;
+}
+.name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #495057;
+}
+.numBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
+  padding: 0 2rem;
+}
+.time {
+  display: flex;
+}
+@media (min-width: 768px) {
+  .countDown {
+    display: block;
+    text-align: center;
+    font-size: 5rem;
+  }
+}
