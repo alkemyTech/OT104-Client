@@ -1,5 +1,7 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import "./App.css";
+import { BrowserRouter, Route } from "react-router-dom";
+import { AnimatedSwitch } from "react-router-transition";
 import Sidebar from "./Components/Backoffice/Sidebar/Sidebar";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
 import Home from "./Components/Home/Home";
@@ -31,49 +33,53 @@ import Thanks from "./Components/Donations/Thanks";
 import BackOfficeMembersList from "./Components/Backoffice/BackOfficeMembersList";
 import News from "./Components/News/NewsSection";
 import NavBar from "./Components/Header/Header";
+import Header from "./Components/Backoffice/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
-    <>
-    <NavBar/>
-       <BrowserRouter>
-        <Sidebar />
-        <Header />
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/login" component={LoginForm} />
-          <Route path="/toys-campaign" component={ToysCampaign} />
-          <Route path="/create-activity" component={ActivitiesForm} />
-          <Route path="/create-category" component={CategoriesForm} />
-          <Route path="/create-news" component={NewsForm} />
-          <Route path="/backoffice/create-slide" component={SlidesForm} />
-          <Route path="/create-testimonials" component={TestimonialForm} />
-          <Route path="/create-user" component={UserForm} />
-          <Route path="/create-member" component={MembersForm} />
-          <Route path="/create-project" component={ProjectsForm} />
-          <Route path="/school-campaign" component={SchoolCampaign} />
-          <Route path="/toys-campaign" component={ToysCampaign} />
-          <Route path="/contacto" component={Contact} />
-          <Route path="/registerform" component={RegisterForm} />
-          <Route path="/backoffice/categories" component={Categories} />
-          <Route path="/Nosotros" component={About} />
-          <Route path="/backoffice/news" component={NewsList} />
-          <Route path="/backoffice/organization/edit" component={EditForm} />
-          <Route path="/Novedades/:id" component={NewsDetail} />
-          <Route path="/Actividades" component={Activities} />
-          <Route path="/backoffice/activities" component={ActivitiesList} />
-          <Route path="/backoffice/slides" component={SlidesList} />
-          <Route path="/donar">
-            <Donation text={"!Hacé tu donación ya mismo :)"} />
-          </Route>
-          <Route path="/gracias" component={Thanks} />
-          <Route path="/backoffice/members" component={BackOfficeMembersList} />
-          <Route path="/Novedades" component={News} />
-          <Route path="/backoffice/users" component={BackofficeUserList} />
-        </Switch>
-      </BrowserRouter>
-  </>
+    <BrowserRouter>
+      <NavBar />
+      <Header />
+      <Sidebar />
+      <AnimatedSwitch
+        atEnter={{ opacity: 0 }}
+        atLeave={{ opacity: 0 }}
+        atActive={{ opacity: 1 }}
+        className="switch-wrapper"
+      >
+        <Route path="/" exact component={Home} />
+        <Route path="/login" component={LoginForm} />
+        <Route path="/toys-campaign" component={ToysCampaign} />
+        <Route path="/create-activity" component={ActivitiesForm} />
+        <Route path="/create-category" component={CategoriesForm} />
+        <Route path="/create-news" component={NewsForm} />
+        <Route path="/backoffice/create-slide" component={SlidesForm} />
+        <Route path="/create-testimonials" component={TestimonialForm} />
+        <Route path="/create-user" component={UserForm} />
+        <Route path="/create-member" component={MembersForm} />
+        <Route path="/create-project" component={ProjectsForm} />
+        <Route path="/school-campaign" component={SchoolCampaign} />
+        <Route path="/toys-campaign" component={ToysCampaign} />
+        <Route path="/contacto" component={Contact} />
+        <Route path="/registerform" component={RegisterForm} />
+        <Route path="/backoffice/categories" component={Categories} />
+        <Route path="/Nosotros" component={About} />
+        <Route path="/backoffice/news" component={NewsList} />
+        <Route path="/backoffice/organization/edit" component={EditForm} />
+        <Route path="/Novedades/:id" component={NewsDetail} />
+        <Route path="/Actividades" component={Activities} />
+        <Route path="/backoffice/activities" component={ActivitiesList} />
+        <Route path="/backoffice/slides" component={SlidesList} />
+        <Route path="/donar">
+          <Donation text={"!Hacé tu donación ya mismo :)"} />
+        </Route>
+        <Route path="/gracias" component={Thanks} />
+        <Route path="/backoffice/members" component={BackOfficeMembersList} />
+        <Route path="/Novedades" component={News} />
+        <Route path="/backoffice/users" component={BackofficeUserList} />
+      </AnimatedSwitch>
+    </BrowserRouter>
   );
 }
 
