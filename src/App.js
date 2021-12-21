@@ -1,5 +1,8 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import "./App.css";
+import { BrowserRouter, Route } from "react-router-dom";
+import { AnimatedSwitch } from "react-router-transition";
+import Sidebar from "./Components/Backoffice/Sidebar/Sidebar";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
 import Home from "./Components/Home/Home";
 import CategoriesForm from "./Components/Categories/CategoriesForm";
@@ -24,13 +27,22 @@ import Thanks from "./Components/Donations/Thanks";
 import "bootstrap/dist/css/bootstrap.min.css";
 import News from "./Components/News/NewsSection";
 import { backofficeRoutes } from "./Components/Backoffice/BackofficeRoutes";
+import NavBar from "./Components/Header/Header";
 import Header from "./Components/Backoffice/Header";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <BrowserRouter>
+      <NavBar />
       <Header />
-      <Switch>
+      <Sidebar />
+      <AnimatedSwitch
+        atEnter={{ opacity: 0 }}
+        atLeave={{ opacity: 0 }}
+        atActive={{ opacity: 1 }}
+        className="switch-wrapper"
+      >
         <Route path="/" exact component={Home} />
         <Route path="/login" component={LoginForm} />
         <Route path="/toys-campaign" component={ToysCampaign} />
@@ -55,6 +67,7 @@ function App() {
         <Route path="/Novedades" component={News} />
         <Route path="/backoffice" component={backofficeRoutes} />
       </Switch>
+      </AnimatedSwitch>
     </BrowserRouter>
   );
 }
