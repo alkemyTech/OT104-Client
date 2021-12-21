@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Sidebar from "./Components/Backoffice/Sidebar/Sidebar";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
 import Home from "./Components/Home/Home";
 import CategoriesForm from "./Components/Categories/CategoriesForm";
@@ -31,13 +30,12 @@ import Thanks from "./Components/Donations/Thanks";
 import BackOfficeMembersList from "./Components/Backoffice/BackOfficeMembersList";
 import "bootstrap/dist/css/bootstrap.min.css";
 import News from "./Components/News/NewsSection";
-import Header from "./Components/Backoffice/Header";
+import BackofficeLayout from "./Components/Backoffice/BackofficeLayout";
 
 function App() {
   return (
     <BrowserRouter>
-      <Sidebar />
-      <Header />
+      <BackofficeLayout/>
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/login" component={LoginForm} />
