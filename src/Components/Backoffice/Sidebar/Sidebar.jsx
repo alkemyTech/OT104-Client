@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavLink as Link, useRouteMatch } from "react-router-dom";
-import { Offcanvas, Button } from "react-bootstrap";
+import { Offcanvas } from "react-bootstrap";
 
 const backofficeRoutes = [
   {
@@ -45,20 +45,14 @@ const backofficeRoutes = [
   },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({show, openSidebar}) {
   const location = useRouteMatch("/backoffice");
-  const [show, setShow] = useState(false);
-
-  const toggle = () => setShow((state) => !state);
 
   if (location === null) return null;
 
   return (
     <>
-      <Button variant="primary" onClick={toggle}>
-        Sidebar
-      </Button>
-      <Offcanvas show={show} onHide={toggle}>
+      <Offcanvas show={show} onHide={openSidebar}>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>
             <Link to="/backoffice" className="btn btn-outline-primary">
@@ -74,7 +68,7 @@ export default function Sidebar() {
                   exact
                   activeClassName="active"
                   to={route.path}
-                  onClick={toggle}
+                  onClick={openSidebar}
                   className="list-group-item list-group-item-action border-0"
                 >
                   <i className={route.icon}></i> {route.name}

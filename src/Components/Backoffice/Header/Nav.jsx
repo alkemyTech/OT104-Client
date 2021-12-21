@@ -5,22 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchOrgData } from "../../../features/about/aboutReducer";
 
 const Nav = ({ openSidebar }) => {
-  const [_, setMenuIsOpen] = useState(false);
   const organization = useSelector((state) => state.about.orgData);
   const dispatch = useDispatch();
-
-  const openMenu = () => {
-    openSidebar();
-    setMenuIsOpen((prev) => {
-      if (!prev) {
-        document.getElementById("menuIcon").style.transform = "rotate(90deg)";
-        return true;
-      } else {
-        document.getElementById("menuIcon").style.transform = "rotate(0deg)";
-        return false;
-      }
-    });
-  };
 
   useEffect(() => {
     dispatch(fetchOrgData());
@@ -28,7 +14,7 @@ const Nav = ({ openSidebar }) => {
   return (
     <div>
       <Stack direction="horizontal" gap={3}>
-        <Button variant="light" className="d-flex p-0" onClick={openMenu}>
+        <Button variant="light" className="d-flex p-0" onClick={openSidebar}>
           <List
             size={24}
             id="menuIcon"

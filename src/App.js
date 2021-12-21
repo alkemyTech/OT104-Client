@@ -2,7 +2,6 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter, Route } from "react-router-dom";
 import { AnimatedSwitch } from "react-router-transition";
-import Sidebar from "./Components/Backoffice/Sidebar/Sidebar";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
 import Home from "./Components/Home/Home";
 import CategoriesForm from "./Components/Categories/CategoriesForm";
@@ -28,15 +27,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import News from "./Components/News/NewsSection";
 import { backofficeRoutes } from "./Components/Backoffice/BackofficeRoutes";
 import NavBar from "./Components/Header/Header";
-import Header from "./Components/Backoffice/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      <Header />
-      <Sidebar />
       <AnimatedSwitch
         atEnter={{ opacity: 0 }}
         atLeave={{ opacity: 0 }}
