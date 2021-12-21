@@ -19,7 +19,7 @@ const UserForm = ({ user = null }) => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const isEditing = !!user;
-  const [address, setAddress] = useState("");
+  const [addressState, setAddressState] = useState("");
   const location = UseGeoLocation();
   const api_key = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
@@ -29,7 +29,7 @@ const UserForm = ({ user = null }) => {
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coordinates.lat},${location.coordinates.long}&key=${api_key}`
       );
       console.log(response.data.results, "la response");
-      setAddress(response.data.results[0].formatted_address);
+      setAddressState(response.data.results[0].formatted_address);
 
       console.log(address, "add");
     } catch (error) {
@@ -50,6 +50,7 @@ const UserForm = ({ user = null }) => {
     role_id: user?.role || "",
     profile_image: user?.profile_image || "",
     password: user?.password || "",
+    address: user?.address || "",
   };
 
   const validationSchema = Yup.object({
@@ -210,18 +211,18 @@ const UserForm = ({ user = null }) => {
             <Form.Label> GEOLOCATION </Form.Label>
             <Form.Control
               className="input-field"
-              type="adress"
-              name="adress"
-              value={values.adress}
+              type="address"
+              name="address"
+              value={values.addressF}
               onChange={handleChange}
-              placeholder={!address ? "address" : address}
+              placeholder={!addressState ? "address" : addressState}
               onBlur={handleBlur}
-              isInvalid={errors.adress && touched.adress}
-              isValid={touched.adress && !errors.adress}
+              isInvalid={errors.address && touched.address}
+              isValid={touched.address && !errors.address}
             />
-            {errors.adress && touched.adress ? (
+            {errors.address && touched.address ? (
               <Form.Control.Feedback type="invalid">
-                {errors.adress}
+                {errors.address}
               </Form.Control.Feedback>
             ) : (
               <Form.Text className="text-muted">
