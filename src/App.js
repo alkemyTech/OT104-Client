@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Sidebar from "./Components/Backoffice/Sidebar/Sidebar";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
 import Home from "./Components/Home/Home";
 import CategoriesForm from "./Components/Categories/CategoriesForm";
@@ -35,6 +36,7 @@ import Header from "./Components/Backoffice/Header";
 function App() {
   return (
     <BrowserRouter>
+      <Sidebar />
       <Header />
       <Switch>
         <Route path="/" exact component={Home} />
