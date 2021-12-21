@@ -17,7 +17,6 @@ const About = () => {
   const dispatch = useDispatch();
   const { orgData, membersData } = useSelector((state) => state.about);
 
-  console.log("membersData", membersData);
   useEffect(() => {
     dispatch(fetchMembersData());
   }, [dispatch]);
