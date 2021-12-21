@@ -10,6 +10,8 @@ import {
   createTestimonial,
 } from "../../Services/testimonialServices";
 
+import { alertServiceError } from "../Alert/AlertService";
+
 const TestimonialForm = ({ testimonial = null }) => {
   const [submitting, setSubmitting] = useState(false);
   const [ckEditorError, setCkEditorError] = useState(false);
@@ -38,7 +40,7 @@ const TestimonialForm = ({ testimonial = null }) => {
 
   return (
     <div>
-      <h3 className='text p-5 text-center'>Submit a new testimonial</h3>
+      <h3 className="text p-5 text-center">Submit a new testimonial</h3>
       <Formik
         initialValues={initialValues}
         validationSchema={schema}
@@ -54,29 +56,36 @@ const TestimonialForm = ({ testimonial = null }) => {
               testimonial.id,
               testimonialData
             );
+            if (res && res.status !== 200) {
+              alertServiceError("Error", "Error al actualizar el testimonio");
+            }
+
             setSubmitting(false);
           } else {
             const res = await createTestimonial(testimonialData);
+            if (res && res.status !== 200) {
+              alertServiceError("Error", "Error al crear el testimonio");
+            }
             setSubmitting(false);
           }
         }}
       >
         {({ values, setFieldValue, touched, errors, handleChange }) => (
-          <div className='form-container'>
-            <Form className='form-container'>
+          <div className="form-container">
+            <Form className="form-container">
               <Field
                 className={`form-control mb-4 shadow-none ${
                   touched.name && errors.name && `is-invalid`
                 }`}
-                type='text'
-                name='name'
-                placeholder='Testimonial title'
+                type="text"
+                name="name"
+                placeholder="Testimonial title"
               />
               {touched && errors.name && (
-                <p className='text-danger'>{errors.name}</p>
+                <p className="text-danger">{errors.name}</p>
               )}
               <CKEditor
-                name='description'
+                name="description"
                 data={values.description}
                 editor={ClassicEditor}
                 onChange={(_, editor) =>
@@ -89,7 +98,7 @@ const TestimonialForm = ({ testimonial = null }) => {
                 }
               />
               {ckEditorError && (
-                <p className='text-danger mb-3 mt-3'>
+                <p className="text-danger mb-3 mt-3">
                   Please, write a description.
                 </p>
               )}
@@ -97,9 +106,9 @@ const TestimonialForm = ({ testimonial = null }) => {
                 className={`form-control mb-4 mt-4 shadow-none ${
                   errors.image && `is-invalid`
                 }`}
-                type='file'
-                name='image'
-                accept='image/png, image/jpeg'
+                type="file"
+                name="image"
+                accept="image/png, image/jpeg"
                 onChange={(e) => {
                   handleChange(e);
                   touched.image = true;
@@ -115,17 +124,17 @@ const TestimonialForm = ({ testimonial = null }) => {
                 }}
               />
               {touched.image && errors.image && (
-                <p className='text-danger'>{errors.image}</p>
+                <p className="text-danger">{errors.image}</p>
               )}
-              <button className='submit-btn m-auto' type='submit'>
+              <button className="submit-btn m-auto" type="submit">
                 Submit
               </button>
               {message && (
-                <div className='text-danger p-3 text-center'>{message}</div>
+                <div className="text-danger p-3 text-center">{message}</div>
               )}
               {submitting && (
-                <div className='d-block mx-auto my-3'>
-                  <Spinner animation='grow' />
+                <div className="d-block mx-auto my-3">
+                  <Spinner animation="grow" />
                 </div>
               )}
             </Form>
