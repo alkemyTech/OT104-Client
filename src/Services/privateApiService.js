@@ -84,12 +84,12 @@ const VerifyToken = () => {
 };
 
 const checkToken = async () => {
-  const token = `Bearer ${JSON.parse(localStorage.getItem("token"))}`;
+  const headers = VerifyToken();
+
   const res = await axios.get("http://ongapi.alkemy.org/api/auth/me", {
-    headers: {
-      Authorization: token,
-    },
+    headers,
   });
+
   return res.data.success;
 };
 

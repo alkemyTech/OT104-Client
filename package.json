@@ -15,7 +15,7 @@
     "ckeditor5": "^31.0.0",
     "date-fns": "^2.27.0",
     "formik": "^2.2.9",
-    "node-sass": "^4.14.0",
+    "node-sass": "^6.0.1",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.3",
     "react-bootstrap-icons": "^1.6.1",
@@ -25,14 +25,15 @@
     "react-lazy-load-image-component": "^1.5.1",
     "react-loader-spinner": "^4.0.0",
     "react-redux": "^7.2.6",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "^5.0.0",
+    "react-router-dom": "^5.3.0",
+    "react-router-transition": "^2.1.0",
+    "react-scripts": "^4.0.3",
     "sass": "^1.44.0",
     "sweetalert2": "^11.3.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "jest": "^26.6.3"
+    "jest": "^26.6.0"
   },
   "scripts": {
     "start": "react-scripts start",

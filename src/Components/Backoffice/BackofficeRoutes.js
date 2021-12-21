@@ -9,7 +9,7 @@ import BackOfficeMembersList from "./BackOfficeMembersList";
 import BackofficeUserList from "./BackofficeUserList";
 import { Switch, Route } from "react-router-dom";
 import LoginForm from "../Auth/LoginForm";
-import { checkToken } from "../../Services/privateApiService";
+import { checkToken, VerifyToken } from "../../Services/privateApiService";
 
 export const backofficeRoutes = () => {
   const [tokenVerification, setTokenVerification] = useState(false);
