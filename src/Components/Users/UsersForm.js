@@ -21,7 +21,7 @@ const UserForm = ({ user = null }) => {
   const isEditing = !!user;
   const [address, setAddress] = useState("");
   const location = UseGeoLocation();
-  const api_key = "AIzaSyByrpyi221SHk-RGPPtcgtWQmlaSXytgb8";
+  const api_key = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
   const getAdress = async () => {
     try {
