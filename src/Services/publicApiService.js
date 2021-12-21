@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { alertServiceError } from "../Components/Alert/AlertService";
 const config = {
   headers: {
     Group: 104, //Aqui va el ID del equipo!!
@@ -10,8 +10,8 @@ export const get = async (url) => {
   try {
     const res = await axios.get(url);
     return res;
-  } catch (error) {
-    return error;
+  } catch (err) {
+    return alertServiceError("Error to Get", err.message);
   }
 };
 
@@ -22,6 +22,6 @@ export const Post = async (route, body) => {
     });
     return res;
   } catch (err) {
-    throw err;
+    return alertServiceError("Error to Post", err.message);
   }
 };

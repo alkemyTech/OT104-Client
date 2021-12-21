@@ -36,3 +36,4 @@ const RedesAbout = () => {
 }
 
 export default RedesAbout;
+

@@ -1,33 +1,29 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Breadcrumb, Table, Container, Spinner } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Button, Table, Container, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { TrashFill, PencilFill } from "react-bootstrap-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { getUsers } from "../../features/backOfficeUsers/backOfficeUsersSlice";
 
 function BackofficeUserList() {
-  const [dataContact, setData] = useState([]);
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.users.users);
+
   useEffect(() => {
-    const getData = async () => {
-      const response = await axios.get("http://ongapi.alkemy.org/api/users");
-      setData(response.data.data);
-    };
-    getData();
-  }, []);
+    dispatch(getUsers());
+  });
 
   return (
     <Container className="d-flex flex-column">
-      {dataContact.length === 0 ? (
+      {users.length === 0 ? (
         <Spinner animation="border" className="text-center" />
       ) : (
         <div className="row">
           <div className="col">
-            <Breadcrumb className="mt-3">
-              <Link className="breadcrumb-item" to="/backoffice/users/create">
-                Backoffice
-              </Link>
-              <Breadcrumb.Item active>Create</Breadcrumb.Item>
-            </Breadcrumb>
-            <h1 className="text-center">Usuarios</h1>
+            <h3>Usuarios</h3>
+            <Button as={Link} to="/backoffice/users/create" className="mb-3">
+              Nuevo usuario
+            </Button>
           </div>
 
           <Table striped bordered hover className="align-middle">
@@ -39,7 +35,7 @@ function BackofficeUserList() {
               </tr>
             </thead>
             <tbody>
-              {dataContact.map((data) => (
+              {users.map((data) => (
                 <tr key={data.id}>
                   <td className="text-center">{data.name}</td>
                   <td className="text-center">{data.email}</td>
