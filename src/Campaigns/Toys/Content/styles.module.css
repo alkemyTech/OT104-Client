@@ -1,0 +1,17 @@
+.container {
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.images {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 4 /3;
+}
+
+@media screen and (min-width: 1400px) {
+  .container {
+    background-color: #fafa8898;
+    background-image: linear-gradient(62deg, #fafa8898 0%, #9ac9fb98 100%);
+  }
+}
