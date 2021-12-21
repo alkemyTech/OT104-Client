@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import SlidesForm from "../Slides/SlidesForm";
 import Categories from "./Categories";
 import NewsList from "../News/NewsSection";
@@ -7,18 +8,56 @@ import SlidesList from "./SlidesList";
 import BackOfficeMembersList from "./BackOfficeMembersList";
 import BackofficeUserList from "./BackofficeUserList";
 import { Switch, Route } from "react-router-dom";
+import LoginForm from "../Auth/LoginForm";
+import { checkToken } from "../../Services/privateApiService";
 
 export const backofficeRoutes = () => {
+  const [tokenVerification, setTokenVerification] = useState(false);
+
+  useEffect(() => {
+    const getInfo = async () => {
+      const res = await checkToken();
+      setTokenVerification(res);
+    };
+    getInfo();
+  }, []);
+
   return (
-    <Switch>
-      <Route path="/backoffice/create-slide" component={SlidesForm} />
-      <Route path="/backoffice/categories" component={Categories} />
-      <Route path="/backoffice/news" component={NewsList} />
-      <Route path="/backoffice/organization/edit" component={EditForm} />
-      <Route path="/backoffice/activities" component={ActivitiesList} />
-      <Route path="/backoffice/slides" component={SlidesList} />
-      <Route path="/backoffice/members" component={BackOfficeMembersList} />
-      <Route path="/backoffice/users" component={BackofficeUserList} />
-    </Switch>
+    <>
+      <Switch>
+        <Route
+          path="/backoffice/create-slide"
+          component={tokenVerification ? SlidesForm : LoginForm}
+        />
+        <Route
+          path="/backoffice/categories"
+          component={tokenVerification ? Categories : LoginForm}
+        />
+        <Route
+          path="/backoffice/news"
+          component={tokenVerification ? NewsList : LoginForm}
+        />
+        <Route
+          path="/backoffice/organization/edit"
+          component={tokenVerification ? EditForm : LoginForm}
+        />
+        <Route
+          path="/backoffice/activities"
+          component={tokenVerification ? ActivitiesList : LoginForm}
+        />
+        <Route
+          path="/backoffice/slides"
+          component={tokenVerification ? SlidesList : LoginForm}
+        />
+        <Route
+          path="/backoffice/members"
+          component={tokenVerification ? BackOfficeMembersList : LoginForm}
+        />
+        <Route
+          path="/backoffice/users"
+          component={tokenVerification ? BackofficeUserList : LoginForm}
+        />
+      </Switch>
+    </>
   );
 };

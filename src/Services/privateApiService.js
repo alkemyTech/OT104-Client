@@ -83,8 +83,19 @@ const VerifyToken = () => {
   return null;
 };
 
+const checkToken = async () => {
+  const token = `Bearer ${JSON.parse(localStorage.getItem("token"))}`;
+  const res = await axios.get("http://ongapi.alkemy.org/api/auth/me", {
+    headers: {
+      Authorization: token,
+    },
+  });
+  return res.data.success;
+};
+
 export {
   VerifyToken,
+  checkToken,
   putRequest,
   patchRequest,
   deleteRequest,
