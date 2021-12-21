@@ -30,14 +30,14 @@ import Donation from "./Components/Donations/Donation";
 import Thanks from "./Components/Donations/Thanks";
 import BackOfficeMembersList from "./Components/Backoffice/BackOfficeMembersList";
 import News from "./Components/News/NewsSection";
-import Header from "./Components/Header/Header";
+import NavBar from "./Components/Header/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <>
+      <NavBar />
       <BrowserRouter>
-        <Header />
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/login" component={LoginForm} />
