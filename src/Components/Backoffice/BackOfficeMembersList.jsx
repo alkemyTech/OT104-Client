@@ -12,6 +12,7 @@ import Modal from "react-bootstrap/Modal";
 import { Pencil, Trash } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getMembers } from "../../features/backoffice_members/backofficeMembersReducer";
+import BackofficeLayout from "./BackofficeLayout";
 //const loading = true;
 const BackOfficeMembersList = () => {
   const [message, setMessage] = useState("");
@@ -67,128 +68,130 @@ const BackOfficeMembersList = () => {
   };
 
   return (
-    <Container fluid>
-      <BrowserRouter>
-        <Row>
-          <Col>
-            <Breadcrumb className="mt-3">
-              <Breadcrumb.Item as={Link} to="/backoffice">
-                Backoffice
-              </Breadcrumb.Item>
-              <Breadcrumb.Item active>Members</Breadcrumb.Item>
-            </Breadcrumb>
-            <h3 className="m-3">Listado de miembros</h3>
-            <Link to="/backoffice/members/create" />
-          </Col>
-        </Row>
-        {loading ? (
+    <BackofficeLayout>
+      <Container fluid>
+        <BrowserRouter>
           <Row>
             <Col>
-              <Spinner
-                animation="border"
-                role="status"
-                className="d-block mx-auto"
-                variant="primary"
-              >
-                <span className="visually-hidden">Cargando miembros...</span>
-              </Spinner>
+              <Breadcrumb className="mt-3">
+                <Breadcrumb.Item as={Link} to="/backoffice">
+                  Backoffice
+                </Breadcrumb.Item>
+                <Breadcrumb.Item active>Members</Breadcrumb.Item>
+              </Breadcrumb>
+              <h3 className="m-3">Listado de miembros</h3>
+              <Link to="/backoffice/members/create" />
             </Col>
           </Row>
-        ) : (
-          <Row>
-            <Col>
-              <Table hover striped bordered>
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Imagen</th>
-                    <th className="text-center">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {members.length > 0 ? (
-                    members.map((member) => (
-                      <tr key={member.id}>
-                        <td className="fw-bold align-middle">{member.name}</td>
-                        <td>
-                          <Button
-                            variant="link"
-                            className="text-decoration-none text-primary"
-                            onClick={() => openModalDetail(member.image)}
-                          >
-                            Ver Imagen
-                          </Button>
-                        </td>
-                        <td className="d-flex justify-content-around gap-1">
-                          <Button
-                            as={Link}
-                            to="./MembersForm"
-                            member={member.id}
-                            variant="outline-primary"
-                          >
-                            <Pencil />
-                          </Button>
-                          <Button
-                            variant="outline-danger"
-                            onClick={() =>
-                              openModalDelete(member.name, member.id)
-                            }
-                          >
-                            <Trash />
-                          </Button>
+          {loading ? (
+            <Row>
+              <Col>
+                <Spinner
+                  animation="border"
+                  role="status"
+                  className="d-block mx-auto"
+                  variant="primary"
+                >
+                  <span className="visually-hidden">Cargando miembros...</span>
+                </Spinner>
+              </Col>
+            </Row>
+          ) : (
+            <Row>
+              <Col>
+                <Table hover striped bordered>
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Imagen</th>
+                      <th className="text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {members.length > 0 ? (
+                      members.map((member) => (
+                        <tr key={member.id}>
+                          <td className="fw-bold align-middle">{member.name}</td>
+                          <td>
+                            <Button
+                              variant="link"
+                              className="text-decoration-none text-primary"
+                              onClick={() => openModalDetail(member.image)}
+                            >
+                              Ver Imagen
+                            </Button>
+                          </td>
+                          <td className="d-flex justify-content-around gap-1">
+                            <Button
+                              as={Link}
+                              to="./MembersForm"
+                              member={member.id}
+                              variant="outline-primary"
+                            >
+                              <Pencil />
+                            </Button>
+                            <Button
+                              variant="outline-danger"
+                              onClick={() =>
+                                openModalDelete(member.name, member.id)
+                              }
+                            >
+                              <Trash />
+                            </Button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={4}>
+                          Do you want to add a{" "}
+                          <Link to="./MembersForm">new member</Link>?
                         </td>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={4}>
-                        Do you want to add a{" "}
-                        <Link to="./MembersForm">new member</Link>?
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </Table>
-            </Col>
-          </Row>
-        )}
-        <Modal
-          centered
-          size="lg"
-          show={modalDetail.open}
-          onHide={closeModalDetail}
-        >
-          <Modal.Header closeButton />
-          <Modal.Body>
-            <img src={modalDetail.src} alt="detail" width="100%" />
-          </Modal.Body>
-        </Modal>
-        <Modal centered show={modalDelete.open} onHide={closeModalDelete}>
-          <Modal.Header closeButton>
-            <Modal.Title>Eliminar miembro</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p>
-              ¿Estás seguro que quieres eliminar a{" "}
-              <span className="fw-bold">{modalDelete.name}</span>? Esta acción
-              no se puede deshacer.
-            </p>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={closeModalDelete}>
-              Cerrar
-            </Button>
-            <Button
-              variant="danger"
-              onClick={() => deleteMember(modalDelete.id)}
-            >
-              Eliminar
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </BrowserRouter>
-      {message && <p className="text text-danger m-auto">{message}</p>}
-    </Container>
+                    )}
+                  </tbody>
+                </Table>
+              </Col>
+            </Row>
+          )}
+          <Modal
+            centered
+            size="lg"
+            show={modalDetail.open}
+            onHide={closeModalDetail}
+          >
+            <Modal.Header closeButton />
+            <Modal.Body>
+              <img src={modalDetail.src} alt="detail" width="100%" />
+            </Modal.Body>
+          </Modal>
+          <Modal centered show={modalDelete.open} onHide={closeModalDelete}>
+            <Modal.Header closeButton>
+              <Modal.Title>Eliminar miembro</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>
+                ¿Estás seguro que quieres eliminar a{" "}
+                <span className="fw-bold">{modalDelete.name}</span>? Esta acción
+                no se puede deshacer.
+              </p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={closeModalDelete}>
+                Cerrar
+              </Button>
+              <Button
+                variant="danger"
+                onClick={() => deleteMember(modalDelete.id)}
+              >
+                Eliminar
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </BrowserRouter>
+        {message && <p className="text text-danger m-auto">{message}</p>}
+      </Container>
+    </BackofficeLayout>
   );
 };
 
