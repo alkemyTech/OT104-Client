@@ -15,7 +15,7 @@ const secToMins = (sec) => {
   return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 };
 
-export default class App extends Component {
+export default class LastEvent extends Component {
   state = {
     loaded: false,
     url: EVENT_URL,
