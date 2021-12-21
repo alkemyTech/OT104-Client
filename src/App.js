@@ -66,7 +66,6 @@ function App() {
         <Route path="/gracias" component={Thanks} />
         <Route path="/Novedades" component={News} />
         <Route path="/backoffice" component={backofficeRoutes} />
-      </Switch>
       </AnimatedSwitch>
     </BrowserRouter>
   );
