@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter, Route } from "react-router-dom";
 import { AnimatedSwitch } from "react-router-transition";
+import Sidebar from "./Components/Backoffice/Sidebar/Sidebar";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
 import Home from "./Components/Home/Home";
 import CategoriesForm from "./Components/Categories/CategoriesForm";
@@ -30,14 +31,17 @@ import ActivitiesList from "./Components/Backoffice/ActivitiesList";
 import Donation from "./Components/Donations/Donation";
 import Thanks from "./Components/Donations/Thanks";
 import BackOfficeMembersList from "./Components/Backoffice/BackOfficeMembersList";
-import "bootstrap/dist/css/bootstrap.min.css";
 import News from "./Components/News/NewsSection";
+import NavBar from "./Components/Header/Header";
 import Header from "./Components/Backoffice/Header";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <BrowserRouter>
+      <NavBar />
       <Header />
+      <Sidebar />
       <AnimatedSwitch
         atEnter={{ opacity: 0 }}
         atLeave={{ opacity: 0 }}
