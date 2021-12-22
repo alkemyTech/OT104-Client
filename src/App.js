@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import { AnimatedSwitch } from "react-router-transition";
 import Sidebar from "./Components/Backoffice/Sidebar/Sidebar";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
@@ -32,6 +32,8 @@ import Header from "./Components/Backoffice/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
+  // This is hardcoded for now, but... this will be getting from a reducer?
+  const isAuth = false;
   return (
     <BrowserRouter>
       <NavBar />
@@ -56,7 +58,12 @@ function App() {
         <Route path="/school-campaign" component={SchoolCampaign} />
         <Route path="/toys-campaign" component={ToysCampaign} />
         <Route path="/contacto" component={Contact} />
-        <Route path="/registerform" component={RegisterForm} />
+        {/* The line below is working */}
+        {!isAuth ? (
+          <Route path="/registerform" component={RegisterForm} />
+        ) : (
+          <Redirect to="/" />
+        )}
         <Route path="/Nosotros" component={About} />
         <Route path="/Novedades/:id" component={NewsDetail} />
         <Route path="/Actividades" component={Activities} />
