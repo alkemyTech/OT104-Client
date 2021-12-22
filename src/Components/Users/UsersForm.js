@@ -75,7 +75,7 @@ const UserForm = ({ user = null }) => {
     password: Yup.string()
       .min(8, "La contraseña debe contener al menos 8 caracteres.")
       .required("Obligatorio"),
-    address: Yup.object().required("Obligatorio"),
+    address: Yup.object(),
   });
 
   const { handleSubmit, handleChange, handleBlur, values, errors, touched } =
@@ -136,7 +136,7 @@ const UserForm = ({ user = null }) => {
       reader.readAsDataURL(file);
     }
   };
-  console.log(location);
+
   return (
     <Container style={{ maxWidth: "30rem" }}>
       <Row>
@@ -231,8 +231,9 @@ const UserForm = ({ user = null }) => {
                 <Form.Label> Confirmar Ubicación Actual </Form.Label>
                 <Form.Control
                   className="input-field"
-                  type="address"
+                  type="text"
                   name="address"
+                  focus="true"
                   value={values.address}
                   onChange={handleChange}
                   placeholder={!addressState ? "address" : addressState}
