@@ -12,6 +12,9 @@ import Spinner from "react-bootstrap/Spinner";
 import userService from "../../Services/userService";
 import UseGeoLocation from "./useGeoLocation";
 import axios from "axios";
+import SearchAddress from "./SearchAddress";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import ToggleButton from "react-bootstrap/ToggleButton";
 
 const UserForm = ({ user = null }) => {
   const [imageString, setImageString] = useState(""); //imageString is the base64 string of the image
@@ -20,18 +23,17 @@ const UserForm = ({ user = null }) => {
   const [loading, setLoading] = useState(false);
   const isEditing = !!user;
   const [addressState, setAddressState] = useState("");
+  const [geoOption, setGeoOption] = useState(false);
   const location = UseGeoLocation();
   const api_key = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
   const getAdress = async () => {
     try {
       const response = await axios.get(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coordinates.lat},${location.coordinates.long}&key=${api_key}`
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coordinates.lat},${location.coordinates.lng}&key=${api_key}`
       );
-      console.log(response.data.results, "la response");
+      console.log(location.coordinates);
       setAddressState(response.data.results[0].formatted_address);
-
-      console.log(address, "add");
     } catch (error) {
       console.log(error);
     }
@@ -73,6 +75,7 @@ const UserForm = ({ user = null }) => {
     password: Yup.string()
       .min(8, "La contraseña debe contener al menos 8 caracteres.")
       .required("Obligatorio"),
+    address: Yup.object().required("Obligatorio"),
   });
 
   const { handleSubmit, handleChange, handleBlur, values, errors, touched } =
@@ -80,6 +83,8 @@ const UserForm = ({ user = null }) => {
       initialValues,
       validationSchema,
       onSubmit: async (values) => {
+        console.log(values);
+
         setLoading(true);
         setMessage("");
         let { profile_image, ...userData } = values;
@@ -207,35 +212,50 @@ const UserForm = ({ user = null }) => {
               </Form.Text>
             )}
           </Form.Group>
+          <ButtonGroup className="mb-2">
+            <ToggleButton
+              id="toggle-check"
+              type="checkbox"
+              variant="outline-primary"
+              checked={geoOption}
+              value="1"
+              onChange={(e) => setGeoOption(e.currentTarget.checked)}
+            >
+              Usar Ubicación Actual
+            </ToggleButton>
+          </ButtonGroup>
+
           <Form.Group className="mb-3">
-            <Form.Label> GEOLOCATION </Form.Label>
-            <Form.Control
-              className="input-field"
-              type="address"
-              name="address"
-              value={values.addressF}
-              onChange={handleChange}
-              placeholder={!addressState ? "address" : addressState}
-              onBlur={handleBlur}
-              isInvalid={errors.address && touched.address}
-              isValid={touched.address && !errors.address}
-            />
-            {errors.address && touched.address ? (
-              <Form.Control.Feedback type="invalid">
-                {errors.address}
-              </Form.Control.Feedback>
+            {location.loaded && geoOption ? (
+              <>
+                <Form.Label> Confirmar Ubicación Actual </Form.Label>
+                <Form.Control
+                  className="input-field"
+                  type="address"
+                  name="address"
+                  value={values.address}
+                  onChange={handleChange}
+                  placeholder={!addressState ? "address" : addressState}
+                  onBlur={handleBlur}
+                  isInvalid={errors.address && touched.address}
+                  isValid={touched.address && !errors.address}
+                />
+                {errors.address && touched.address ? (
+                  <Form.Control.Feedback type="invalid">
+                    {errors.address}
+                  </Form.Control.Feedback>
+                ) : (
+                  <Form.Text className="text-muted">
+                    Debe ingresar una Ubicación valida.
+                  </Form.Text>
+                )}
+                <img
+                  src={`https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinates.lat},${location.coordinates.lng}&zoom=14&size=400x300&sensor=false&markers=color:blue%7C${location.coordinates.lat},${location.coordinates.lng}&key=${api_key}`}
+                  alt=""
+                />
+              </>
             ) : (
-              <Form.Text className="text-muted">
-                La direccion debe contener al menos 8 caracteres.
-              </Form.Text>
-            )}
-            {location.loaded ? (
-              <img
-                src={`https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinates.lat},${location.coordinates.long}&zoom=14&size=400x300&sensor=false&markers=color:blue%7C${location.coordinates.lat},${location.coordinates.long}&key=${api_key}`}
-                alt=""
-              />
-            ) : (
-              "Location data not aveliable"
+              <SearchAddress />
             )}
           </Form.Group>
 

@@ -4,7 +4,7 @@ import { alertServiceError } from "../Alert/AlertService";
 const UseGeoLocation = () => {
   const [location, setLocation] = useState({
     loaded: false,
-    coords: { lat: "", long: "" },
+    coords: { lat: "", lng: "" },
   });
   const onSuccess = (location) => {
     console.log(location);
@@ -12,7 +12,7 @@ const UseGeoLocation = () => {
       loaded: true,
       coordinates: {
         lat: location.coords.latitude,
-        long: location.coords.longitude,
+        lng: location.coords.longitude,
       },
     });
   };
