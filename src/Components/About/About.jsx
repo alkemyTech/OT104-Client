@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { alertServiceError } from "../Alert/AlertService";
+import RedesAbout from './RedesAbout';
 import Spinner from "../Spinner/Spinner";
 import {
   fetchOrgData,
