@@ -5,20 +5,15 @@ import PlacesAutocomplete, {
   getLatLng,
 } from "react-places-autocomplete";
 
-const SearchAddress = () => {
+const SearchAddress = ({ setCoordinates, coordinates }) => {
   const api_key = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
   const [address, setAddress] = useState("");
-  const [coordinates, setCoordinates] = useState({
-    lat: null,
-    lng: null,
-  });
 
   useEffect(() => {}, [coordinates]);
 
   const handleSelect = async (value) => {
     const results = await geocodeByAddress(value);
     const latLng = await getLatLng(results[0]);
-    console.log(latLng);
     setAddress(value);
     setCoordinates(latLng);
   };
@@ -31,7 +26,7 @@ const SearchAddress = () => {
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div>
-            <Form.Label> Ingresar Ubicación</Form.Label>
+            <Form.Label> Ingresar Ubicación (opcional).</Form.Label>
             <Form.Control
               {...getInputProps({ placeholder: "Ingresa tu Ubicacion" })}
             />

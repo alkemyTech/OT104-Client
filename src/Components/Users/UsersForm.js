@@ -26,13 +26,16 @@ const UserForm = ({ user = null }) => {
   const [geoOption, setGeoOption] = useState(false);
   const location = UseGeoLocation();
   const api_key = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+  const [coordinates, setCoordinates] = useState({
+    lat: location.coordinates?.lat,
+    lng: location.coordinates?.lng,
+  });
 
   const getAdress = async () => {
     try {
       const response = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coordinates.lat},${location.coordinates.lng}&key=${api_key}`
       );
-      console.log(location.coordinates);
       setAddressState(response.data.results[0].formatted_address);
     } catch (error) {
       console.log(error);
@@ -75,7 +78,7 @@ const UserForm = ({ user = null }) => {
     password: Yup.string()
       .min(8, "La contraseña debe contener al menos 8 caracteres.")
       .required("Obligatorio"),
-    address: Yup.object(),
+    address: Yup.string(),
   });
 
   const { handleSubmit, handleChange, handleBlur, values, errors, touched } =
@@ -84,11 +87,15 @@ const UserForm = ({ user = null }) => {
       validationSchema,
       onSubmit: async (values) => {
         console.log(values);
-
         setLoading(true);
         setMessage("");
         let { profile_image, ...userData } = values;
-        userData = { ...userData, profile_image: imageString };
+        userData = {
+          ...userData,
+          profile_image: imageString,
+          latitude: coordinates.lat,
+          longitude: coordinates.lng,
+        };
         // if the response is successful will have a data property with the user data and success property with true
         //Otherwise will have a response property with a data property whit an array of errors
         if (isEditing) {
@@ -136,7 +143,7 @@ const UserForm = ({ user = null }) => {
       reader.readAsDataURL(file);
     }
   };
-
+  console.log(location);
   return (
     <Container style={{ maxWidth: "30rem" }}>
       <Row>
@@ -233,7 +240,6 @@ const UserForm = ({ user = null }) => {
                   className="input-field"
                   type="text"
                   name="address"
-                  focus="true"
                   value={values.address}
                   onChange={handleChange}
                   placeholder={!addressState ? "address" : addressState}
@@ -256,7 +262,10 @@ const UserForm = ({ user = null }) => {
                 />
               </>
             ) : (
-              <SearchAddress />
+              <SearchAddress
+                setCoordinates={setCoordinates}
+                coordinates={coordinates}
+              />
             )}
           </Form.Group>
 
