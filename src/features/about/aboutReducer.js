@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getRequest } from "../../Services/privateApiService";
+import { get } from "../../Services/publicApiService";
 
 export const fetchOrgData = createAsyncThunk(
   "about/fetchOrgData",
   async (_, { rejectWithValue }) => {
     try {
-      let res = await getRequest(process.env.REACT_APP_URL_ORGANIZATION);
+      let res = await get(process.env.REACT_APP_URL_ORGANIZATION);
       if (!res.data.success) {
         return rejectWithValue(res.message);
       }
