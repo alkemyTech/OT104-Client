@@ -1,0 +1,80 @@
+#player {
+  position: relative;
+  aspect-ratio: 1.78;
+  max-width: 40rem;
+  .paused {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    img {
+      height: 133, 33%;
+      width: 100%;
+    }
+  }
+  .hover {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: auto;
+    padding: 0.5rem;
+    display: flex;
+    align-items: flex-end;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    &:hover {
+      opacity: 1;
+    }
+    .controls {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      input[type="range"] {
+        -webkit-appearance: none;
+        height: 1rem;
+        background: var(--bs-primary);
+        border-radius: 0.25rem;
+        border: none;
+        outline: none;
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          width: 1.5rem;
+          height: 1.5rem;
+          border-radius: 50%;
+          background: #fff;
+          cursor: pointer;
+        }
+        &::-moz-range-thumb {
+          width: 1.5rem;
+          height: 1.5rem;
+          border-radius: 50%;
+          background: #fff;
+          cursor: pointer;
+        }
+      }
+      #progress {
+        width: 100%;
+        margin: auto 0.5rem;
+        background: var(--bs-secondary);
+      }
+    }
+  }
+  .hidden {
+    display: none;
+  }
+  pointer-events: none;
+  .react-player__play-icon,
+  .react-player__shadow {
+    pointer-events: auto;
+    z-index: 2;
+  }
+}

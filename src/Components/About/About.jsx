@@ -45,6 +45,9 @@ const About = () => {
           <MiembrosAbout membersData={membersData} />
         </div>
       </Row>
+      <Row>
+        <RedesAbout/>
+      </Row>
     </>
   );
 
