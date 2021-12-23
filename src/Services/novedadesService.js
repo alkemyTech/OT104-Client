@@ -6,10 +6,12 @@ import {
   getRequest,
 } from "./privateApiService";
 
+import {get} from "./publicApiService"
+
 const baseUrl = "http://ongapi.alkemy.org/api/news";
 
 const getNews = () => {
-  const response = getRequest(`${baseUrl}`);
+  const response = get(`${baseUrl}`);
   return response;
 };
 
