@@ -44,7 +44,7 @@ export const authReducer = createSlice({
         state.user = action.payload.user;
         state.token = action.payload.token;
         state.isAuthenticated = true;
-        localStorage.setItem("token", JSON.stringify(action.payload.token));
+        localStorage.setItem("token", action.payload.token);
       })
       .addCase(login.rejected, (state, action) => {
         console.log("rejected", action);
@@ -60,7 +60,7 @@ export const authReducer = createSlice({
         state.user = action.payload.user;
         state.token = action.payload.token;
         state.isAuthenticated = true;
-        localStorage.setItem("token", JSON.stringify(action.payload.token));
+        localStorage.setItem("token", action.payload.token);
       })
       .addCase(register.rejected, (state) => {
         state.status = "rejected";
