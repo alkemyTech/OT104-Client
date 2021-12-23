@@ -14,7 +14,7 @@ import ToysCampaign from "./Campaigns/Toys/ToysCampaign";
 import MembersForm from "./Components/Members/MembersForm";
 import ProjectsForm from "./Components/Projects/ProjectsForm";
 import About from "./Components/About/About";
-import Contact from "./Components/Contact/Contact";
+import ContactForm from "./Components/Contact/ContactForm";
 import LoginForm from "./Components/Auth/LoginForm";
 import RegisterForm from "./Components/Auth/RegisterForm";
 import EditForm from "./Components/Organization/EditForm";
@@ -51,9 +51,9 @@ function App() {
         <Route path="/create-project" component={ProjectsForm} />
         <Route path="/school-campaign" component={SchoolCampaign} />
         <Route path="/toys-campaign" component={ToysCampaign} />
-        <Route path="/contacto" component={Contact} />
+        <Route path="/contact" component={ContactForm} />
         <Route path="/registerform" component={RegisterForm} />
-        <Route path="/Nosotros" component={About} />
+        <Route path="/about" component={About} />
         <Route path="/Novedades/:id" component={NewsDetail} />
         <Route path="/Actividades" component={Activities} />
         <Route path="/donar">
