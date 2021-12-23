@@ -28,8 +28,8 @@ import News from "./Components/News/NewsSection";
 import { backofficeRoutes } from "./Components/Backoffice/BackofficeRoutes";
 import NavBar from "./Components/Header/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useDispatch, useSelector } from "react-redux";
-import { checkToken, VerifyToken } from "./Services/privateApiService";
+import { useDispatch } from "react-redux";
+import { checkToken } from "./Services/privateApiService";
 import { authSuccess } from "./features/auth/authReducer";
 
 function App() {
