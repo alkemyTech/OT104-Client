@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { FormLabel, FormControl, Button, Alert } from "react-bootstrap";
 import contactService from "../../Services/contactService";
 
-const ContactForm = () => {
+const ContactForm = ({ onSubmit }) => {
   const initialValues = {
     name: "",
     email: "",
@@ -11,9 +11,9 @@ const ContactForm = () => {
     message: "",
   };
 
-  function handleSubmit(values) {
-    contactService.create(values);
-  }
+  // function handleSubmit(values) {
+  //   contactService.create(values);
+  // }
 
   function handleErrors(values) {
     let errors = {};
@@ -50,90 +50,30 @@ const ContactForm = () => {
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={handleSubmit}
+      onSubmit={onSubmit}
       validate={handleErrors}
     >
-      {({ errors, values, handleChange, handleBlur }) => (
+      {() => (
         <Form>
           <div>
-            <FormLabel for="name">Nombre:</FormLabel>
-            <Field
-              name="name"
-              type="text"
-              render={() => (
-                <FormControl
-                  name="name"
-                  type="text"
-                  value={values.name}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-              )}
-            />
-            <ErrorMessage
-              name="name"
-              component={() => <Alert variant="danger">{errors.name}</Alert>}
-            />
+            <FormLabel htmlFor="name">Nombre:</FormLabel>
+            <Field id="name" name="name" type="text" as={FormControl} />
+            <ErrorMessage name="name" variant="danger" component={Alert} />
           </div>
           <div>
-            <label for="email">E-mail:</label>
-            <Field
-              name="email"
-              type="text"
-              render={() => (
-                <FormControl
-                  name="email"
-                  type="text"
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-              )}
-            />
-            <ErrorMessage
-              name="email"
-              component={() => <Alert variant="danger">{errors.email}</Alert>}
-            />
+            <FormLabel htmlFor="email">E-mail:</FormLabel>
+            <Field id="email" name="email" type="text" as={FormControl} />
+            <ErrorMessage name="email" variant="danger" component={Alert} />
           </div>
           <div>
-            <label for="phone">Teléfono:</label>
-            <Field
-              name="phone"
-              type="number"
-              render={() => (
-                <FormControl
-                  name="phone"
-                  type="number"
-                  value={values.number}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-              )}
-            />
-            <ErrorMessage
-              name="phone"
-              component={() => <Alert variant="danger">{errors.phone}</Alert>}
-            />
+            <FormLabel htmlFor="phone">Teléfono:</FormLabel>
+            <Field id="phone" name="phone" type="number" as={FormControl} />
+            <ErrorMessage name="phone" variant="danger" component={Alert} />
           </div>
           <div>
-            <label for="message">Mensaje:</label>
-            <Field
-              name="message"
-              as="textarea"
-              render={() => (
-                <FormControl
-                  name="message"
-                  as="textarea"
-                  value={values.message}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-              )}
-            />
-            <ErrorMessage
-              name="message"
-              component={() => <Alert variant="danger">{errors.message}</Alert>}
-            />
+            <FormLabel htmlFor="message">Mensaje:</FormLabel>
+            <Field id="message" name="message" as={FormControl} />
+            <ErrorMessage name="message" variant="danger" component={Alert} />
           </div>
           <Button type="submit">Enviar Mensaje</Button>
         </Form>
