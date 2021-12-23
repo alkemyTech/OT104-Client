@@ -15,6 +15,7 @@ import axios from "axios";
 import SearchAddress from "./SearchAddress";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import ToggleButton from "react-bootstrap/ToggleButton";
+import { alertServiceError } from "../Alert/AlertService";
 
 const UserForm = ({ user = null }) => {
   const [imageString, setImageString] = useState(""); //imageString is the base64 string of the image
@@ -38,12 +39,15 @@ const UserForm = ({ user = null }) => {
       );
       setAddressState(response.data.results[0].formatted_address);
     } catch (error) {
-      console.log(error);
+      alertServiceError(
+        "Error al cargar el mapa",
+        "Por favor ingrese su domicilio o habilite la localizacion"
+      );
     }
   };
   useEffect(() => {
     getAdress();
-  }, [location]);
+  }, []);
   const roles = {
     admin: 1,
     user: 2,
@@ -258,7 +262,7 @@ const UserForm = ({ user = null }) => {
                 )}
                 <img
                   src={`https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinates.lat},${location.coordinates.lng}&zoom=14&size=400x300&sensor=false&markers=color:blue%7C${location.coordinates.lat},${location.coordinates.lng}&key=${api_key}`}
-                  alt=""
+                  alt="Mapa del Ususario"
                 />
               </>
             ) : (
