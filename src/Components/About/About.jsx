@@ -3,9 +3,8 @@ import MiembrosAbout from "./MiembrosAbout";
 import TextoAbout from "./TextoAbout";
 import TituloAbout from "./TituloAbout";
 import RedesAbout from "./RedesAbout";
-import {Container, Row, Col} from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { alertServiceError } from "../Alert/AlertService";
-import RedesAbout from './RedesAbout';
 import Spinner from "../Spinner/Spinner";
 import {
   fetchOrgData,
@@ -46,7 +45,7 @@ const About = () => {
         </div>
       </Row>
       <Row>
-        <RedesAbout/>
+        <RedesAbout />
       </Row>
     </>
   );
