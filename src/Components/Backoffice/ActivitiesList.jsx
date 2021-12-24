@@ -10,6 +10,7 @@ import Modal from "react-bootstrap/Modal";
 import { PencilFill, TrashFill } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getActividades } from "../../features/activities/activitiesSlice";
+import BackofficeLayout from './BackofficeLayout'
 
 const ActivitiesList = () => {
   const activities = useSelector((state) => state.activities.data);

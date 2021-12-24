@@ -10,6 +10,7 @@ import BackofficeUserList from "./BackofficeUserList";
 import { Switch, Route } from "react-router-dom";
 import LoginForm from "../Auth/LoginForm";
 import { checkToken, VerifyToken } from "../../Services/privateApiService";
+import BackofficeLayout from "./BackofficeLayout";
 
 export const backofficeRoutes = () => {
   const [tokenVerification, setTokenVerification] = useState(false);
@@ -24,6 +25,7 @@ export const backofficeRoutes = () => {
 
   return (
     <>
+      { tokenVerification ? <BackofficeLayout/> : "" }
       <Switch>
         <Route
           path="/backoffice/create-slide"
