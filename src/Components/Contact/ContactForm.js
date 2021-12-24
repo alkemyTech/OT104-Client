@@ -1,9 +1,13 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { FormLabel, FormControl, Button, Alert } from "react-bootstrap";
+import {
+  alertServiceError,
+  alertServiceInfoTimer,
+} from "../Alert/AlertService";
 import contactService from "../../Services/contactService";
 
-const ContactForm = ({ onSubmit }) => {
+const ContactForm = () => {
   const initialValues = {
     name: "",
     email: "",
@@ -11,9 +15,23 @@ const ContactForm = ({ onSubmit }) => {
     message: "",
   };
 
-  // function handleSubmit(values) {
-  //   contactService.create(values);
-  // }
+  const handleSubmit = async (values) => {
+    try {
+      let res = await contactService.create(values);
+      if (!res.data.success) {
+        return alertServiceError(
+          "Error",
+          "Ocurrio un error al intentar guardar este contacto"
+        );
+      }
+      return alertServiceInfoTimer("Exito", "Contacto guardado");
+    } catch (err) {
+      alertServiceError(
+        "Error",
+        "Ocurrio un error al intentar guardar este contacto"
+      );
+    }
+  };
 
   function handleErrors(values) {
     let errors = {};
@@ -43,14 +61,13 @@ const ContactForm = ({ onSubmit }) => {
         }
       }
     }
-
     return errors;
   }
 
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit}
       validate={handleErrors}
     >
       {() => (
