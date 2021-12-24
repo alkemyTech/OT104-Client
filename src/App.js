@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import { AnimatedSwitch } from "react-router-transition";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
 import Home from "./Components/Home/Home";
@@ -28,18 +28,19 @@ import News from "./Components/News/NewsSection";
 import { backofficeRoutes } from "./Components/Backoffice/BackofficeRoutes";
 import NavBar from "./Components/Header/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { checkToken } from "./Services/privateApiService";
 import { authSuccess } from "./features/auth/authReducer";
 
 function App() {
   const dispatch = useDispatch();
+  const isAuth = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
     const isLogged = checkToken();
-    if (isLogged) { 
-      dispatch(authSuccess())
-    } 
+    if (isLogged) {
+      dispatch(authSuccess());
+    }
   }, []);
 
   return (
@@ -52,7 +53,7 @@ function App() {
         className="switch-wrapper"
       >
         <Route path="/" exact component={Home} />
-        <Route path="/login" component={LoginForm}/> 
+        <Route path="/login" component={LoginForm} />
         <Route path="/toys-campaign" component={ToysCampaign} />
         <Route path="/create-activity" component={ActivitiesForm} />
         <Route path="/create-category" component={CategoriesForm} />
@@ -63,8 +64,12 @@ function App() {
         <Route path="/create-project" component={ProjectsForm} />
         <Route path="/school-campaign" component={SchoolCampaign} />
         <Route path="/toys-campaign" component={ToysCampaign} />
+        {!isAuth ? (
+          <Route path="/registerform" component={RegisterForm} />
+        ) : (
+          <Redirect to="/" />
+        )}
         <Route path="/contact" component={ContactForm} />
-        <Route path="/registerform" component={RegisterForm} />
         <Route path="/about" component={About} />
         <Route path="/Novedades/:id" component={NewsDetail} />
         <Route path="/Actividades" component={Activities} />
