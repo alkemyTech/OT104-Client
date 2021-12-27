@@ -35,12 +35,15 @@ import { authSuccess } from "./features/auth/authReducer";
 function App() {
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
-
+  
   useEffect(() => {
-    const isLogged = checkToken();
-    if (isLogged) {
-      dispatch(authSuccess());
+    const authenticate = async () => {
+      const res = await checkToken();
+      if (res.success) {
+        dispatch(authSuccess(res.data.user));
+      }
     }
+    authenticate();
   }, []);
 
   return (

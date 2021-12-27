@@ -18,7 +18,7 @@ export const backofficeRoutes = () => {
   useEffect(() => {
     const getInfo = async () => {
       const res = await checkToken();
-      setTokenVerification(res);
+      setTokenVerification(res.success);
     };
     getInfo();
   }, []);
