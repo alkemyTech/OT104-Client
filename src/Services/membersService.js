@@ -5,7 +5,7 @@ import {
   deleteRequest,
 } from "./privateApiService";
 
-const path = process.env.REACT_APP_MEMBERS_BASE_;
+const path = "http://ongapi.alkemy.org/api/members";
 
 const getMembers = () => {
   return getRequest(null);

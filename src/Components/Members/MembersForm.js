@@ -17,7 +17,7 @@ const MembersForm = ({ member = null }) => {
   const initialValues = {
     name: member?.name || "",
     image: member?.image || "",
-    description: member?.description || "",
+    //description: member?.description || "",
     facebook: member?.facebook || "",
     instagram: member?.instagram || "",
     linkedin: member?.linkedin || "",
@@ -32,7 +32,7 @@ const MembersForm = ({ member = null }) => {
       .string()
       .matches(/\.(jpg|png)$/, "We only support .png or .jpg format files.")
       .required("You have to provide an image."),
-    description: yup.string().required("You have to provide a description."),
+    // description: yup.string().required("You have to provide a description."),
     facebook: yup
       .string()
       .matches(
@@ -66,7 +66,6 @@ const MembersForm = ({ member = null }) => {
           ...userData,
           image: imageString,
         };
-        console.log(userData);
         if (isEditing) {
           try {
             await membersService.edit(member.id, userData);
@@ -82,11 +81,16 @@ const MembersForm = ({ member = null }) => {
           }
         } else {
           try {
-            await membersService.create(userData);
-            setMessage("Miembro creado correctamente");
-            setTimeout(() => {
-              setMessage("");
-            }, 4000);
+            let res = await membersService.create(userData);
+            console.log(res);
+            if (res.data.success) {
+              setMessage("Miembro creado correctamente");
+              setTimeout(() => {
+                setMessage("");
+              }, 4000);
+            } else {
+              throw new error();
+            }
           } catch (error) {
             setMessage("Ha habido un error.");
             setTimeout(() => {
@@ -143,7 +147,7 @@ const MembersForm = ({ member = null }) => {
               />
             ) : null}
 
-            <CKEditor
+            {/* <CKEditor
               className="input-field"
               name="description"
               data={values.description}
@@ -162,7 +166,7 @@ const MembersForm = ({ member = null }) => {
               <p className="text-danger mb-3 mt-3">
                 Please, write a description.
               </p>
-            )}
+            )} */}
 
             <Field
               className={`form-control mb-4 shadow-none ${
