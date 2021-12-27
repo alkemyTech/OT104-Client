@@ -17,7 +17,7 @@ const MembersForm = ({ member = null }) => {
   const initialValues = {
     name: member?.name || "",
     image: member?.image || "",
-    //description: member?.description || "",
+    description: member?.description || "",
     facebook: member?.facebook || "",
     instagram: member?.instagram || "",
     linkedin: member?.linkedin || "",
@@ -32,7 +32,7 @@ const MembersForm = ({ member = null }) => {
       .string()
       .matches(/\.(jpg|png)$/, "We only support .png or .jpg format files.")
       .required("You have to provide an image."),
-    // description: yup.string().required("You have to provide a description."),
+    description: yup.string().required("You have to provide a description."),
     facebook: yup
       .string()
       .matches(
@@ -82,7 +82,6 @@ const MembersForm = ({ member = null }) => {
         } else {
           try {
             let res = await membersService.create(userData);
-            console.log(res);
             if (res.data.success) {
               setMessage("Miembro creado correctamente");
               setTimeout(() => {
@@ -147,7 +146,7 @@ const MembersForm = ({ member = null }) => {
               />
             ) : null}
 
-            {/* <CKEditor
+            <CKEditor
               className="input-field"
               name="description"
               data={values.description}
@@ -166,8 +165,7 @@ const MembersForm = ({ member = null }) => {
               <p className="text-danger mb-3 mt-3">
                 Please, write a description.
               </p>
-            )} */}
-
+            )}
             <Field
               className={`form-control mb-4 shadow-none ${
                 touched.facebook && errors.facebook && `is-invalid`
