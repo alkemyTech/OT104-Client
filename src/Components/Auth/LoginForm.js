@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "../../features/auth/authReducer";
 import axios from "axios";
 import { useHistory } from "react-router";
+import { alertServiceConfirm } from "../Alert/AlertService";
 
 function LoginForm() {
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
@@ -14,7 +15,10 @@ function LoginForm() {
   };
 
   useEffect(() => {
-    if (isAuth) history.push("/");
+    if (isAuth) {
+      alertServiceConfirm("Exito");
+      history.push("/");
+    }
   }, [isAuth]);
 
   return (
@@ -54,7 +58,9 @@ function LoginForm() {
     >
       {({ errors }) => (
         <Form className="form-container">
-          <label className="form-label">Email</label>
+          <label htmlFor="username" className="form-label">
+            Email
+          </label>
           <Field
             type="text"
             className="input-field "
@@ -67,7 +73,9 @@ function LoginForm() {
             component={() => <div className="error"> {errors.emailUser} </div>}
           />
 
-          <label className="form-label">Password</label>
+          <label htmlFor="password" className="form-label">
+            Password
+          </label>
           <Field
             type="password"
             className="input-field "
