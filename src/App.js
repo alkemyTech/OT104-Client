@@ -35,6 +35,7 @@ import { authSuccess } from "./features/auth/authReducer";
 function App() {
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
+  const userRole = useSelector((state) => state.auth.user?.role_id);
   
   useEffect(() => {
     const authenticate = async () => {
@@ -48,7 +49,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar />
+      <NavBar isAuth={isAuth} userRole={userRole} />
       <AnimatedSwitch
         atEnter={{ opacity: 0 }}
         atLeave={{ opacity: 0 }}
