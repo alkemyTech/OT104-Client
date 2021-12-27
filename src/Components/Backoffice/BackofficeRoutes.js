@@ -7,7 +7,7 @@ import ActivitiesList from "./ActivitiesList";
 import SlidesList from "./SlidesList";
 import BackOfficeMembersList from "./BackOfficeMembersList";
 import BackofficeUserList from "./BackofficeUserList";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import LoginForm from "../Auth/LoginForm";
 import { checkToken, VerifyToken } from "../../Services/privateApiService";
 import BackofficeLayout from "./BackofficeLayout";
@@ -25,7 +25,7 @@ export const backofficeRoutes = () => {
 
   return (
     <>
-      { tokenVerification ? <BackofficeLayout/> : "" }
+      {tokenVerification ? <BackofficeLayout /> : <Redirect to="/" />}
       <Switch>
         <Route
           path="/backoffice/create-slide"

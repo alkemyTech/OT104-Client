@@ -14,8 +14,8 @@ function Home() {
       alertServiceError("Error loading slides");
       return;
     }
-    const slidesFromServer = res.data.data;
-    setSlides([...slidesFromServer]);
+    //   const slidesFromServer = res.data.data;
+    //   setSlides([...slidesFromServer]);
   };
   React.useEffect(() => {
     getSlides();
@@ -25,7 +25,7 @@ function Home() {
 
   const content = (
     <>
-      <Slider slides={slides} />
+      {slides.length > 0 && <Slider slides={slides} />}
       <h1 className="text-center m-2">
         Bienvenidos <br />a <br />
         Somos más
