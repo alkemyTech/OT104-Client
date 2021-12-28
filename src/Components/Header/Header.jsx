@@ -25,7 +25,7 @@ function Header({isAuth, userRole}) {
               publicLinks.map((item) => {
                 return (
                 <Nav.Link
-                  key={item.id}
+                  key={item.id.toString()}
                   href={item.path}
                   className="link-to-section"
                 >
