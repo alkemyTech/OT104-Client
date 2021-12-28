@@ -24,11 +24,15 @@ const ContactForm = () => {
           "Ocurrio un error al intentar guardar este contacto"
         );
       }
-      return alertServiceInfoTimer("Exito", "Contacto guardado");
+      return alertServiceInfoTimer(
+        "center",
+        "success",
+        "Contacto guardado con exito"
+      );
     } catch (err) {
       alertServiceError(
         "Error",
-        "Ocurrio un error al intentar guardar este contacto"
+        "Ocurrio un error al intentar realizar la petición"
       );
     }
   };
