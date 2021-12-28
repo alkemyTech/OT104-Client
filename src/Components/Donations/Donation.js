@@ -2,6 +2,8 @@ import React from "react";
 import { Row, Col, Button } from "react-bootstrap";
 import styles from "./Donation.module.css";
 
+const LINK_PAGO = process.env.REACT_APP_URL_LINK_PAGO
+
 function Donation(props) {
   return (
     <Row className={styles.donationContainer}>
@@ -11,7 +13,8 @@ function Donation(props) {
       <Col md={6} className="d-flex justify-content-center">
         <Row className="d-flex flex-column justify-content-center">
           <Button
-            onClick={() => alert("This will be redirect to Mercado Pago")}
+            as="a"
+            href={LINK_PAGO}
           >
             Mercado Pago
           </Button>

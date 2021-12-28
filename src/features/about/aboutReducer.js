@@ -20,7 +20,7 @@ export const fetchMembersData = createAsyncThunk(
   "about/fetchMembersData",
   async (_, { rejectWithValue }) => {
     try {
-      let res = await getRequest(process.env.REACT_APP_MEMBERS_BASE_URL);
+      let res = await get(process.env.REACT_APP_URL_MEMBERS);
       if (!res.data.success) {
         return rejectWithValue(res.message);
       }

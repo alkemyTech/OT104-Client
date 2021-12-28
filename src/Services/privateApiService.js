@@ -83,8 +83,19 @@ const VerifyToken = () => {
   return null;
 };
 
+const checkToken = async () => {
+  const headers = VerifyToken();
+
+  const res = await axios.get("http://ongapi.alkemy.org/api/auth/me", {
+    headers,
+  });
+
+  return res.data
+};
+
 export {
   VerifyToken,
+  checkToken,
   putRequest,
   patchRequest,
   deleteRequest,
