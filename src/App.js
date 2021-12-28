@@ -18,7 +18,7 @@ import ContactForm from "./Components/Contact/ContactForm";
 import LoginForm from "./Components/Auth/LoginForm";
 import RegisterForm from "./Components/Auth/RegisterForm";
 import EditForm from "./Components/Organization/EditForm";
-import Footer from "./Components/Footer";
+import Footer from "./Components/Footer/Footer";
 import ActivityDetail from "./Components/Activities/Detail/ActivityDetail";
 import Activities from "./Components/Activities/Activities";
 import Donation from "./Components/Donations/Donation";
@@ -84,6 +84,7 @@ function App() {
         <Route path="/Novedades" component={News} />
         <Route path="/backoffice" component={backofficeRoutes} />
       </AnimatedSwitch>
+      <Footer/>
     </BrowserRouter>
   );
 }
