@@ -1,19 +1,8 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import { Navbar, Container, Nav, Image } from "react-bootstrap";
-<<<<<<< HEAD
-import { Link, NavLink } from "react-router-dom";
-=======
->>>>>>> main
 import somosMasLogo from "../../images/LOGO-SOMOS-MAS.png";
 import "./style.scss";
-import { useSelector } from "react-redux";
 
-<<<<<<< HEAD
-function Header() {
-
-  const isAuth = useSelector((state) => state.auth.isAuthenticated);
-
-=======
 const publicLinks = [
   { name: "Inicio", path: "/", id: 1 },
   { name: "Nosotros", path: "/about", id: 2 },
@@ -23,29 +12,14 @@ const publicLinks = [
 
 
 function Header({isAuth, userRole}) {
->>>>>>> main
   return (
     <Navbar collapseOnSelect expand="lg" className="navbar-container">
-      <Link to="/">
+      <Container>
         <Navbar.Brand>
           <Image src={somosMasLogo} alt="somos-mas-logo" className="logo-img" />
         </Navbar.Brand>
-          </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-<<<<<<< HEAD
-          <Nav>
-                  <NavLink to="/home" className="link-to-section">Inicio</NavLink>
-                  <NavLink to="/about" className="link-to-section">Nosotros</NavLink>
-                  <NavLink to="/contact" className="link-to-section">Contacto</NavLink>
-            {isAuth ? 
-            <button className="btn text-danger" onClick={()=>{
-              localStorage.removeItem("token")
-              window.location.reload();
-              }}>Cerrar sesión</button>  :
-            <NavLink to="/login" className="link-to-section">Iniciar sesión</NavLink>
-            }
-=======
           <Nav className="me-auto">
             {  
               publicLinks.map((item) => {
@@ -93,10 +67,19 @@ function Header({isAuth, userRole}) {
                 </Nav.Link>
               </>
             }
-            
->>>>>>> main
+            {isAuth && 
+              <>
+                <button className="btn text-danger" onClick={()=>{
+                localStorage.removeItem("token")
+                window.location.reload();
+                }}>
+                  Cerrar sesión
+                </button>
+              </>
+              }
           </Nav>
         </Navbar.Collapse>
+      </Container>
     </Navbar>
   );
 }
