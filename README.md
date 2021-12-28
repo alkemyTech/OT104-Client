@@ -107,3 +107,10 @@ Recommendation when rendering and using <Skeleton /> keep the final structure. E
             </tbody>
           </Table>
 ```
+
+### Header Test
+
+Implementation detalis of the test:
+
+- Check if user isn't logged and show only public and guest links.
+- If user is logged guest links must not appear
