@@ -54,7 +54,7 @@ describe("LoginForm", () => {
 
   it("submit when fields are completed", async () => {
     store = mockStore(initialState);
-    const { getByRole, getByLabelText, getByText } = render(
+    const { getByRole, getByLabelText, findByText } = render(
       <Provider store={store}>
         <LoginForm />
       </Provider>
@@ -68,7 +68,7 @@ describe("LoginForm", () => {
     userEvent.click(getByRole("button", { name: "Login" }));
 
     await waitFor(() => {
-      expect(getByText("Exito")).toBeInTheDocument();
+      expect(findByText(/bienvenidos/i));
     });
   });
 });

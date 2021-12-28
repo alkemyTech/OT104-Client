@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "../../features/auth/authReducer";
 import axios from "axios";
 import { useHistory } from "react-router";
-import { alertServiceConfirm } from "../Alert/AlertService";
 
 function LoginForm() {
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
@@ -16,7 +15,6 @@ function LoginForm() {
 
   useEffect(() => {
     if (isAuth) {
-      alertServiceConfirm("Exito");
       history.push("/");
     }
   }, [isAuth]);
