@@ -36,14 +36,14 @@ function App() {
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
   const userRole = useSelector((state) => state.auth.user?.role_id);
-  
+
   useEffect(() => {
     const authenticate = async () => {
       const res = await checkToken();
       if (res.success) {
         dispatch(authSuccess(res.data.user));
       }
-    }
+    };
     authenticate();
   }, []);
 
@@ -67,12 +67,6 @@ function App() {
         <Route path="/create-member" component={MembersForm} />
         <Route path="/create-project" component={ProjectsForm} />
         <Route path="/school-campaign" component={SchoolCampaign} />
-        <Route path="/toys-campaign" component={ToysCampaign} />
-        {!isAuth ? (
-          <Route path="/registerform" component={RegisterForm} />
-        ) : (
-          <Redirect to="/" />
-        )}
         <Route path="/contact" component={ContactForm} />
         <Route path="/about" component={About} />
         <Route path="/Novedades/:id" component={NewsDetail} />
@@ -83,6 +77,11 @@ function App() {
         <Route path="/gracias" component={Thanks} />
         <Route path="/Novedades" component={News} />
         <Route path="/backoffice" component={backofficeRoutes} />
+        {!isAuth ? (
+          <Route path="/registerform" component={RegisterForm} />
+        ) : (
+          <Redirect to="/" />
+        )}
       </AnimatedSwitch>
     </BrowserRouter>
   );
