@@ -11,10 +11,11 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import LoginForm from "../Auth/LoginForm";
 import { checkToken, VerifyToken } from "../../Services/privateApiService";
 import BackofficeLayout from "./BackofficeLayout";
+import { useSelector } from "react-redux";
 
 export const backofficeRoutes = () => {
   const [tokenVerification, setTokenVerification] = useState(false);
-
+  const userRole = useSelector((state) => state.auth.user?.role_id);
   useEffect(() => {
     const getInfo = async () => {
       const res = await checkToken();
@@ -25,7 +26,8 @@ export const backofficeRoutes = () => {
 
   return (
     <>
-      {tokenVerification ? <BackofficeLayout /> : <Redirect to="/" />}
+      {userRole === 1 ? <BackofficeLayout /> : <Redirect to="/" />}
+      {tokenVerification ? <BackofficeLayout /> : ""}
       <Switch>
         <Route
           path="/backoffice/create-slide"
