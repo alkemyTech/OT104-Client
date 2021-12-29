@@ -34,10 +34,19 @@
     "react-router-transition": "^2.1.0",
     "react-scripts": "^4.0.3",
     "react-social-plugins": "^2.1.0",
+    "redux-mock-store": "^1.5.4",
     "sass": "^1.44.0",
     "sweetalert2": "^11.3.0",
     "yup": "^0.32.11"
   },
+<<<<<<< HEAD
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "jest": "^26.6.0"
+  },
+=======
+>>>>>>> main
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
