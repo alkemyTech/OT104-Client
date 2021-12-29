@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import {checkToken} from "../../Services/privateApiService";
 
 const initialState = {
   isAuthenticated: false,
@@ -32,11 +30,14 @@ export const authReducer = createSlice({
   initialState: initialState,
   reducers: {
     logout: (state) => {
-      state = initialState;
       localStorage.removeItem("token");
+      return initialState;
     },
-    authSuccess: (state) => {
+    authSuccess: (state, action) => {
       state.isAuthenticated = true;
+      state.status = "fulfilled";
+      state.token = localStorage.getItem("token");
+      state.user = action.payload
     }
   },
   extraReducers: (builder) => {

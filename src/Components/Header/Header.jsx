@@ -1,15 +1,25 @@
 import React from "react";
 import { Navbar, Container, Nav, Image } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
-const navBarItems = [
-  { name: "Inicio", path: "/", id: 1 },
-  { name: "Nosotros", path: "/Nosotros", id: 2 },
-  { name: "Contacto", path: "/contacto", id: 3 },
-];
 import somosMasLogo from "../../images/LOGO-SOMOS-MAS.png";
 import "./style.scss";
+import { useHistory } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import { logout } from "../../features/auth/authReducer";
 
-function Header() {
+const publicLinks = [
+  { name: "Inicio", path: "/", id: 1 },
+  { name: "Nosotros", path: "/about", id: 2 },
+  {name: "Actividades", path: "/Actividades", id: 3},
+  { name: "Novedades", path: "/Novedades", id: 4 },
+]
+
+
+function Header({userRole}) {
+  let history = useHistory();
+  const dispatch = useDispatch();
+  const isAuth = useSelector(state => state.auth.isAuthenticated)
+  console.log(isAuth)
+
   return (
     <Navbar collapseOnSelect expand="lg" className="navbar-container">
       <Container>
@@ -19,22 +29,62 @@ function Header() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            {localStorage.getItem("token") === null ? (
-              <></>
-            ) : (
-              navBarItems.map((item) => {
+            {  
+              publicLinks.map((item) => {
                 return (
-                  <NavLink
-                    to={item.path}
-                    exact
-                    className="link-to-section"
-                    key={item.id}
-                  >
-                    {item.name}
-                  </NavLink>
-                );
+                <Nav.Link
+                  key={item.id.toString()}
+                  href={item.path}
+                  className="link-to-section"
+                >
+                  {item.name}
+                </Nav.Link>
+                )
               })
-            )}
+            }
+            {!isAuth && 
+              <>
+                <Nav.Link href="/contact" className="link-to-section">
+                  Contacto
+                </Nav.Link>
+                <Nav.Link href="/donar" className="link-to-section">
+                  Contribuir
+                </Nav.Link>
+                <Nav.Link href="/login" className="link-to-section">
+                  Iniciar Sesión
+                </Nav.Link>
+                <Nav.Link href="/registerForm" className="link-to-section">
+                  Registrarse
+                </Nav.Link>
+              </>
+            }
+            {isAuth && userRole === 2 && 
+              <>
+                <Nav.Link href="/contact" className="link-to-section">
+                  Contacto
+                </Nav.Link>
+                <Nav.Link href="/donar" className="link-to-section">
+                  Contribuir
+                </Nav.Link>
+              </>
+            }
+            {isAuth && userRole === 1 && 
+              <>
+               <Nav.Link href="/backoffice" className="link-to-section">
+                  Backoffice
+                </Nav.Link>
+              </>
+            }
+            {isAuth && 
+              <>
+                <button className="btn text-danger text-start" onClick={()=>{
+                  dispatch(logout());
+                  history.push("/");
+                }}>
+                  Cerrar sesión
+                </button>
+              </>
+            }
           </Nav>
         </Navbar.Collapse>
       </Container>
