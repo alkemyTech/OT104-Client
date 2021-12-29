@@ -9,7 +9,7 @@ import {
   Modal,
   Stack,
 } from "react-bootstrap";
-import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
+import { Document, Page } from "react-pdf/dist/umd/entry.webpack";
 import pdf from "./terminos-y-condiciones.pdf";
 
 const RegisterForm = () => {
