@@ -30,8 +30,8 @@ export const authReducer = createSlice({
   initialState: initialState,
   reducers: {
     logout: (state) => {
-      state = initialState;
       localStorage.removeItem("token");
+      return initialState;
     },
     authSuccess: (state, action) => {
       state.isAuthenticated = true;

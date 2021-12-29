@@ -18,7 +18,7 @@ import ContactForm from "./Components/Contact/ContactForm";
 import LoginForm from "./Components/Auth/LoginForm";
 import RegisterForm from "./Components/Auth/RegisterForm";
 import EditForm from "./Components/Organization/EditForm";
-import Footer from "./Components/Footer";
+import Footer from "./Components/Footer/Footer";
 import ActivityDetail from "./Components/Activities/Detail/ActivityDetail";
 import Activities from "./Components/Activities/Activities";
 import Donation from "./Components/Donations/Donation";
@@ -36,14 +36,14 @@ function App() {
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
   const userRole = useSelector((state) => state.auth.user?.role_id);
-  
+
   useEffect(() => {
     const authenticate = async () => {
       const res = await checkToken();
       if (res.success) {
         dispatch(authSuccess(res.data.user));
       }
-    }
+    };
     authenticate();
   }, []);
 
@@ -66,6 +66,7 @@ function App() {
         <Route path="/create-user" component={UserForm} />
         <Route path="/create-member" component={MembersForm} />
         <Route path="/create-project" component={ProjectsForm} />
+        <Route path="/create-contact" component={ContactForm} />
         <Route path="/school-campaign" component={SchoolCampaign} />
         <Route path="/toys-campaign" component={ToysCampaign} />
         {!isAuth ? (
@@ -84,6 +85,7 @@ function App() {
         <Route path="/Novedades" component={News} />
         <Route path="/backoffice" component={backofficeRoutes} />
       </AnimatedSwitch>
+      <Footer/>
     </BrowserRouter>
   );
 }
