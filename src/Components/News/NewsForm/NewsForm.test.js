@@ -3,14 +3,17 @@ import "@testing-library/jest-dom/extend-expect";
 import Router from "react-router-dom";
 import newsService from "./../../../Services/novedadesService";
 import categoriesService from "./../../../Services/categoriesService";
+
 import { render, waitFor, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import NewsForm from ".";
+import { act } from "react-dom/test-utils";
 
 jest.mock("react-router-dom", () => ({
   useParams: jest.fn(),
   useHistory: () => ({
     goBack: jest.fn(),
+    go: jest.fn(),
   }),
 }));
 
@@ -28,8 +31,10 @@ const mockData = {
   deleted_at: null,
 };
 
+const updateNews = jest.spyOn(newsService, "update");
 const getNews = jest.spyOn(newsService, "getDetail");
 const getCategories = jest.spyOn(categoriesService, "getAll");
+
 
 beforeEach(() => {
   getCategories.mockReturnValue({
@@ -106,7 +111,7 @@ test("Render content when is editing a new", async () => {
   );
 });
 
-test("should allow submit if form not completed", async () => {
+test("should allow submit if the form was completed", async () => {
   getNews.mockResolvedValue({
     data: {
       data: mockData,
@@ -115,9 +120,11 @@ test("should allow submit if form not completed", async () => {
   jest.spyOn(Router, "useParams").mockReturnValue({ id: 666 });
   await waitFor(() => {
     render(<NewsForm />);
-  });  
-  userEvent.click(await screen.findByText("Enviar"));
-
+  });
+  await act(async () => {
+    userEvent.click(await screen.findByText("Enviar"));
+  });
+  expect(updateNews).toHaveBeenCalled();
 });
 
 test("should not allow submit if the form was not completed", async () => {
@@ -132,6 +139,9 @@ test("should not allow submit if the form was not completed", async () => {
   });
   const title = await screen.findByTestId("title-element");
   userEvent.clear(title);
-  userEvent.click(await screen.findByText("Enviar"));
+  await act(async () => {
+    userEvent.click(await screen.findByText("Enviar"));
+  });
   expect(await screen.findByText("El titulo es requerido")).toBeInTheDocument();
+  expect(updateNews).not.toHaveBeenCalled();
 });

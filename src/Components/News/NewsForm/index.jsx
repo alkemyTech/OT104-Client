@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import {
+  alertServiceInfoTimer,
+  alertServiceError,
+} from "./../../Alert/AlertService";
 import Form from "./Form";
 import { useHistory, useParams } from "react-router-dom";
 import newsService from "./../../../Services/novedadesService";
@@ -45,10 +48,6 @@ export default function NewsForm() {
       category_id: parseInt(values.category),
     };
 
-    const newsSubmission = axios.create({
-      baseURL: "http://ongapi.alkemy.org/api",
-    });
-
     if (id) {
       //Editing a news
       //Check if the image has changed
@@ -56,27 +55,38 @@ export default function NewsForm() {
       let edited = rest;
       if (newValues.image.slice(0, 4) === "data") edited = newValues;
       try {
-        await newsSubmission.put(`news/${id}`, edited);
+        await newsService.update(id, edited);
       } catch (error) {
         isError = error;
       }
     } else {
       //Creating a new news
       try {
-        await newsSubmission.post("news", newValues);
+        await newsService.create(newValues);
       } catch (error) {
         isError = error;
       }
     }
 
     if (!isError) {
-      alert("News guardada con éxito");
+      alertServiceInfoTimer(
+        "top-end",
+        "success",
+        "Noticia guardada con éxito",
+        false,
+        2000
+      );
       history.go(0);
     } else {
-      alert("Error al guardar la news: " + isError.toString());
+      alertServiceError("Error al guardad", isError.toString());
     }
   };
 
-  return <>
-  {newToEdit && <Form newToEdit={newToEdit} edit={id} onSubmit={onSubmit}/>}</>;
+  return (
+    <>
+      {newToEdit && (
+        <Form newToEdit={newToEdit} edit={id} onSubmit={onSubmit} />
+      )}
+    </>
+  );
 }
