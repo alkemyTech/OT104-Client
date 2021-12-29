@@ -1,0 +1,54 @@
+.navbar {
+  background-color: rgba(154, 201, 251, 0.8);
+}
+
+.logoCampanaSc {
+  height: 60px;
+}
+
+.logoOngSc {
+  display: none;
+}
+.divSc {
+  text-align: center;
+}
+
+.textSc {
+  display: none;
+}
+
+/* media query for tablets*/
+@media (min-width: 768px) and (max-width: 992px) {
+  .navbar {
+    background-color: rgba(222, 247, 227, 1);
+  }
+  .logoCampanaSc {
+    height: 90px;
+  }
+
+  .logoOngSc {
+    display: inline;
+    height: 90px;
+  }
+}
+
+/* media query for pc*/
+@media (min-width: 993px) {
+  .navbar {
+    background-color: rgba(222, 247, 227, 1);
+  }
+  .logoCampanaSc {
+    height: 110px;
+  }
+  .logoOngSc {
+    display: inline;
+    height: 130px;
+  }
+
+  .textSc {
+    display: inline;
+    font-size: 21px;
+    text-align: justify;
+    padding: 5px;
+  }
+}
