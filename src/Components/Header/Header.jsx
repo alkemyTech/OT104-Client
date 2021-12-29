@@ -2,6 +2,9 @@ import React from "react";
 import { Navbar, Container, Nav, Image } from "react-bootstrap";
 import somosMasLogo from "../../images/LOGO-SOMOS-MAS.png";
 import "./style.scss";
+import { useHistory } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import { logout } from "../../features/auth/authReducer";
 
 const publicLinks = [
   { name: "Inicio", path: "/", id: 1 },
@@ -11,7 +14,12 @@ const publicLinks = [
 ]
 
 
-function Header({isAuth, userRole}) {
+function Header({userRole}) {
+  let history = useHistory();
+  const dispatch = useDispatch();
+  const isAuth = useSelector(state => state.auth.isAuthenticated)
+  console.log(isAuth)
+
   return (
     <Navbar collapseOnSelect expand="lg" className="navbar-container">
       <Container>
@@ -67,7 +75,16 @@ function Header({isAuth, userRole}) {
                 </Nav.Link>
               </>
             }
-            
+            {isAuth && 
+              <>
+                <button className="btn text-danger text-start" onClick={()=>{
+                  dispatch(logout());
+                  history.push("/");
+                }}>
+                  Cerrar sesión
+                </button>
+              </>
+            }
           </Nav>
         </Navbar.Collapse>
       </Container>
