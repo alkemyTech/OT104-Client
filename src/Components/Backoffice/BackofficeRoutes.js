@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 
 export const backofficeRoutes = () => {
   const [tokenVerification, setTokenVerification] = useState(false);
+  const USER_ROLES = { admin: 1, regular: 2 };
   const userRole = useSelector((state) => state.auth.user?.role_id);
   useEffect(() => {
     const getInfo = async () => {
@@ -26,8 +27,12 @@ export const backofficeRoutes = () => {
 
   return (
     <>
-      {userRole === 1 ? <BackofficeLayout /> : <Redirect to="/" />}
-      {tokenVerification ? <BackofficeLayout /> : ""}
+      {userRole == USER_ROLES.admin && tokenVerification ? (
+        <BackofficeLayout />
+      ) : (
+        <Redirect to="/" />
+      )}
+
       <Switch>
         <Route
           path="/backoffice/create-slide"
