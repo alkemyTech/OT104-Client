@@ -90,7 +90,7 @@ const checkToken = async () => {
     headers,
   });
 
-  return res.data.success;
+  return res.data
 };
 
 export {
