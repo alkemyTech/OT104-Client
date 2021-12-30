@@ -39,14 +39,11 @@
     "sweetalert2": "^11.3.0",
     "yup": "^0.32.11"
   },
-<<<<<<< HEAD
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "jest": "^26.6.0"
   },
-=======
->>>>>>> main
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -58,10 +55,6 @@
     "not dead",
     "not op_mini all"
   ],
-  "devDependencies": {
-    "@testing-library/react": "^12.1.2",
-    "jest": "^26.6.0"
-  },
   "jest": {
     "transformIgnorePatterns": [
       "node_modules/(?!(react-router-transition)).*\\.js$"

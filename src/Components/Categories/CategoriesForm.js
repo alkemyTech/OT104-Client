@@ -1,21 +1,16 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import "../FormStyles.css";
-import { Formik, Field, ErrorMessage } from "formik";
+import Title from "./../Title/Title";
+import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import categoryService from "../../Services/categoriesService";
 
 // React Bootstrap
-// import { Form } from "react-bootstrap/Button";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
+import { Form, Container, Button } from "react-bootstrap";
 
 const CategoriesForm = ({ cateroryToEdit }) => {
-  const BASE_URL = "http://ongapi.alkemy.org/api/categories";
   const [category, setCategory] = React.useState({});
   const [imageState, setImageState] = React.useState(null);
   const [initialValues, setInitialValues] = React.useState({
@@ -42,97 +37,114 @@ const CategoriesForm = ({ cateroryToEdit }) => {
 
   const validateYupSchema = Yup.object().shape({
     name: Yup.string()
-      .min(4, "There be at least 4 characters")
-      .required("Name is required"),
+      .min(4, "El título debe tener al menos 4 caracteres")
+      .required("El nombre es requerido"),
     description: Yup.string()
-      .min(1, "This field can't be empty.")
-      .required("Description is required"),
+      .min(1, "La descripción debe tener al menos 1 caracter")
+      .required("La descripción es requerida"),
   });
 
   const ConditionalForm = () => {
     return (
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validateYupSchema}
-        onSubmit={async (values, { setSubmitting }) => {
-          if (category.id) {
-            await categoryService.update(category.id, values);
-          } else {
-            await categoryService.create(values);
-          }
+      <Container style={{ maxWidth: "30rem" }} className="card bg-light my-2">
+        {cateroryToEdit ? <Title>Editar Categoria</Title> : <Title>Crear Categoria</Title> }
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validateYupSchema}
+          onSubmit={async (values, { setSubmitting }) => {
+            if (category.id) {
+              const res = await categoryService.update(category.id, values);
+              if (res.status === 200) {
+                alert("Categoría actualizada");
+              }
+            } else {
+              const res = await categoryService.create(values);
+              console.log({...res});
+              if (res.status === 200) {
+                alert("Categoría creada con éxito");
+              }
+            }
 
-          setSubmitting(false);
-        }}
-      >
-        {({
-          values,
-          errors,
-          isValid,
-          touched,
-          handleSubmit,
-          handleChange,
-          handleBlur,
-        }) => (
-          (values.image = imageState),
-          (
-            <Form noValidate onSubmit={handleSubmit} className="form-container">
-              <Form.Label>Name</Form.Label>
-              <Form.Group className="mb-3">
-                <Form.Control
-                  className="input-field"
-                  name="name"
-                  type="text"
-                  placeholder="Name"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  setFieldValue={category.name}
-                  isValid={touched.name && !errors.name}
-                />
+            setSubmitting(false);
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleSubmit,
+            handleChange,
+            handleBlur,
+          }) => (
+            (values.image = imageState),
+            (
+              <Form noValidate onSubmit={handleSubmit} className="p-3">
+                <Form.Group className="mb-3">
+                  <Form.Label>Nombre</Form.Label>
+                  <Form.Control
+                    className="input-field"
+                    name="name"
+                    type="text"
+                    placeholder="Nombre"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    setFieldValue={category.name}
+                    isValid={touched.name && !errors.name}
+                    isInvalid={touched.name && errors.name}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.name}
+                  </Form.Control.Feedback>
+                </Form.Group>
 
-                {errors.name && <ErrorMessage name="name" />}
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Description</Form.Label>
-                <CKEditor
-                  name="description"
-                  editor={ClassicEditor}
-                  data={values.description}
-                  onReady={(editor) => {
-                    // You can store the "editor" and use when it is needed.
-                  }}
-                  onChange={(event, editor) => {
-                    const data = editor.getData();
-                    // this pass the data to the formik
-                    values.description = data;
-                  }}
-                  onBlur={(event, editor) => {}}
-                  onFocus={(event, editor) => {}}
-                />
-                {errors.description &&
-                  touched.description &&
-                  errors.description && <ErrorMessage name="description" />}
-              </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Descripción</Form.Label>
+                  <CKEditor
+                    name="description"
+                    editor={ClassicEditor}
+                    data={values.description}
+                    onReady={(editor) => {
+                      // You can store the "editor" and use when it is needed.
+                    }}
+                    onChange={(event, editor) => {
+                      const data = editor.getData();
+                      // this pass the data to the formik
+                      values.description = data;
+                    }}
+                    onBlur={(event, editor) => {}}
+                    onFocus={(event, editor) => {}}
+                  />
 
-              <Form.Group>
-                <Form.Control
-                  className="input-field"
-                  type="file"
-                  name="image"
-                  accept=".jpg,.jpeg,.png"
-                  onChange={convertToBase64Handler}
-                />
-              </Form.Group>
-              {/* now is not working :( */}
-              {errors.image && touched.image && errors.image && (
-                <ErrorMessage name="image" />
-              )}
-              <Button variant="primary" type="submit">
-                Send
-              </Button>
-            </Form>
-          )
-        )}
-      </Formik>
+                  {errors.description &&
+                    touched.description &&
+                    errors.description && (
+                      <ErrorMessage
+                        name="description"
+                        component="div"
+                        className="text-danger mt-1"
+                        style={{ fontSize: ".9rem" }}
+                      />
+                    )}
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Control
+                    className="input-field"
+                    type="file"
+                    name="image"
+                    accept=".jpg,.jpeg,.png"
+                    onChange={convertToBase64Handler}
+                  />
+                </Form.Group>
+
+                <Button variant="primary" type="submit">
+                  Enviar
+                </Button>
+              </Form>
+            )
+          )}
+        </Formik>
+      </Container>
     );
   };
 
