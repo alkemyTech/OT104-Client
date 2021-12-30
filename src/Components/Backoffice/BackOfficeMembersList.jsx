@@ -9,14 +9,16 @@ import Col from "react-bootstrap/Col";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
-import { Pencil, Trash } from "react-bootstrap-icons";
+import { PencilFill, TrashFill } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getMembers } from "../../features/backoffice_members/backofficeMembersReducer";
+import { useHistory } from "react-router";
 
 const BackOfficeMembersList = () => {
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
   const { members, loading, _error } = useSelector((state) => state.members);
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(getMembers());
@@ -70,7 +72,10 @@ const BackOfficeMembersList = () => {
         <Row>
           <Col>
             <h3>Listado de miembros</h3>
-            <Button as={Link} to="/backoffice/members/create" className="mb-3">
+            <Button 
+              className="mb-3"
+              onClick={() => { history.push("/backoffice/members/create") }}
+            >
               Nuevo miembro
             </Button>
           </Col>
@@ -91,7 +96,7 @@ const BackOfficeMembersList = () => {
         ) : (
           <Row>
             <Col>
-              <Table hover striped bordered>
+              <Table hover striped bordered className="align-middle">
                 <thead>
                   <tr>
                     <th>Nombre</th>
@@ -103,7 +108,7 @@ const BackOfficeMembersList = () => {
                   {members.length > 0 ? (
                     members.map((member) => (
                       <tr key={member.id}>
-                        <td className="fw-bold align-middle">{member.name}</td>
+                        <td>{member.name}</td>
                         <td>
                           <Button
                             variant="link"
@@ -120,7 +125,7 @@ const BackOfficeMembersList = () => {
                             member={member.id}
                             variant="outline-primary"
                           >
-                            <Pencil />
+                            <PencilFill />
                           </Button>
                           <Button
                             variant="outline-danger"
@@ -128,7 +133,7 @@ const BackOfficeMembersList = () => {
                               openModalDelete(member.name, member.id)
                             }
                           >
-                            <Trash />
+                            <TrashFill />
                           </Button>
                         </td>
                       </tr>
