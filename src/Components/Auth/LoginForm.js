@@ -14,7 +14,9 @@ function LoginForm() {
   };
 
   useEffect(() => {
-    if (isAuth) history.push("/");
+    if (isAuth) {
+      history.push("/");
+    }
   }, [isAuth]);
 
   return (
@@ -54,7 +56,9 @@ function LoginForm() {
     >
       {({ errors }) => (
         <Form className="form-container">
-          <label className="form-label">Email</label>
+          <label htmlFor="username" className="form-label">
+            Email
+          </label>
           <Field
             type="text"
             className="input-field "
@@ -67,7 +71,9 @@ function LoginForm() {
             component={() => <div className="error"> {errors.emailUser} </div>}
           />
 
-          <label className="form-label">Password</label>
+          <label htmlFor="password" className="form-label">
+            Password
+          </label>
           <Field
             type="password"
             className="input-field "

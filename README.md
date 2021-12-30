@@ -107,3 +107,13 @@ Recommendation when rendering and using <Skeleton /> keep the final structure. E
             </tbody>
           </Table>
 ```
+
+### Header Test
+
+[see the file](src\Components\Header\Header.test.js)
+
+Implementation detalis of the test:
+
+- If user isn't logged in show only public and guest links.
+- If user is logged in guest links must not appear.
+- Backoffice links appear only when admin is logged in.

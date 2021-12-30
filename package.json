@@ -6,8 +6,8 @@
     "@ckeditor/ckeditor5-build-classic": "^31.0.0",
     "@ckeditor/ckeditor5-react": "^3.0.3",
     "@react-google-maps/api": "^2.7.0",
+    "@react-leaflet/core": ">=1.0.0 <1.1.0 || ^1.1.1",
     "@reduxjs/toolkit": "^1.7.0",
-    "@testing-library/user-event": "^13.2.1",
     "axios": "^0.21.4",
     "bootstrap": "^5.1.3",
     "bootstrap-icons": "^1.7.1",
@@ -23,21 +23,22 @@
     "react-intersection-observer": "^8.33.0",
     "react-lazy-load-image-component": "^1.5.1",
     "react-leaflet": ">=3.1.0 <3.2.0 || ^3.2.1",
-    "@react-leaflet/core": ">=1.0.0 <1.1.0 || ^1.1.1",
     "react-loader-spinner": "^4.0.0",
-    "react-places-autocomplete": "^7.3.0",
     "react-pdf": "^5.6.0",
+    "react-places-autocomplete": "^7.3.0",
     "react-player": "^2.9.0",
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.3.0",
     "react-router-transition": "^2.1.0",
     "react-scripts": "^4.0.3",
     "react-social-plugins": "^2.1.0",
+    "redux-mock-store": "^1.5.4",
     "sass": "^1.44.0",
     "sweetalert2": "^11.3.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@testing-library/user-event": "^13.2.1",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "jest": "^26.6.0"
@@ -49,8 +50,13 @@
     "eject": "react-scripts eject"
   },
   "browserslist": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-router-transition)).*\\.js$"
     ]
+  }
 }
