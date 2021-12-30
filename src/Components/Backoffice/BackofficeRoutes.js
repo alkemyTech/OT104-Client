@@ -7,14 +7,16 @@ import ActivitiesList from "./ActivitiesList";
 import SlidesList from "./SlidesList";
 import BackOfficeMembersList from "./BackOfficeMembersList";
 import BackofficeUserList from "./BackofficeUserList";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import LoginForm from "../Auth/LoginForm";
 import { checkToken, VerifyToken } from "../../Services/privateApiService";
 import BackofficeLayout from "./BackofficeLayout";
+import { useSelector } from "react-redux";
 
 export const backofficeRoutes = () => {
   const [tokenVerification, setTokenVerification] = useState(false);
-
+  const USER_ROLES = { admin: 1, regular: 2 };
+  const userRole = useSelector((state) => state.auth.user?.role_id);
   useEffect(() => {
     const getInfo = async () => {
       const res = await checkToken();
@@ -25,7 +27,12 @@ export const backofficeRoutes = () => {
 
   return (
     <>
-      { tokenVerification ? <BackofficeLayout/> : "" }
+      {userRole == USER_ROLES.admin && tokenVerification ? (
+        <BackofficeLayout />
+      ) : (
+        <Redirect to="/" />
+      )}
+
       <Switch>
         <Route
           path="/backoffice/create-slide"

@@ -1,20 +1,29 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { FormLabel, FormControl, Button, Alert, Container } from "react-bootstrap";
+import {
+  alertServiceError,
+  alertServiceInfoTimer,
+} from "../Alert/AlertService";
+import {
+  FormLabel,
+  FormControl,
+  Button,
+  Alert,
+  Container,
+} from "react-bootstrap";
 import contactService from "../../Services/contactService";
 import { fetchOrgData } from "../../features/about/aboutReducer";
-import { useDispatch, useSelector } from 'react-redux';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet'
-import 'leaflet/dist/leaflet.css';
+import { useDispatch, useSelector } from "react-redux";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
 const ContactForm = () => {
   const dispatch = useDispatch();
-  const position = useSelector(state => state.about.orgData.address);
+  const position = useSelector((state) => state.about.orgData.address);
 
   useEffect(() => {
     dispatch(fetchOrgData());
   }, [dispatch]);
-
 
   const initialValues = {
     name: "",
@@ -23,9 +32,27 @@ const ContactForm = () => {
     message: "",
   };
 
-  function handleSubmit(values) {
-    contactService.create(values);
-  }
+  const handleSubmit = async (values) => {
+    try {
+      let res = await contactService.create(values);
+      if (!res.data.success) {
+        return alertServiceError(
+          "Error",
+          "Ocurrio un error al intentar guardar este contacto"
+        );
+      }
+      return alertServiceInfoTimer(
+        "center",
+        "success",
+        "Contacto guardado con exito"
+      );
+    } catch (err) {
+      alertServiceError(
+        "Error",
+        "Ocurrio un error al intentar realizar la petición"
+      );
+    }
+  };
 
   function handleErrors(values) {
     let errors = {};
@@ -55,127 +82,54 @@ const ContactForm = () => {
         }
       }
     }
-
     return errors;
   }
 
   return (
-      <Container
-        className="d-flex flex-column justify-content-center text-center p-3"
-      >
-      <h1 className="p-3">Contacto</h1> 
-      {position  && 
-      <MapContainer
+    <Container className="d-flex flex-column justify-content-center text-center p-3">
+      <h1 className="p-3">Contacto</h1>
+      {position && (
+        <MapContainer
           center={JSON.parse(position)}
-          zoom={13} 
-          scrollWheelZoom={false} 
+          zoom={13}
+          scrollWheelZoom={false}
           style={{ height: "450px", width: "50%", margin: "auto" }}
-      >
+        >
           <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker 
-              position={JSON.parse(position)}
-              >
-          </Marker>
-      </MapContainer>
-      }
+          <Marker position={JSON.parse(position)}></Marker>
+        </MapContainer>
+      )}
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
         validate={handleErrors}
       >
-        {({ errors, values, handleChange, handleBlur }) => (
-          <Form
-              className="mt-4 d-flex flex-column mx-auto"
-              style={{width: "50%"}}
-          >
+        {() => (
+          <Form>
             <div>
-              <FormLabel for="name">Nombre:</FormLabel>
-              <Field
-                name="name"
-                type="text"
-                render={() => (
-                  <FormControl
-                    className="mb-1"
-                    name="name"
-                    type="text"
-                    value={values.name}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                )}
-              />
-              <ErrorMessage
-                name="name"
-                component={() => <Alert variant="danger">{errors.name}</Alert>}
-              />
+              <FormLabel htmlFor="name">Nombre:</FormLabel>
+              <Field id="name" name="name" type="text" as={FormControl} />
+              <ErrorMessage name="name" variant="danger" component={Alert} />
             </div>
             <div>
-              <FormLabel for="email">E-mail:</FormLabel>
-              <Field
-                name="email"
-                type="text"
-                render={() => (
-                  <FormControl
-                    className="mb-1"
-                    name="email"
-                    type="text"
-                    value={values.email}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                )}
-              />
-              <ErrorMessage
-                name="email"
-                component={() => <Alert variant="danger">{errors.email}</Alert>}
-              />
+              <FormLabel htmlFor="email">E-mail:</FormLabel>
+              <Field id="email" name="email" type="text" as={FormControl} />
+              <ErrorMessage name="email" variant="danger" component={Alert} />
             </div>
             <div>
-              <FormLabel for="phone">Teléfono:</FormLabel>
-              <Field
-                name="phone"
-                type="number"
-                render={() => (
-                  <FormControl
-                    className="mb-1"
-                    name="phone"
-                    type="number"
-                    value={values.number}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                )}
-              />
-              <ErrorMessage
-                name="phone"
-                component={() => <Alert variant="danger">{errors.phone}</Alert>}
-              />
+              <FormLabel htmlFor="phone">Teléfono:</FormLabel>
+              <Field id="phone" name="phone" type="number" as={FormControl} />
+              <ErrorMessage name="phone" variant="danger" component={Alert} />
             </div>
             <div>
-              <FormLabel for="message">Mensaje:</FormLabel>
-              <Field
-                name="message"
-                as="textarea"
-                render={() => (
-                  <FormControl
-                    className="mb-1"
-                    name="message"
-                    as="textarea"
-                    value={values.message}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                )}
-              />
-              <ErrorMessage
-                name="message"
-                component={() => <Alert variant="danger">{errors.message}</Alert>}
-              />
+              <FormLabel htmlFor="message">Mensaje:</FormLabel>
+              <Field id="message" name="message" as={FormControl} />
+              <ErrorMessage name="message" variant="danger" component={Alert} />
             </div>
-            <Button type="submit" className="btn btn-secondary">Enviar Mensaje</Button>
+            <Button type="submit">Enviar Mensaje</Button>
           </Form>
         )}
       </Formik>
