@@ -4,10 +4,32 @@ import { Link } from "react-router-dom";
 import { TrashFill, PencilFill } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../features/backOfficeUsers/backOfficeUsersSlice";
+import userService from "../../Services/userService";
+import {
+  alertServiceError,
+  alertServiceInfoTimer,
+} from "../Alert/AlertService";
 
 function BackofficeUserList() {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.users);
+
+  const deleteUser = async (id) => {
+    try {
+      await userService.delete(id);
+      dispatch(getUsers());
+      alertServiceInfoTimer(
+        "center",
+        "success",
+        "Usuario eliminado con exito."
+      );
+    } catch (err) {
+      alertServiceError(
+        "Error",
+        "Ocurrio un error al intentar eliminar el usuario"
+      );
+    }
+  };
 
   useEffect(() => {
     dispatch(getUsers());
@@ -42,10 +64,13 @@ function BackofficeUserList() {
                     <td>{data.name}</td>
                     <td>{data.email}</td>
                     <td className="d-flex justify-content-around gap-1">
-                      <Button variant="outline-primary">
+                      <Button variant="outline-primary" as={Link}>
                         <PencilFill />
                       </Button>
-                      <Button variant="outline-danger">
+                      <Button
+                        variant="outline-danger"
+                        onClick={() => deleteUser(data.id)}
+                      >
                         <TrashFill />
                       </Button>
                     </td>
