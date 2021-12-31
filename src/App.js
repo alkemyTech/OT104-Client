@@ -9,7 +9,7 @@ import NewsForm from "./Components/News/NewsForm";
 import NewsDetail from "./Components/News/Detail/NewsDetail";
 import TestimonialForm from "./Components/Testimonials/TestimonialsForm";
 import UserForm from "./Components/Users/UsersForm";
-import SchoolCampaign from "./Campaigns/School/SchoolCampaign";
+import SchoolCampaign from "./Campaigns/School/Content";
 import ToysCampaign from "./Campaigns/Toys/ToysCampaign";
 import MembersForm from "./Components/Members/MembersForm";
 import ProjectsForm from "./Components/Projects/ProjectsForm";
@@ -76,8 +76,8 @@ function App() {
         )}
         <Route path="/contact" component={ContactForm} />
         <Route path="/about" component={About} />
-        <Route path="/Novedades/:id" component={NewsDetail} />
-        <Route path="/Actividades" component={Activities} />
+        <Route path="/novedades/:id" component={NewsDetail} />
+        <Route path="/actividades" component={Activities} />
         <Route path="/donar">
           <Donation text={"!Hacé tu donación ya mismo :)"} />
         </Route>

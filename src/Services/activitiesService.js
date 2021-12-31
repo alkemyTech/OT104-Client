@@ -6,11 +6,12 @@ import {
   putRequest,
   deleteRequest,
   postRequest,
-  getRequest,
 } from "./privateApiService";
 
+import {get} from "../Services/publicApiService"
+
 const getActivities = () => {
-  return getRequest(baseUrl);
+  return get(baseUrl);
 };
 const getActivity = (activityId) => {
   return getRequest(`${baseUrl}/${activityId}`);

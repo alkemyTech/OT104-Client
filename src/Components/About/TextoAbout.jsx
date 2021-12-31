@@ -1,10 +1,11 @@
 import React from "react";
+import { Container } from "react-bootstrap";
 
 const TextoAbout = ({ aboutDescription }) => {
   return (
-    <div>
-      <h5>{aboutDescription}</h5>
-    </div>
+    <Container>
+      <h5 className="text-center">{aboutDescription}</h5>
+    </Container>
   );
 };
 

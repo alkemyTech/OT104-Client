@@ -27,14 +27,12 @@ const Footer = () => {
                     </Link>
                 </Col>
                 <Col className="d-flex flex-column text-center"> 
-                    <Link to="/About" className="text-decoration-none text-white">Nosotros</Link>
-                    <Link to="/Novedades" className="text-decoration-none text-white">Noticias</Link>
-                    <Link to="/Testimonios" className="text-decoration-none text-white">Testimonios</Link>
-                </Col>
-                <Col className="d-flex flex-column text-center"> 
-                    <Link to="/Miembros" className="text-decoration-none text-white">Miembros</Link>
-                    <Link to="/Activities" className="text-decoration-none text-white">Actividades</Link>
-                    <Link to="/RegisterForm" className="text-decoration-none text-white">Registrate</Link>
+                    <Link to="/about" className="text-decoration-none text-white">Nosotros</Link>
+                    <Link to="/novedades" className="text-decoration-none text-white">Novedades</Link>
+                    <Link to="/actividades" className="text-decoration-none text-white">Actividades</Link>
+                    <Link to="/school-campaign" className="text-decoration-none text-white">Campaña de vuelta al cole</Link>
+                    <Link to="/toys-campaign" className="text-decoration-none text-white">Campaña de juguetes</Link>
+                    <Link to="/registerform" className="text-decoration-none text-white">Registrate</Link>
                 </Col>
                 <Col className="d-flex flex-column text-center"> 
                     <a href={`https://` + orgData.facebook_url} target="_blank"><img style={{height:"45px", padding: "5px"}} src={facebookLogo} alt="facebook" /></a>
