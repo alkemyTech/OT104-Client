@@ -40,7 +40,7 @@ function BackofficeUserList() {
       <Row>
         <Col>
           <h3>Usuarios</h3>
-          <Button as={Link} to="/create-user" className="mb-3">
+          <Button as={Link} to="/backoffice/users/create" className="mb-3">
             Nuevo usuario
           </Button>
         </Col>
@@ -64,7 +64,11 @@ function BackofficeUserList() {
                     <td>{data.name}</td>
                     <td>{data.email}</td>
                     <td className="d-flex justify-content-around gap-1">
-                      <Button variant="outline-primary" as={Link}>
+                      <Button
+                        variant="outline-primary"
+                        as={Link}
+                        to={`/backoffice/users/edit/${data.id}`}
+                      >
                         <PencilFill />
                       </Button>
                       <Button

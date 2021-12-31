@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import SlidesForm from "../Slides/SlidesForm";
 import Categories from "./Categories";
 import NewsList from "../News/NewsSection";
+import UserForm from "../Users/UsersForm";
 import EditForm from "../Organization/EditForm";
 import ActivitiesList from "./ActivitiesList";
 import SlidesList from "./SlidesList";
@@ -16,7 +17,7 @@ import Spinner from "../Spinner/Spinner";
 
 export const backofficeRoutes = () => {
   const [isAuth, setIsAuth] = useState(false);
-  const [userRole,setUserRole] = useState(null)
+  const [userRole, setUserRole] = useState(null);
   const [loading, setLoading] = useState(true);
   const USER_ROLES = { admin: 1, regular: 2 };
 
@@ -33,14 +34,13 @@ export const backofficeRoutes = () => {
 
   return (
     <>
-      { loading ? 
-        <Spinner /> 
-        :
-        (userRole == USER_ROLES.admin && isAuth) ? 
-          <BackofficeLayout />
-        : 
-          <Redirect to="/login" />
-      }
+      {loading ? (
+        <Spinner />
+      ) : userRole == USER_ROLES.admin && isAuth ? (
+        <BackofficeLayout />
+      ) : (
+        <Redirect to="/login" />
+      )}
 
       <Switch>
         <Route
@@ -67,8 +67,8 @@ export const backofficeRoutes = () => {
           path="/backoffice/slides"
           component={isAuth ? SlidesList : LoginForm}
         />
-        <Route 
-          path="/backoffice/members/create" 
+        <Route
+          path="/backoffice/members/create"
           component={isAuth ? MembersForm : LoginForm}
         />
         <Route
@@ -76,8 +76,17 @@ export const backofficeRoutes = () => {
           component={isAuth ? BackOfficeMembersList : LoginForm}
         />
         <Route
+          exact
           path="/backoffice/users"
           component={isAuth ? BackofficeUserList : LoginForm}
+        />
+        <Route
+          path="/backoffice/users/create"
+          component={isAuth ? UserForm : LoginForm}
+        />
+        <Route
+          path="/backoffice/users/edit/:id"
+          component={isAuth ? UserForm : LoginForm}
         />
       </Switch>
     </>
