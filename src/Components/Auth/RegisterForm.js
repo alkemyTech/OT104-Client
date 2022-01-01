@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Formik } from "formik";
 import { Container, Row, Form, Button, Modal, Stack } from "react-bootstrap";
 import { Document, Page } from "react-pdf/dist/umd/entry.webpack";
+import { alertServiceError } from "../Alert/AlertService";
 import pdf from "./terminos-y-condiciones.pdf";
 import { useDispatch } from "react-redux";
 import { register } from "../../features/auth/authReducer";
 const RegisterForm = () => {
   const [show, setShow] = useState(false);
-  const [terms, setTerms] = useState(null);
+  const [terms, setTerms] = useState(false);
   const [numPages, setNumPages] = useState(null);
   const dispatch = useDispatch();
   const handleShow = () => setShow(true);
@@ -75,10 +76,6 @@ const RegisterForm = () => {
           errors.repassword = "Las contraseñas no coinciden";
         }
 
-        if (terms == null) {
-          errors.terms = "Debes leer los terminos y condiciones";
-        }
-
         return errors;
       }}
       onSubmit={(values, { resetForm }) => {
@@ -89,6 +86,14 @@ const RegisterForm = () => {
         };
         const postData = async (data) => {
           const res = await dispatch(register(data));
+          if (res.payload.success) {
+            alert("Usuario registrado con éxito");
+          } else {
+            alertServiceError(
+              "Algo anda mal",
+              "La petición no se pudo completar"
+            );
+          }
         };
         postData(userInfo);
         resetForm();
@@ -113,6 +118,7 @@ const RegisterForm = () => {
                   type="text"
                   id="name"
                   name="name"
+                  autoFocus
                   value={values.name}
                   placeholder="Ingrese su nombre"
                   onChange={handleChange}
@@ -123,9 +129,7 @@ const RegisterForm = () => {
                 />
               </Form.Group>
               {touched.name && errors.name && (
-                <div data-testid="nameError" className="text-danger mb-3">
-                  {errors.name}
-                </div>
+                <div className="text-danger mb-3">{errors.name}</div>
               )}
               <Form.Group className="mb-3">
                 <Form.Label htmlFor="lastName">Apellido</Form.Label>
@@ -206,22 +210,22 @@ const RegisterForm = () => {
                   Terminos y Condiciones
                 </Button>
 
-                {terms == null && (
-                  <div className="text-danger">{errors.terms}</div>
-                )}
-
-                {terms == false && (
+                {!terms && (
                   <div className="text-danger">
-                    Debes aceptar los terminos y condiciones
+                    Debes leer y aceptar los términos y condiciones
                   </div>
                 )}
-                <Button className="submit-btn" type="submit">
-                  Registrame
+
+                <Button
+                  className="submit-btn"
+                  type="submit"
+                  disabled={!isValid}
+                >
+                  Registrarme
                 </Button>
               </Stack>
             </Form>
           </Row>
-
           <Modal show={show} animation={false} size="lg" scrollable={true}>
             <Modal.Header closeButton onClick={handleCancel}>
               <Modal.Title>Terminos y condiciones</Modal.Title>
