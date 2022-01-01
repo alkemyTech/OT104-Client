@@ -1,10 +1,6 @@
 import React from "react";
 
 const TituloAbout = ({ ongName }) => {
-  return (
-    <div>
-      <h1>{ongName}</h1>
-    </div>
-  );
+  return <h1 className="text-center">{ongName}</h1>;
 };
 export default TituloAbout;
