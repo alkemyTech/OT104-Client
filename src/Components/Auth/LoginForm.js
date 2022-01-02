@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "../../features/auth/authReducer";
 import axios from "axios";
 import { useHistory } from "react-router";
+import { Form as FormBootstrap, Container, Button } from "react-bootstrap";
+import Title from "../Title/Title";
 
 function LoginForm() {
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
@@ -14,79 +16,90 @@ function LoginForm() {
   };
 
   useEffect(() => {
-    if (isAuth) history.push("/");
+    if (isAuth) {
+      history.push("/");
+    }
   }, [isAuth]);
 
   return (
-    <Formik
-      initialValues={{
-        emailUser: "",
-        passwordUser: "",
-      }}
-      validate={(data) => {
-        let err = {};
-        if (!data.emailUser) {
-          err.emailUser = "Enter your email";
-        } else if (
-          !/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(
-            data.emailUser
-          )
-        ) {
-          err.emailUser = "Invalid email";
-        }
+    <div>
+      <Title> Ingresar </Title>
+    <Container style={{ maxWidth: "30rem" }} className="card bg-light my-2">
+      <Formik
+        initialValues={{
+          emailUser: "",
+          passwordUser: "",
+        }}
+        validate={(data) => {
+          let err = {};
+          if (!data.emailUser) {
+            err.emailUser = "El email es requerido";
+          } else if (
+            !/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(
+              data.emailUser
+            )
+          ) {
+            err.emailUser = "El email no es válido";
+          }
 
-        if (!data.passwordUser) {
-          err.passwordUser = "Enter your password";
-        } else if (
-          !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(
-            data.passwordUser
-          )
-        ) {
-          err.passwordUser = "Invalid password";
-        }
+          if (!data.passwordUser) {
+            err.passwordUser = "La contraseña es requerida";
+          } else if (
+            !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(
+              data.passwordUser
+            )
+          ) {
+            err.passwordUser = "La contraseña no es válida";
+          }
 
-        return err;
-      }}
-      onSubmit={(data, { resetForm }) => {
-        resetForm();
-        logInAuth(data);
-      }}
-    >
-      {({ errors }) => (
-        <Form className="form-container">
-          <label className="form-label">Email</label>
-          <Field
-            type="text"
-            className="input-field "
-            id="username"
-            name="emailUser"
-            placeholder="Enter email"
-          />
-          <ErrorMessage
-            name="emailUser"
-            component={() => <div className="error"> {errors.emailUser} </div>}
-          />
+          return err;
+        }}
+        onSubmit={(data, { resetForm }) => {
+          setTimeout(() => {
+          resetForm();
+          logInAuth(data);
+          }, 1000);
+        }}
+      >
+        {({ errors, touched, isSubmitting}) => (
+          <Form className="p-3">
+            <FormBootstrap.Group className="d-flex flex-column mb-3">
+              <FormBootstrap.Label htmlFor="username">Correo electrónico</FormBootstrap.Label>
+              <Field
+                as={FormBootstrap.Control}
+                type="text"
+                id="username"
+                name="emailUser"
+                placeholder="Correo electrónico"
+                isInvalid={touched.emailUser && errors.emailUser}
+              />
+              <FormBootstrap.Control.Feedback type="invalid">
+                {errors.emailUser}
+              </FormBootstrap.Control.Feedback>
+            </FormBootstrap.Group>
 
-          <label className="form-label">Password</label>
-          <Field
-            type="password"
-            className="input-field "
-            id="password"
-            name="passwordUser"
-            placeholder="Enter password"
-          />
-          <ErrorMessage
-            name="passwordUser"
-            component={() => (
-              <div className="error"> {errors.passwordUser} </div>
-            )}
-          />
-          <button type="submit" className="submit-btn">
-            Login
-          </button>
-        </Form>
-      )}
-    </Formik>
+            <FormBootstrap.Group className="d-flex flex-column mb-3">
+              <FormBootstrap.Label htmlFor="password">Contraseña</FormBootstrap.Label>
+              <Field
+                as={FormBootstrap.Control}
+                type="password"
+                id="password"
+                name="passwordUser"
+                placeholder="Escriba su contraseña"
+                isInvalid={touched.passwordUser && errors.passwordUser}
+              />
+              <FormBootstrap.Control.Feedback type="invalid">
+                {errors.passwordUser}
+              </FormBootstrap.Control.Feedback>
+            </FormBootstrap.Group>
+            <Button type="submit" disabled={isSubmitting && true}>
+              {isSubmitting ? "Enviando" : "Enviar"}
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    </Container>
+    </div>
   );
 }
 
