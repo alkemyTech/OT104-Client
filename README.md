@@ -126,3 +126,15 @@ Implementation detalis of the test:
 - If user isn't logged in show only public and guest links.
 - If user is logged in guest links must not appear.
 - Backoffice links appear only when admin is logged in.
+
+### Activities form Test
+
+[see the file](src\Components\Activities\ActivitiesForm.test.js)
+ 
+1. Test that the fields are empty when there is no id passed in the url.
+2. When an id is passed in the url, the fields are filled with the data of the activity, the service getActivity is called and the data is displayed in the fields.
+3. When the user clicks the "Save" button but the fields are empty, alerts messages are displayed.
+4. When the user clicks the "Save" button and the fields are correctly filled, the service createActivity is called and a success message is displayed (an id is not passed in the url).
+5. When createActivity is called and the fields are not correctly filled, alerts messages are displayed.
+6. When the user clicks the "Save" button and the fields are correctly filled, the service updateActivity is called and a success message is displayed (an id is passed in the url).
+7. When updateActivity is called and the fields are not correctly filled, alerts messages are displayed.
