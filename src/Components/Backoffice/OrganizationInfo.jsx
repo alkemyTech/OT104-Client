@@ -3,6 +3,7 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import styles from "./OrganizationInfo.module.css";
+import { getRequest } from "../../Services/privateApiService";
 
 function OrganizationInfo() {
   const [orgData, setOrgData] = useState({});
@@ -10,13 +11,8 @@ function OrganizationInfo() {
 
   useEffect(() => {
     (async () => {
-      try {
-        let res = await axios.get(REACT_APP_URL_ORGANIZATION);
-        setOrgData(res.data.data);
-        console.log(res);
-      } catch (err) {
-        console.error(err);
-      }
+      let res = await getRequest(REACT_APP_URL_ORGANIZATION);
+      setOrgData(res.data.data);
     })();
   }, []);
 
