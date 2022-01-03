@@ -126,3 +126,7 @@ Implementation detalis of the test:
 - If user isn't logged in show only public and guest links.
 - If user is logged in guest links must not appear.
 - Backoffice links appear only when admin is logged in.
+
+### Registration Tests
+
+The registration form’s correct functioning is checked with three different tests. The first one checks if the form, after filling all the input fields correctly, doesn’t show an error message.  The second ascertains that, in case the fields are left blank, the corresponding error messages are shown and the form’s submit button is disabled. The last one makes sure that, when all the form fields are completed correctly, the submit button isn’t disabled.
