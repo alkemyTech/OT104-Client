@@ -134,7 +134,6 @@ Implementation detalis of the test:
 *Form Tested using React Testing and Jest libraries
 \*Implementation detalis of the test:
 
-- If user tries to submit the form without completing all requiered fields an
-  alert messages is rendered.
+- If user tries to submit the form without completing all requiered fields a messages is rendered.
 - If user submit and get error from petition or from api.
 - If user submit and success to save a new contact.
