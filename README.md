@@ -130,9 +130,9 @@ Implementation detalis of the test:
 
 [see the file](src\Components\Contact\ContactForm.test.js)
 
-*Tested file: ContactForm.js
-*Form Tested using React Testing and Jest libraries
-\*Implementation detalis of the test:
+-Tested file: ContactForm.js
+-Form Tested using React Testing and Jest libraries
+-Implementation detalis of the test:
 
 - If user tries to submit the form without completing all requiered fields a messages is rendered.
 - If user submit and get error from petition or from api.
