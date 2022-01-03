@@ -11,7 +11,6 @@ import {
 } from "../../Services/testimonialServices";
 
 import { alertServiceError } from "../Alert/AlertService";
-import Title from "../Title/Title";
 
 const TestimonialForm = ({ testimonial = null }) => {
   const [submitting, setSubmitting] = useState(false);
@@ -42,7 +41,7 @@ const TestimonialForm = ({ testimonial = null }) => {
   return (
     <>
       <Container style={{ maxWidth: "30rem" }} className="card bg-light my-3">
-        <Title bg={""}>Testimonio como children</Title>
+        {<h3 className="text mt-4 text-center">Carga tu Testimonio</h3>}
         <Formik
           initialValues={initialValues}
           validationSchema={schema}
