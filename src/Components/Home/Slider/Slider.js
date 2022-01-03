@@ -3,7 +3,7 @@ import Carousel from "react-bootstrap/Carousel";
 
 function SliderBS({ slides }) {
   return (
-    <Carousel>
+    <Carousel className="mb-3">
       {Array.isArray(slides) &&
         slides.map((slide) => {
           return (
@@ -16,7 +16,9 @@ function SliderBS({ slides }) {
               />
               <Carousel.Caption>
                 <h3>{slide.name}</h3>
-                <p>{slide.description}</p>
+                <p>
+                  {slide.description.slice(3, slide.description.length - 4)}
+                </p>
               </Carousel.Caption>
             </Carousel.Item>
           );
