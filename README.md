@@ -112,7 +112,6 @@ Recommendation when rendering and using <Skeleton /> keep the final structure. E
 
 [see the file](src\Components\Auth\LoginForm.test.js)
 
-
 LoginForm.js was tested using React Testing and Jest libraries. It was checked that the file renders correctly through verifying the existence of the input labels. It also displays alert messages when the user tries to submit
 the form without completing all of its fields. Finally, the test confirms that the user is correctly redirected to
 home page after successfully submitting its data through clicking the "Login" button.
@@ -126,3 +125,16 @@ Implementation detalis of the test:
 - If user isn't logged in show only public and guest links.
 - If user is logged in guest links must not appear.
 - Backoffice links appear only when admin is logged in.
+
+### Contact Test
+
+[see the file](src\Components\Contact\ContactForm.test.js)
+
+*Tested file: ContactForm.js
+*Form Tested using React Testing and Jest libraries
+\*Implementation detalis of the test:
+
+- If user tries to submit the form without completing all requiered fields an
+  alert messages is rendered.
+- If user submit and get error from petition or from api.
+- If user submit and success to save a new contact.
