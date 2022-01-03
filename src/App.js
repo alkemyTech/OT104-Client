@@ -69,7 +69,7 @@ function App() {
         <Route path="/school-campaign" component={SchoolCampaign} />
         <Route path="/contact" component={ContactForm} />
         <Route path="/about" component={About} />
-        <Route path="/Novedades/:id" component={NewsDetail} />
+        <Route path="/novedades/:id" component={NewsDetail} />
         <Route path="/Actividades" component={Activities} />
         <Route path="/donar">
           <Donation text={"!Hacé tu donación ya mismo :)"} />
@@ -83,7 +83,7 @@ function App() {
           <Redirect to="/" />
         )}
       </AnimatedSwitch>
-      <Footer/>
+      <Footer />
     </BrowserRouter>
   );
 }

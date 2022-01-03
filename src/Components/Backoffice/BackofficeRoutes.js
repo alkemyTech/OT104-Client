@@ -14,6 +14,7 @@ import { checkToken } from "../../Services/privateApiService";
 import BackofficeLayout from "./BackofficeLayout";
 import MembersForm from "../Members/MembersForm";
 import Spinner from "../Spinner/Spinner";
+import NewsDetail from "../News/Detail/NewsDetail";
 
 export const backofficeRoutes = () => {
   const [isAuth, setIsAuth] = useState(false);
@@ -54,6 +55,10 @@ export const backofficeRoutes = () => {
         <Route
           path="/backoffice/news"
           component={isAuth ? NewsList : LoginForm}
+        />
+        <Route
+          path="/novedades/:id"
+          component={isAuth ? NewsDetail : LoginForm}
         />
         <Route
           exact
