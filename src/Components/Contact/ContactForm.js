@@ -14,8 +14,8 @@ import {
 import contactService from "../../Services/contactService";
 import { fetchOrgData } from "../../features/about/aboutReducer";
 import { useDispatch, useSelector } from "react-redux";
-//import { MapContainer, TileLayer, Marker } from "react-leaflet";
-//import {}"leaflet/dist/leaflet.css";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import {}"leaflet/dist/leaflet.css";
 
 const ContactForm = () => {
   const dispatch = useDispatch();
