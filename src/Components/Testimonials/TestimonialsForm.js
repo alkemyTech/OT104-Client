@@ -3,14 +3,15 @@ import * as yup from "yup";
 import { Form, Formik, ErrorMessage, Field } from "formik";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { Spinner } from "react-bootstrap";
-import "../FormStyles.css";
+import { Button, Container, Spinner } from "react-bootstrap";
+import "../formStylesTestimonial.css";
 import {
   updateTestimonial,
   createTestimonial,
 } from "../../Services/testimonialServices";
 
 import { alertServiceError } from "../Alert/AlertService";
+import Title from "../Title/Title";
 
 const TestimonialForm = ({ testimonial = null }) => {
   const [submitting, setSubmitting] = useState(false);
@@ -23,13 +24,13 @@ const TestimonialForm = ({ testimonial = null }) => {
   const schema = yup.object().shape({
     name: yup
       .string()
-      .min(4, "Name must be at least 4 characters long.")
-      .required("Please, write a title."),
-    description: yup.string().required("Please, write a description."),
+      .min(4, "Mayor a 4 caracteres.")
+      .required("Por favor Ingrese un título."),
+    description: yup.string().required("Por favor ingrese un texto."),
     image: yup
       .string()
-      .matches(/\.(jpg|png)$/, "We only support .png or .jpg format files.")
-      .required("Please, add an image."),
+      .matches(/\.(jpg|png)$/, "Acepta .png y .jpg")
+      .required("Por favor cargue una imagen."),
   });
 
   const initialValues = {
@@ -39,51 +40,53 @@ const TestimonialForm = ({ testimonial = null }) => {
   };
 
   return (
-    <div>
-      <h3 className="text p-5 text-center">Submit a new testimonial</h3>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={schema}
-        onSubmit={async (values) => {
-          setSubmitting(true);
-          let { image, ...testimonialData } = values;
-          testimonialData = {
-            ...testimonialData,
-            image: imageString,
-          };
-          if (isEditing) {
-            const res = await updateTestimonial(
-              testimonial.id,
-              testimonialData
-            );
-            if (res && res.status !== 200) {
-              alertServiceError("Error", "Error al actualizar el testimonio");
-            }
+    <>
+      <Container style={{ maxWidth: "30rem" }} className="card bg-light my-3">
+        <Title bg={""}>Testimonio como children</Title>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={schema}
+          onSubmit={async (values) => {
+            setSubmitting(true);
+            let { image, ...testimonialData } = values;
+            testimonialData = {
+              ...testimonialData,
+              image: imageString,
+            };
+            if (isEditing) {
+              const res = await updateTestimonial(
+                testimonial.id,
+                testimonialData
+              );
+              if (res && res.status !== 200) {
+                alertServiceError("Error", "Error al actualizar el testimonio");
+              }
 
-            setSubmitting(false);
-          } else {
-            const res = await createTestimonial(testimonialData);
-            if (res && res.status !== 200) {
-              alertServiceError("Error", "Error al crear el testimonio");
+              setSubmitting(false);
+            } else {
+              const res = await createTestimonial(testimonialData);
+              if (res && res.status !== 200) {
+                alertServiceError("Error", "Error al crear el testimonio");
+              }
+              setSubmitting(false);
             }
-            setSubmitting(false);
-          }
-        }}
-      >
-        {({ values, setFieldValue, touched, errors, handleChange }) => (
-          <div className="form-container">
-            <Form className="form-container">
+          }}
+        >
+          {({ values, setFieldValue, touched, errors, handleChange }) => (
+            <Form className="p-3">
               <Field
-                className={`form-control mb-4 shadow-none ${
+                className={`form-control mt-4 mb-4 shadow-none ${
                   touched.name && errors.name && `is-invalid`
                 }`}
                 type="text"
                 name="name"
-                placeholder="Testimonial title"
+                placeholder="Título"
               />
+
               {touched && errors.name && (
                 <p className="text-danger">{errors.name}</p>
               )}
+
               <CKEditor
                 name="description"
                 data={values.description}
@@ -97,11 +100,13 @@ const TestimonialForm = ({ testimonial = null }) => {
                     : setCkEditorError(false)
                 }
               />
+
               {ckEditorError && (
                 <p className="text-danger mb-3 mt-3">
-                  Please, write a description.
+                  Por favor ingrese un texto.
                 </p>
               )}
+
               <Field
                 className={`form-control mb-4 mt-4 shadow-none ${
                   errors.image && `is-invalid`
@@ -123,25 +128,29 @@ const TestimonialForm = ({ testimonial = null }) => {
                   }
                 }}
               />
+
               {touched.image && errors.image && (
                 <p className="text-danger">{errors.image}</p>
               )}
-              <button className="submit-btn m-auto" type="submit">
-                Submit
-              </button>
+
+              <Button style={{ width: "100%" }} variant="primary" type="submit">
+                Enviar
+              </Button>
+
               {message && (
                 <div className="text-danger p-3 text-center">{message}</div>
               )}
+
               {submitting && (
                 <div className="d-block mx-auto my-3">
                   <Spinner animation="grow" />
                 </div>
               )}
             </Form>
-          </div>
-        )}
-      </Formik>
-    </div>
+          )}
+        </Formik>
+      </Container>
+    </>
   );
 };
 
