@@ -40,7 +40,10 @@ const TestimonialForm = ({ testimonial = null }) => {
 
   return (
     <>
-      <Container style={{ maxWidth: "30rem" }} className="card bg-light my-3">
+      <Container
+        style={{ maxWidth: "30rem" }}
+        className="card bg-light p-3 my-4"
+      >
         {<h3 className="text mt-4 text-center">Carga tu Testimonio</h3>}
         <Formik
           initialValues={initialValues}
@@ -107,7 +110,7 @@ const TestimonialForm = ({ testimonial = null }) => {
               )}
 
               <Field
-                className={`form-control mb-4 mt-4 shadow-none ${
+                className={`form-control mb-3 mt-4 shadow-none ${
                   errors.image && `is-invalid`
                 }`}
                 type="file"
