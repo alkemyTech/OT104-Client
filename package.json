@@ -54,10 +54,6 @@
     "not dead",
     "not op_mini all"
   ],
-  "devDependencies": {
-    "@testing-library/react": "^12.1.2",
-    "jest": "^26.6.0"
-  },
   "jest": {
     "transformIgnorePatterns": [
       "node_modules/(?!(react-router-transition)).*\\.js$"
