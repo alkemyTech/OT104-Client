@@ -86,7 +86,7 @@ const ContactForm = () => {
   }
 
   return (
-    <Container style={{ maxWidth: "30rem" }} className="card bg-light my-3">
+    <Container style={{ maxWidth: "30rem" }} className="card bg-light p-3 my-4">
       {<h3 className="text mt-4 text-center">Contacto</h3>}
       {position && (
         <MapContainer
@@ -138,7 +138,7 @@ const ContactForm = () => {
               <ErrorMessage name="message" variant="danger" component={Alert} />
             </div>
             <Button
-              className="mt-4"
+              className="mt-4 mb-3"
               style={{ width: "100%" }}
               variant="primary"
               type="submit"
