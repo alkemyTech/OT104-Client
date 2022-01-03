@@ -13,10 +13,11 @@ import { checkToken } from "../../Services/privateApiService";
 import BackofficeLayout from "./BackofficeLayout";
 import MembersForm from "../Members/MembersForm";
 import Spinner from "../Spinner/Spinner";
-
+import Title from "../Title/Title";
+import { Container } from "react-bootstrap";
 export const backofficeRoutes = () => {
   const [isAuth, setIsAuth] = useState(false);
-  const [userRole,setUserRole] = useState(null)
+  const [userRole, setUserRole] = useState(null);
   const [loading, setLoading] = useState(true);
   const USER_ROLES = { admin: 1, regular: 2 };
 
@@ -33,15 +34,17 @@ export const backofficeRoutes = () => {
 
   return (
     <>
-      { loading ? 
-        <Spinner /> 
-        :
-        (userRole == USER_ROLES.admin && isAuth) ? 
-          <BackofficeLayout />
-        : 
-          <Redirect to="/login" />
-      }
-
+      <Container className="mb-4 mt-5 w-100">
+        <Title>
+          {loading ? (
+            <Spinner />
+          ) : userRole == USER_ROLES.admin && isAuth ? (
+            <BackofficeLayout />
+          ) : (
+            <Redirect to="/login" />
+          )}
+        </Title>
+      </Container>
       <Switch>
         <Route
           path="/backoffice/create-slide"
@@ -67,8 +70,8 @@ export const backofficeRoutes = () => {
           path="/backoffice/slides"
           component={isAuth ? SlidesList : LoginForm}
         />
-        <Route 
-          path="/backoffice/members/create" 
+        <Route
+          path="/backoffice/members/create"
           component={isAuth ? MembersForm : LoginForm}
         />
         <Route
