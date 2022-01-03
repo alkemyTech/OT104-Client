@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SlidesForm from "../Slides/SlidesForm";
 import Categories from "./Categories";
+import CategoriesForm from "./../Categories/CategoriesForm";
 import NewsList from "../News/NewsSection";
 import EditForm from "../Organization/EditForm";
 import ActivitiesList from "./ActivitiesList";
@@ -41,6 +42,10 @@ export const backofficeRoutes = () => {
         <Route
           path="/backoffice/categories"
           component={tokenVerification ? Categories : LoginForm}
+        />
+        <Route
+          path="/backoffice/categories/edit"
+          component={tokenVerification ? CategoriesForm : LoginForm}
         />
         <Route
           path="/backoffice/news"
