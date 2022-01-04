@@ -1,22 +1,16 @@
 import React, { useState } from "react";
 import { Formik } from "formik";
-import {
-  Container,
-  Row,
-  Form,
-  Button,
-  Col,
-  Modal,
-  Stack,
-} from "react-bootstrap";
+import { Container, Row, Form, Button, Modal, Stack } from "react-bootstrap";
 import { Document, Page } from "react-pdf/dist/umd/entry.webpack";
+import { alertServiceError } from "../Alert/AlertService";
 import pdf from "./terminos-y-condiciones.pdf";
-
+import { useDispatch } from "react-redux";
+import { register } from "../../features/auth/authReducer";
 const RegisterForm = () => {
   const [show, setShow] = useState(false);
-  const [terms, setTerms] = useState(null);
+  const [terms, setTerms] = useState(false);
   const [numPages, setNumPages] = useState(null);
-
+  const dispatch = useDispatch();
   const handleShow = () => setShow(true);
   const handleCancel = () => {
     setShow(false);
@@ -45,27 +39,27 @@ const RegisterForm = () => {
 
         //Validacion nombre
         if (!values.name) {
-          errors.name = "Por favor ingresa un nombre";
+          errors.name = "Por favor ingrese un nombre";
         }
 
         //Validacion last nambre
         if (!values.lastName) {
-          errors.lastName = "Por favor ingresa un apellido";
+          errors.lastName = "Por favor ingrese un apellido";
         }
 
         //Validacion email
         if (!values.email) {
-          errors.email = "Por favor ingresa un email";
+          errors.email = "Por favor ingrese un email";
         } else if (
           !/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(values.email)
         ) {
-          errors.password =
-            "El email solo puede contener letras, numeros, puntos, guiones y guion bajo";
+          errors.email =
+            "El email sólo puede contener letras, números, puntos, guiones y guion bajo";
         }
 
         //Validacion password
         if (!values.password) {
-          errors.password = "Por favor ingresa una contraseña";
+          errors.password = "Por favor ingrese una contraseña";
         } else if (
           !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(
             values.password
@@ -77,13 +71,9 @@ const RegisterForm = () => {
 
         //Validacion repassword
         if (!values.repassword) {
-          errors.repassword = "Por favor ingresa confirma tu contraseña";
+          errors.repassword = "Por favor confirme tu contraseña";
         } else if (values.repassword !== values.password) {
           errors.repassword = "Las contraseñas no coinciden";
-        }
-
-        if (terms == null) {
-          errors.terms = "Debes leer los terminos y condiciones";
         }
 
         return errors;
@@ -91,11 +81,21 @@ const RegisterForm = () => {
       onSubmit={(values, { resetForm }) => {
         var userInfo = {
           name: values.name,
-          lastName: values.lastName,
           email: values.email,
           password: values.password,
         };
-
+        const postData = async (data) => {
+          const res = await dispatch(register(data));
+          if (res.payload.success) {
+            alert("Usuario registrado con éxito");
+          } else {
+            alertServiceError(
+              "Algo anda mal",
+              "La petición no se pudo completar"
+            );
+          }
+        };
+        postData(userInfo);
         resetForm();
       }}
     >
@@ -108,116 +108,124 @@ const RegisterForm = () => {
         handleChange,
         handleBlur,
       }) => (
-        <Container>
+        <Container style={{ maxWidth: "30rem" }} className="card bg-light my-2">
           <Row>
-            <Col xs lg="5 mx-auto">
-              <h2 className="mt-3 text-center">Register Form</h2>
-              <Form
-                className="border border-grey rounded p-4 mt-4"
-                onSubmit={handleSubmit}
-              >
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    type="text"
-                    name="name"
-                    value={values.name}
-                    placeholder="Enter name"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    required
-                    isValid={touched.name && !errors.name}
-                    isInvalid={touched.name && errors.name}
-                  />
-                </Form.Group>
-                {touched.name && errors.name && (
-                  <div className="text-danger mb-3">{errors.name}</div>
-                )}
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    type="text"
-                    name="lastName"
-                    value={values.lastName}
-                    placeholder="Enter last name"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    required
-                    isValid={touched.lastName && !errors.lastName}
-                    isInvalid={touched.lastName && errors.lastName}
-                  />
-                </Form.Group>
-                {touched.lastName && errors.lastName && (
-                  <div className="text-danger mb-3">{errors.lastName}</div>
-                )}
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    type="text"
-                    name="email"
-                    value={values.email}
-                    placeholder="Enter email"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    required
-                    isValid={touched.email && !errors.email}
-                    isInvalid={touched.email && errors.email}
-                  />
-                </Form.Group>
-                {touched.email && errors.email && (
-                  <div className="text-danger mb-3">{errors.email}</div>
-                )}
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    type="text"
-                    name="password"
-                    value={values.password}
-                    placeholder="Enter password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    required
-                    isValid={touched.password && !errors.password}
-                    isInvalid={touched.password && errors.password}
-                  />
-                </Form.Group>
-                {touched.password && errors.password && (
-                  <div className="text-danger mb-3">{errors.password}</div>
-                )}
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    type="text"
-                    name="repassword"
-                    value={values.repassword}
-                    placeholder="Confirm password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    required
-                    isValid={touched.repassword && !errors.repassword}
-                    isInvalid={touched.repassword && errors.repassword}
-                  />
-                </Form.Group>
-                {touched.repassword && errors.repassword && (
-                  <div className="text-danger mb-3">{errors.repassword}</div>
-                )}
-                <Stack gap={2}>
-                  <Button variant="danger" onClick={handleShow}>
-                    Terminos y Condiciones
-                  </Button>
+            <h2 className="mt-3 text-center">Formulario de registro</h2>
+            <Form className="p-3" onSubmit={handleSubmit}>
+              <Form.Group className="mb-3">
+                <Form.Label htmlFor="name">Nombre</Form.Label>
+                <Form.Control
+                  type="text"
+                  id="name"
+                  name="name"
+                  autoFocus
+                  value={values.name}
+                  placeholder="Ingrese su nombre"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  required
+                  isValid={touched.name && !errors.name}
+                  isInvalid={touched.name && errors.name}
+                />
+              </Form.Group>
+              {touched.name && errors.name && (
+                <div className="text-danger mb-3">{errors.name}</div>
+              )}
+              <Form.Group className="mb-3">
+                <Form.Label htmlFor="lastName">Apellido</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  value={values.lastName}
+                  placeholder="Ingrese su apellido"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  required
+                  isValid={touched.lastName && !errors.lastName}
+                  isInvalid={touched.lastName && errors.lastName}
+                />
+              </Form.Group>
+              {touched.lastName && errors.lastName && (
+                <div className="text-danger mb-3">{errors.lastName}</div>
+              )}
+              <Form.Group className="mb-3">
+                <Form.Label htmlFor="email">Correo</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="email"
+                  id="email"
+                  value={values.email}
+                  placeholder="Ingrese su correo"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  required
+                  isValid={touched.email && !errors.email}
+                  isInvalid={touched.email && errors.email}
+                />
+              </Form.Group>
+              {touched.email && errors.email && (
+                <div className="text-danger mb-3">{errors.email}</div>
+              )}
+              <Form.Group className="mb-3">
+                <Form.Label htmlFor="password">Contraseña</Form.Label>
+                <Form.Control
+                  type="text"
+                  id="password"
+                  name="password"
+                  value={values.password}
+                  placeholder="Ingrese su contraseña"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  required
+                  isValid={touched.password && !errors.password}
+                  isInvalid={touched.password && errors.password}
+                />
+              </Form.Group>
+              {touched.password && errors.password && (
+                <div className="text-danger mb-3">{errors.password}</div>
+              )}
+              <Form.Group className="mb-3">
+                <Form.Label htmlFor="passwordConfirm">
+                  Confirme su contraseña
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  name="repassword"
+                  id="passwordConfirm"
+                  value={values.repassword}
+                  placeholder="Confirme su contraseña"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  required
+                  isValid={touched.repassword && !errors.repassword}
+                  isInvalid={touched.repassword && errors.repassword}
+                />
+              </Form.Group>
+              {touched.repassword && errors.repassword && (
+                <div className="text-danger mb-3">{errors.repassword}</div>
+              )}
+              <Stack gap={2}>
+                <Button variant="secondary" onClick={handleShow}>
+                  Terminos y Condiciones
+                </Button>
 
-                  {terms == null && (
-                    <div className="text-danger">{errors.terms}</div>
-                  )}
+                {!terms && (
+                  <div className="text-danger">
+                    Debes leer y aceptar los términos y condiciones
+                  </div>
+                )}
 
-                  {terms == false && (
-                    <div className="text-danger">
-                      Debes aceptar los terminos y condiciones
-                    </div>
-                  )}
-                  <Button className="submit-btn" type="submit">
-                    Register
-                  </Button>
-                </Stack>
-              </Form>
-            </Col>
+                <Button
+                  className="submit-btn"
+                  type="submit"
+                  disabled={!isValid}
+                >
+                  Registrarme
+                </Button>
+              </Stack>
+            </Form>
           </Row>
-
           <Modal show={show} animation={false} size="lg" scrollable={true}>
             <Modal.Header closeButton onClick={handleCancel}>
               <Modal.Title>Terminos y condiciones</Modal.Title>

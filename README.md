@@ -108,6 +108,15 @@ Recommendation when rendering and using <Skeleton /> keep the final structure. E
           </Table>
 ```
 
+### Members Form test
+
+[see the file](src/Components/Members/MembersForm.test.js)
+
+- Render title component to check component render success.
+- Send form without information to check errors responses.
+- Send data & get error to check error in method.
+- Send & ok process to check success response.
+
 ### Login Test
 
 [see the file](src\Components\Auth\LoginForm.test.js)
