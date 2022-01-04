@@ -135,6 +135,18 @@ Implementation detalis of the test:
 - If user is logged in guest links must not appear.
 - Backoffice links appear only when admin is logged in.
 
+### Data ONG Test
+
+It `s tested using React Testing and Jest libraries.
+
+[see the file](src\Components\Organization\EditForm.test.js)
+
+Implementation detalis of the test:
+
+- Rendering edit form.
+- Data submitting without completing the inputs.
+- Correct data submitting returns success message.
+
 ### Contact Test
 
 [see the file](src\Components\Contact\ContactForm.test.js)
