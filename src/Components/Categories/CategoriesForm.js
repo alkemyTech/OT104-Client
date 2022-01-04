@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import "../FormStyles.css";
 import Title from "./../Title/Title";
 import { Formik, Field, ErrorMessage } from "formik";
@@ -11,6 +12,7 @@ import categoryService from "../../Services/categoriesService";
 import { Form, Container, Button } from "react-bootstrap";
 
 const CategoriesForm = ({ location }) => {
+  const history = useHistory();
   const cateroryToEdit = location.state?.categoryToEdit;
   const [category, setCategory] = React.useState({});
   const [imageState, setImageState] = React.useState(null);
@@ -62,12 +64,14 @@ const CategoriesForm = ({ location }) => {
               if (res.status === 200) {
                 alert("Categoría actualizada");
               }
+              history.push("/backoffice/categories");
             } else {
               const res = await categoryService.create(values);
               console.log({ ...res });
               if (res.status === 200) {
                 alert("Categoría creada con éxito");
               }
+              history.push("/backoffice/categories");
             }
 
             setSubmitting(false);
