@@ -15,7 +15,9 @@ function Newness({ news }) {
             title={data.name}
             description={data.content}
             equals={true}
-          />
+            buttonOnLine={true}
+            id={data.id}
+          ></Card>
         );
       })}
     </Container>

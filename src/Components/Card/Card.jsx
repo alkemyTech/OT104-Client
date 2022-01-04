@@ -1,9 +1,17 @@
 import { React, useState } from "react";
-import { Card as CardComponent } from "react-bootstrap";
+import { Card as CardComponent, Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
 
-const Card = ({ image, title, description, goDetail, id, equals }) => {
+const Card = ({
+  image,
+  title,
+  description,
+  goDetail,
+  id,
+  equals,
+  buttonOnLine,
+}) => {
   const [showDescription, setShowDescription] = useState(false);
   const imageUrl = image ? image : "/images/placeholder/370x220.png";
   const textElipsis = {
@@ -37,6 +45,7 @@ const Card = ({ image, title, description, goDetail, id, equals }) => {
       />
       <CardComponent.Body>
         <CardComponent.Title>{title}</CardComponent.Title>
+
         {description?.length > 150 ? (
           <>
             <CardComponent.Text
@@ -49,7 +58,7 @@ const Card = ({ image, title, description, goDetail, id, equals }) => {
               size="sm"
               onClick={() => setShowDescription((isShowing) => !isShowing)}
               aria-expanded={showDescription}
-              className="w-100"
+              className="text-center"
             >
               {showDescription ? "Ocultar" : "Ver más"}
             </Button>
@@ -63,6 +72,18 @@ const Card = ({ image, title, description, goDetail, id, equals }) => {
         {goDetail ? (
           <Button
             className="m-2"
+            variant="primary"
+            size="sm"
+            onClick={() => history.push(`/novedades/${id}`)}
+          >
+            Detalle
+          </Button>
+        ) : (
+          <></>
+        )}
+        {buttonOnLine ? (
+          <Button
+            className="m-1"
             variant="primary"
             size="sm"
             onClick={() => history.push(`/novedades/${id}`)}
