@@ -173,19 +173,22 @@ const MembersForm = ({ member = null }) => {
                 </div>
               )}
               </FormBootstrap.Group>
+              <FormBootstrap.Group className="d-flex flex-column mb-3">
+                <Field
+                  className={`form-control shadow-none ${
+                    touched.facebook && errors.facebook && `is-invalid`
+                  }`}
+                  type="text"
+                  name="facebook"
+                  placeholder="Perfil de Facebook"
+                />
+                {touched.facebook && errors.facebook && (
+                  <div className="invalid-feedback">{errors.facebook}</div>
+                )}
+              </FormBootstrap.Group>
+              <FormBootstrap.Group className="d-flex flex-column mb-3">
               <Field
-                className={`form-control mb-3 shadow-none ${
-                  touched.facebook && errors.facebook && `is-invalid`
-                }`}
-                type="text"
-                name="facebook"
-                placeholder="Perfil de Facebook"
-              />
-              {touched.facebook && errors.facebook && (
-                <p className="text-danger">{errors.facebook}</p>
-              )}
-              <Field
-                className={`form-control mb-3 shadow-none ${
+                className={`form-control shadow-none ${
                   touched.instagram && errors.instagram && `is-invalid`
                 }`}
                 type="text"
@@ -193,19 +196,22 @@ const MembersForm = ({ member = null }) => {
                 placeholder="Perfil de Instagram"
               />
               {touched.instagram && errors.instagram && (
-                <p className="text-danger">{errors.instagram}</p>
+                <div className="invalid-feedback">{errors.instagram}</div>
               )}
+              </FormBootstrap.Group>
+              <FormBootstrap.Group className="d-flex flex-column mb-3">
               <Field
-                className={`form-control mb-3 shadow-none ${
-                  touched.linkedin && errors.linedin && `is-invalid`
+                className={`form-control shadow-none ${
+                  touched.linkedin && errors.linkedin && `is-invalid`
                 }`}
                 type="text"
                 name="linkedin"
                 placeholder="Perfil de LinkedIn"
               />
               {touched.linkedin && errors.linkedin && (
-                <p className="text-danger">{errors.linkedin}</p>
+                <div className="invalid-feedback">{errors.linkedin}</div>
               )}
+              </FormBootstrap.Group>
               <button className="submit-btn" type="submit">
                 Enviar
               </button>
