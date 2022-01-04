@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SlidesForm from "../Slides/SlidesForm";
 import Categories from "./Categories";
+import CategoriesForm from "./../Categories/CategoriesForm";
 import NewsList from "../News/NewsSection";
 import UserForm from "../Users/UsersForm";
 import EditForm from "../Organization/EditForm";
@@ -39,21 +40,23 @@ export const backofficeRoutes = () => {
   return (
     <>
       <Container className="mb-4 mt-5 w-100">
-        <Title>
-          {loading ? (
-            <Spinner />
-          ) : userRole == USER_ROLES.admin && isAuth ? (
-            <BackofficeLayout />
-          ) : (
-            <Redirect to="/login" />
-          )}
-        </Title>
+        {loading ? (
+          <Spinner />
+        ) : userRole == USER_ROLES.admin && isAuth ? (
+          <BackofficeLayout />
+        ) : (
+          <Redirect to="/login" />
+        )}
       </Container>
-  
+
       <Switch>
         <Route
           path="/backoffice/create-slide"
           component={isAuth ? SlidesForm : LoginForm}
+        />
+        <Route
+          path="/backoffice/categories/form"
+          component={isAuth ? CategoriesForm : LoginForm}
         />
         <Route
           path="/backoffice/categories"
