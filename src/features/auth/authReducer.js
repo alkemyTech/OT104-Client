@@ -22,7 +22,7 @@ export const register = createAsyncThunk("auth/register", async (data) => {
     "http://ongapi.alkemy.org/api/register",
     data
   );
-  return await response.data.data;
+  return await response.data;
 });
 
 export const authReducer = createSlice({
@@ -37,8 +37,8 @@ export const authReducer = createSlice({
       state.isAuthenticated = true;
       state.status = "fulfilled";
       state.token = localStorage.getItem("token");
-      state.user = action.payload
-    }
+      state.user = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
