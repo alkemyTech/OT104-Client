@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SlidesForm from "../Slides/SlidesForm";
 import Categories from "./Categories";
-import NewsList from "../News/NewsSection";
+import NewsList from "./NewsList";
 import UserForm from "../Users/UsersForm";
 import EditForm from "../Organization/EditForm";
 import ActivitiesList from "./ActivitiesList";
@@ -49,7 +49,7 @@ export const backofficeRoutes = () => {
           )}
         </Title>
       </Container>
-  
+
       <Switch>
         <Route
           path="/backoffice/create-slide"

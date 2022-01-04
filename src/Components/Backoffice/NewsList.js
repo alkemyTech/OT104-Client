@@ -45,7 +45,7 @@ const NewsList = () => {
       <Row>
         <Col>
           <h3>Listado de Novedades</h3>
-          <Button className="mb-3" as={Link} to={`/backoffice/news/create`}>
+          <Button className="mb-3" as={Link} to={`/newsform`}>
             Crear Novedad
           </Button>
         </Col>
