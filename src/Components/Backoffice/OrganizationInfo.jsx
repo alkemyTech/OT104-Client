@@ -22,7 +22,7 @@ function OrganizationInfo() {
       <div className={styles.container}>
         <div className={styles.info}>
           <h2>Logo Organización</h2>
-          <img src={orgData.logo} alt="Organization" />
+          <img className={styles.image} src={orgData.logo} alt="Organization" />
           <h2>Nombre Organización</h2>
           <h4 className={styles.name}>{orgData.name}</h4>
           <h2>Descripcion Organización</h2>
