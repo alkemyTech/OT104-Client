@@ -58,6 +58,7 @@ function App() {
         <Route path="/" exact component={Home} />
         <Route path="/login" component={LoginForm} />
         <Route path="/toys-campaign" component={ToysCampaign} />
+        <Route path="/create-activity/:id" component={ActivitiesForm} />
         <Route path="/create-activity" component={ActivitiesForm} />
         <Route path="/create-category" component={CategoriesForm} />
         <Route path="/newsform/:id" component={NewsForm} />
