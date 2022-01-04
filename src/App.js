@@ -70,9 +70,10 @@ function App() {
         <Route path="/about" component={About} />
         <Route path="/novedades/:id" component={NewsDetail} />
         <Route path="/actividades" component={Activities} />
-        <Route path="/donar">
-          <Donation text={"!Hacé tu donación ya mismo :)"} />
-        </Route>
+        <Route
+          path="/donar"
+          render={() => <Donation text={"¡Hacé tu donación ahora mismo!"} />}
+        />
         <Route path="/gracias" component={Thanks} />
         <Route path="/Novedades" component={News} />
         <Route path="/backoffice" component={backofficeRoutes} />
