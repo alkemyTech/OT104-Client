@@ -15,6 +15,8 @@ import { checkToken } from "../../Services/privateApiService";
 import BackofficeLayout from "./BackofficeLayout";
 import MembersForm from "../Members/MembersForm";
 import Spinner from "../Spinner/Spinner";
+import Title from "../Title/Title";
+import { Container } from "react-bootstrap";
 import NewsDetail from "../News/Detail/NewsDetail";
 
 export const backofficeRoutes = () => {
@@ -36,14 +38,18 @@ export const backofficeRoutes = () => {
 
   return (
     <>
-      {loading ? (
-        <Spinner />
-      ) : userRole == USER_ROLES.admin && isAuth ? (
-        <BackofficeLayout />
-      ) : (
-        <Redirect to="/login" />
-      )}
-
+      <Container className="mb-4 mt-5 w-100">
+        <Title>
+          {loading ? (
+            <Spinner />
+          ) : userRole == USER_ROLES.admin && isAuth ? (
+            <BackofficeLayout />
+          ) : (
+            <Redirect to="/login" />
+          )}
+        </Title>
+      </Container>
+  
       <Switch>
         <Route
           path="/backoffice/create-slide"
