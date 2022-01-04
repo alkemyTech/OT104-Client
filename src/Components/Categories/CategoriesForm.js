@@ -60,14 +60,18 @@ const CategoriesForm = ({ location }) => {
           validationSchema={validateYupSchema}
           onSubmit={async (values, { setSubmitting }) => {
             if (category.id) {
-              const res = await categoryService.update(category.id, values);
+              const valuesToEdit = { ...values };
+              delete valuesToEdit.image;
+              const res = await categoryService.update(
+                category.id,
+                valuesToEdit
+              );
               if (res.status === 200) {
                 alert("Categoría actualizada");
               }
               history.push("/backoffice/categories");
             } else {
               const res = await categoryService.create(values);
-              console.log({ ...res });
               if (res.status === 200) {
                 alert("Categoría creada con éxito");
               }
