@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import SlidesForm from "../Slides/SlidesForm";
 import Categories from "./Categories";
 import NewsList from "../News/NewsSection";
+import UserForm from "../Users/UsersForm";
 import EditForm from "../Organization/EditForm";
 import ActivitiesList from "./ActivitiesList";
 import SlidesList from "./SlidesList";
@@ -86,8 +87,17 @@ export const backofficeRoutes = () => {
           component={isAuth ? BackOfficeMembersList : LoginForm}
         />
         <Route
+          exact
           path="/backoffice/users"
           component={isAuth ? BackofficeUserList : LoginForm}
+        />
+        <Route
+          path="/backoffice/users/create"
+          component={isAuth ? UserForm : LoginForm}
+        />
+        <Route
+          path="/backoffice/users/edit/:id"
+          component={isAuth ? UserForm : LoginForm}
         />
       </Switch>
     </>
