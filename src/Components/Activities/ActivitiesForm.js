@@ -3,7 +3,15 @@ import "../FormStyles.css";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { FormikProvider, Form, ErrorMessage, useFormik } from "formik";
-import { FormLabel, FormControl, Button, Alert } from "react-bootstrap";
+import {
+  Form as FormBootstrap,
+  FormGroup,
+  FormLabel,
+  FormControl,
+  Button,
+  Alert,
+  Container,
+} from "react-bootstrap";
 import {
   createActivity,
   updateActivity,
@@ -29,6 +37,9 @@ const ActivitiesForm = ({ activityToEdit }) => {
     }
     if (!values.image) {
       errors.image = "Por favor, ingrese una imagen.";
+    }
+    if (!values.description) {
+      errors.description = "Por favor, ingrese una descripción.";
     }
     return errors;
   };
@@ -89,52 +100,67 @@ const ActivitiesForm = ({ activityToEdit }) => {
   });
 
   return (
-    <FormikProvider value={formik}>
-      <Form className="form-container" encType="multipart/form-data">
-        <div>
-          <FormLabel>Nombre</FormLabel>
-          <FormControl
-            name="name"
-            type={"text"}
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          <ErrorMessage
-            name="name"
-            component={() => (
-              <Alert variant={"danger"}>{formik.errors.name}</Alert>
-            )}
-          />
-        </div>
-        <div>
-          <FormControl
-            type="file"
-            name="image"
-            onChange={handleFileChange}
-            accept="image/png, image/jpeg"
-            ref={fileInput}
-            onBlur={formik.handleBlur}
-          />
-          <ErrorMessage
-            name="image"
-            component={() => (
-              <Alert variant={"danger"}>{formik.errors.image}</Alert>
-            )}
-          />
-        </div>
-        <div>
-          <CKEditor
-            id="description"
-            editor={ClassicEditor}
-            data={formik.values.description}
-            ref={descriptionInput}
-            onChange={handleDescriptionChange}
-          />
-        </div>
-        <Button type="submit">Send</Button>
-      </Form>
-    </FormikProvider>
+    <Container style={{ maxWidth: "30rem" }} className="card bg-light my-4">
+      <h2 className="text-center p-3">Crear actividades</h2>
+      <FormikProvider value={formik}>
+        <Form className="p-3" encType="multipart/form-data">
+          <FormGroup className="d-flex flex-column mb-3">
+            <FormLabel htmlFor="name">Nombre</FormLabel>
+            <FormControl
+              as={FormBootstrap.Control}
+              id="name"
+              name="name"
+              type={"text"}
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              isInvalid={formik.touched.name && formik.errors.name}
+            />
+            <FormBootstrap.Control.Feedback type="invalid">
+              {formik.errors.name}
+            </FormBootstrap.Control.Feedback>
+          </FormGroup>
+
+          <FormGroup className="d-flex flex-column mb-3">
+            <FormLabel htmlFor="image">Imagen</FormLabel>
+            <FormControl
+              id="image"
+              type="file"
+              name="image"
+              onChange={handleFileChange}
+              accept="image/png, image/jpeg"
+              ref={fileInput}
+              onBlur={formik.handleBlur}
+              isInvalid={formik.touched.image && formik.errors.image}
+            />
+            <FormBootstrap.Control.Feedback type="invalid">
+              {formik.errors.image}
+            </FormBootstrap.Control.Feedback>
+          </FormGroup>
+          <FormGroup className="d-flex flex-column mb-3">
+            <FormLabel htmlFor="description">Descripción</FormLabel>
+            <FormControl
+              as={CKEditor}
+              id="description"
+              name="description"
+              editor={ClassicEditor}
+              data={formik.values.description}
+              ref={descriptionInput}
+              onChange={handleDescriptionChange}
+            />
+            <ErrorMessage
+              name="description"
+              component="div"
+              className="text-danger mt-1"
+              style={{ fontSize: ".9rem" }}
+            />
+          </FormGroup>
+          <Button type="submit" className="w-100">
+            Enviar
+          </Button>
+        </Form>
+      </FormikProvider>
+    </Container>
   );
 };
 

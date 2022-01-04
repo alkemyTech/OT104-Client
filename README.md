@@ -108,10 +108,18 @@ Recommendation when rendering and using <Skeleton /> keep the final structure. E
           </Table>
 ```
 
+### Members Form test
+
+[see the file](src/Components/Members/MembersForm.test.js)
+
+- Render title component to check component render success.
+- Send form without information to check errors responses.
+- Send data & get error to check error in method.
+- Send & ok process to check success response.
+
 ### Login Test
 
 [see the file](src\Components\Auth\LoginForm.test.js)
-
 
 LoginForm.js was tested using React Testing and Jest libraries. It was checked that the file renders correctly through verifying the existence of the input labels. It also displays alert messages when the user tries to submit
 the form without completing all of its fields. Finally, the test confirms that the user is correctly redirected to
@@ -126,3 +134,31 @@ Implementation detalis of the test:
 - If user isn't logged in show only public and guest links.
 - If user is logged in guest links must not appear.
 - Backoffice links appear only when admin is logged in.
+
+### Data ONG Test
+
+It `s tested using React Testing and Jest libraries.
+
+[see the file](src\Components\Organization\EditForm.test.js)
+
+Implementation detalis of the test:
+
+- Rendering edit form.
+- Data submitting without completing the inputs.
+- Correct data submitting returns success message.
+
+### Contact Test
+
+[see the file](src\Components\Contact\ContactForm.test.js)
+
+-Tested file: ContactForm.js
+-Form Tested using React Testing and Jest libraries
+-Implementation detalis of the test:
+
+- If user tries to submit the form without completing all requiered fields a messages is rendered.
+- If user submit and get error from petition or from api.
+- If user submit and success to save a new contact.
+
+### Registration Tests
+
+The registration form’s correct functioning is checked with three different tests. The first one checks if the form, after filling all the input fields correctly, doesn’t show an error message. The second ascertains that, in case the fields are left blank, the corresponding error messages are shown and the form’s submit button is disabled. The last one makes sure that, when all the form fields are completed correctly, the submit button isn’t disabled.

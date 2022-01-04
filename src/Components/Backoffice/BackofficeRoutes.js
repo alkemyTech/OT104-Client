@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import SlidesForm from "../Slides/SlidesForm";
 import Categories from "./Categories";
 import NewsList from "../News/NewsSection";
+import UserForm from "../Users/UsersForm";
 import EditForm from "../Organization/EditForm";
 import ActivitiesList from "./ActivitiesList";
 import SlidesList from "./SlidesList";
 import BackOfficeMembersList from "./BackOfficeMembersList";
 import BackofficeUserList from "./BackofficeUserList";
+import OrganizationInfoList from "./OrganizationInfo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import LoginForm from "../Auth/LoginForm";
 import { checkToken } from "../../Services/privateApiService";
@@ -15,6 +17,8 @@ import MembersForm from "../Members/MembersForm";
 import Spinner from "../Spinner/Spinner";
 import Title from "../Title/Title";
 import { Container } from "react-bootstrap";
+import NewsDetail from "../News/Detail/NewsDetail";
+
 export const backofficeRoutes = () => {
   const [isAuth, setIsAuth] = useState(false);
   const [userRole, setUserRole] = useState(null);
@@ -45,6 +49,7 @@ export const backofficeRoutes = () => {
           )}
         </Title>
       </Container>
+  
       <Switch>
         <Route
           path="/backoffice/create-slide"
@@ -57,6 +62,15 @@ export const backofficeRoutes = () => {
         <Route
           path="/backoffice/news"
           component={isAuth ? NewsList : LoginForm}
+        />
+        <Route
+          path="/novedades/:id"
+          component={isAuth ? NewsDetail : LoginForm}
+        />
+        <Route
+          exact
+          path="/backoffice/organization"
+          component={isAuth ? OrganizationInfoList : LoginForm}
         />
         <Route
           path="/backoffice/organization/edit"
@@ -79,8 +93,17 @@ export const backofficeRoutes = () => {
           component={isAuth ? BackOfficeMembersList : LoginForm}
         />
         <Route
+          exact
           path="/backoffice/users"
           component={isAuth ? BackofficeUserList : LoginForm}
+        />
+        <Route
+          path="/backoffice/users/create"
+          component={isAuth ? UserForm : LoginForm}
+        />
+        <Route
+          path="/backoffice/users/edit/:id"
+          component={isAuth ? UserForm : LoginForm}
         />
       </Switch>
     </>
