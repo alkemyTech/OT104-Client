@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Container, Button } from "react-bootstrap";
+import { Table, Container, Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { TrashFill, PencilFill } from "react-bootstrap-icons";
 import ConfirmModal from "../Categories/ConfirmModal";
@@ -42,53 +42,57 @@ export default function Categories() {
   };
 
   return (
-    <Container className="d-flex flex-column">
+    <Container fluid>
       <ConfirmModal showModal={showModal} data={modalData} />
-      <div className="row">
-        <div className="col">
-          <h3>Listado de categorias</h3>
+      <Row>
+        <Col className="text-center mt-3 mb-3"><h3>Listado de categorias</h3>
           <Button as={Link} to="/backoffice/categories/create" className="mb-3">
             Nueva categoria
           </Button>
-        </div>
+        </Col>
+        {/* <div className="row"> */}
+        {/* <div className="col"> */}
 
-        <Table striped bordered hover className="align-middle">
-          <thead>
-            <tr>
-              <th>Nombre:</th>
-              <th>Creada:</th>
-              <th className="text-center">Acciones:</th>
-            </tr>
-          </thead>
-          <tbody>
-            {categories.status === "fulfilled" &&
-              categories.data.length > 0 &&
-              categories.data.map((category) => (
-                <tr key={category.id.toString()}>
-                  <td>{category.name}</td>
-                  <td>{formatDate(category.created_at)}</td>
-                  <td className="d-flex justify-content-center gap-1">
-                    <button
-                      className="btn btn-outline-danger"
-                      title="Eliminar"
-                      onClick={() => onDelete(category)}
-                    >
-                      <TrashFill />
-                    </button>
+        {/* </div> */}
+      </Row>
 
-                    <button
-                      className="btn btn-outline-primary"
-                      title="Editar"
-                      onClick={() => onEdit(category)}
-                    >
-                      <PencilFill />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </Table>
-      </div>
-    </Container>
+      <Table striped bordered hover className="align-middle">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Creada</th>
+            <th className="text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {categories.status === "fulfilled" &&
+            categories.data.length > 0 &&
+            categories.data.map((category) => (
+              <tr key={category.id.toString()}>
+                <td>{category.name}</td>
+                <td>{formatDate(category.created_at)}</td>
+                <td className="d-flex justify-content-center gap-1">
+                  <button
+                    className="btn btn-outline-danger"
+                    title="Eliminar"
+                    onClick={() => onDelete(category)}
+                  >
+                    <TrashFill />
+                  </button>
+
+                  <button
+                    className="btn btn-outline-primary"
+                    title="Editar"
+                    onClick={() => onEdit(category)}
+                  >
+                    <PencilFill />
+                  </button>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </Table>
+      {/* </div> */}
+    </Container >
   );
 }
