@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { Stack } from "react-bootstrap";
 import ActivitiesList from "./ActivitiesList";
-import ActivitiesTitle from "./ActivitiesTitle";
 import { useDispatch, useSelector } from "react-redux";
 import { getActividades } from "./../../features/activities/activitiesSlice";
+import Title from "../Title/Title";
+import Spinner from "../Spinner/Spinner";
 
 const Activities = () => {
   const activities = useSelector((state) => state.activities.data);
@@ -16,24 +15,16 @@ const Activities = () => {
   }, []);
 
   return (
-    <Container fluid>
-      <Row style={{ marginTop: "5%" }}>
-        <Col></Col>
-        <Col xs={5}>
-          <ActivitiesTitle />
-        </Col>
-        <Col></Col>
-      </Row>
-      <Row style={{ marginTop: "2%" }}>
-        <Col></Col>
-        <Col xs={10}>
-          <div style={{ marginTop: "5%" }}>
-            <ActivitiesList data={activities} />
-          </div>
-        </Col>
-        <Col></Col>
-      </Row>
-    </Container>
+    <Stack>
+      <Title bg={"images/campaigns/Foto2.jpg"}>Actividades</Title>
+      <div className="my-4">
+        {activities.length > 0 ? (
+          <ActivitiesList data={activities} />
+        ) : (
+          <Spinner />
+        )}
+      </div>
+    </Stack>
   );
 };
 
