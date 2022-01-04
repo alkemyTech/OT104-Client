@@ -29,8 +29,14 @@ const News = () => {
           news.map((element) => {
             const { id, name, content, image } = element;
             return (
-              <div className="col-sm-6 col-md-4 p-3" key={id}>
-                <Card name={name} description={content} image={image} />
+              <div className="col-md-5 p-3" key={id}>
+                <Card
+                  name={name}
+                  description={content}
+                  image={image}
+                  goDetail={true}
+                  id={id}
+                />
               </div>
             );
           })

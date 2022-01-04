@@ -7,16 +7,18 @@ import ActivitiesList from "./ActivitiesList";
 import SlidesList from "./SlidesList";
 import BackOfficeMembersList from "./BackOfficeMembersList";
 import BackofficeUserList from "./BackofficeUserList";
+import OrganizationInfoList from "./OrganizationInfo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import LoginForm from "../Auth/LoginForm";
 import { checkToken } from "../../Services/privateApiService";
 import BackofficeLayout from "./BackofficeLayout";
 import MembersForm from "../Members/MembersForm";
 import Spinner from "../Spinner/Spinner";
+import NewsDetail from "../News/Detail/NewsDetail";
 
 export const backofficeRoutes = () => {
   const [isAuth, setIsAuth] = useState(false);
-  const [userRole,setUserRole] = useState(null)
+  const [userRole, setUserRole] = useState(null);
   const [loading, setLoading] = useState(true);
   const USER_ROLES = { admin: 1, regular: 2 };
 
@@ -33,14 +35,13 @@ export const backofficeRoutes = () => {
 
   return (
     <>
-      { loading ? 
-        <Spinner /> 
-        :
-        (userRole == USER_ROLES.admin && isAuth) ? 
-          <BackofficeLayout />
-        : 
-          <Redirect to="/login" />
-      }
+      {loading ? (
+        <Spinner />
+      ) : userRole == USER_ROLES.admin && isAuth ? (
+        <BackofficeLayout />
+      ) : (
+        <Redirect to="/login" />
+      )}
 
       <Switch>
         <Route
@@ -56,6 +57,15 @@ export const backofficeRoutes = () => {
           component={isAuth ? NewsList : LoginForm}
         />
         <Route
+          path="/novedades/:id"
+          component={isAuth ? NewsDetail : LoginForm}
+        />
+        <Route
+          exact
+          path="/backoffice/organization"
+          component={isAuth ? OrganizationInfoList : LoginForm}
+        />
+        <Route
           path="/backoffice/organization/edit"
           component={isAuth ? EditForm : LoginForm}
         />
@@ -67,8 +77,8 @@ export const backofficeRoutes = () => {
           path="/backoffice/slides"
           component={isAuth ? SlidesList : LoginForm}
         />
-        <Route 
-          path="/backoffice/members/create" 
+        <Route
+          path="/backoffice/members/create"
           component={isAuth ? MembersForm : LoginForm}
         />
         <Route
