@@ -3,7 +3,7 @@ import { Card as CardComponent } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
 
-const Card = ({ image, title, description, goDetail, id }) => {
+const Card = ({ image, title, description, goDetail, id, equals }) => {
   const [showDescription, setShowDescription] = useState(false);
   const imageUrl = image ? image : "/images/placeholder/370x220.png";
   const textElipsis = {
@@ -23,10 +23,18 @@ const Card = ({ image, title, description, goDetail, id }) => {
         flexBasis: "20rem",
         flexGrow: "1",
         maxWidth: "28rem",
-        height: "min-content",
+        height: equals ? "30 rem" : "min-content",
+        margin: "1vw",
       }}
     >
-      <CardComponent.Img variant="top" src={imageUrl} />
+      <CardComponent.Img
+        variant="top"
+        src={imageUrl}
+        style={{
+          height: equals ? "200px" : "auto",
+          padding: equals ? "5px" : "auto",
+        }}
+      />
       <CardComponent.Body>
         <CardComponent.Title>{title}</CardComponent.Title>
         {description?.length > 150 ? (
@@ -41,6 +49,7 @@ const Card = ({ image, title, description, goDetail, id }) => {
               size="sm"
               onClick={() => setShowDescription((isShowing) => !isShowing)}
               aria-expanded={showDescription}
+              className="w-100"
             >
               {showDescription ? "Ocultar" : "Ver más"}
             </Button>
