@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table, Container, Button, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { TrashFill, PencilFill } from "react-bootstrap-icons";
 import ConfirmModal from "../Categories/ConfirmModal";
 import { useSelector, useDispatch } from "react-redux";
@@ -13,6 +13,7 @@ const formatDate = (date) => {
 };
 
 export default function Categories() {
+  const history = useHistory();
   const [modalData, setModalData] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
@@ -38,7 +39,13 @@ export default function Categories() {
   };
 
   const onEdit = (category) => {
-    alert(`Editando ${category.name}`);
+    history.push({
+      pathname: "/backoffice/categories/form",
+      state: {
+        categoryToEdit: category,
+      },
+    });
+
   };
 
   return (

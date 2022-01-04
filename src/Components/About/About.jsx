@@ -34,7 +34,7 @@ const About = () => {
       <Row style={{ marginTop: "2%" }}>
         <Col></Col>
         <Col xs={10}>
-          <TextoAbout aboutDescription={orgData.short_description} />
+          <TextoAbout aboutDescription={orgData.long_description} />
         </Col>
         <Col></Col>
         <div style={{ marginTop: "5%" }}>
