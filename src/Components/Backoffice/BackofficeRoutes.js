@@ -40,15 +40,13 @@ export const backofficeRoutes = () => {
   return (
     <>
       <Container className="mb-4 mt-5 w-100">
-        <Title>
-          {loading ? (
-            <Spinner />
-          ) : userRole == USER_ROLES.admin && isAuth ? (
-            <BackofficeLayout />
-          ) : (
-            <Redirect to="/login" />
-          )}
-        </Title>
+        {loading ? (
+          <Spinner />
+        ) : userRole == USER_ROLES.admin && isAuth ? (
+          <BackofficeLayout />
+        ) : (
+          <Redirect to="/login" />
+        )}
       </Container>
 
       <Switch>
