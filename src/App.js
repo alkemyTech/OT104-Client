@@ -69,7 +69,7 @@ function App() {
         <Route path="/contact" component={ContactForm} />
         <Route path="/about" component={About} />
         <Route path="/novedades/:id" component={NewsDetail} />
-        <Route path="/Actividades" component={Activities} />
+        <Route path="/actividades" component={Activities} />
         <Route path="/donar">
           <Donation text={"!Hacé tu donación ya mismo :)"} />
         </Route>
