@@ -3,8 +3,14 @@ import { ErrorMessage, Form, Field, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import { Form as FormBootstrap, Container, Button } from "react-bootstrap";
+import {
+  Form as FormBootstrap,
+  Container,
+  Button,
+  Stack,
+} from "react-bootstrap";
 import categoriesService from "./../../../Services/categoriesService";
+import Title from "../../Title/Title";
 
 const NewsForm = ({ newToEdit, edit, onSubmit }) => {
   const [imgPreview, setImgPreview] = useState("");
@@ -72,91 +78,110 @@ const NewsForm = ({ newToEdit, edit, onSubmit }) => {
   });
 
   return (
-    <Container style={{ maxWidth: "30rem" }} className="card bg-light my-2">
-      <FormikProvider value={formik}>
-        <Form className="p-3" data-testid="form-element">
-          <FormBootstrap.Group className="d-flex flex-column mb-3">
-            <FormBootstrap.Label htmlFor="name">Título</FormBootstrap.Label>
-            <Field
-              data-testid="title-element"
-              as={FormBootstrap.Control}
-              type="text"
-              name="name"
-              placeholder="Título"
-              isInvalid={formik.touched.name && formik.errors.name}
-            />
-            <FormBootstrap.Control.Feedback type="invalid">
-              {formik.errors.name}
-            </FormBootstrap.Control.Feedback>
-          </FormBootstrap.Group>
+    <Stack>
+      <Title>Crear Novedad</Title>
+      <div style={{ maxWidth: "30rem" }} className="card bg-light my-4 mx-auto">
+        <FormikProvider value={formik}>
+          <Form className="p-3" data-testid="form-element">
+            <FormBootstrap.Group className="d-flex flex-column mb-3">
+              <FormBootstrap.Label htmlFor="name">Título</FormBootstrap.Label>
+              <Field
+                data-testid="title-element"
+                as={FormBootstrap.Control}
+                type="text"
+                name="name"
+                placeholder="Título"
+                isInvalid={formik.touched.name && formik.errors.name}
+              />
+              <FormBootstrap.Control.Feedback type="invalid">
+                {formik.errors.name}
+              </FormBootstrap.Control.Feedback>
+            </FormBootstrap.Group>
 
-          <FormBootstrap.Group className="d-flex flex-column mb-3">
-            <FormBootstrap.Label htmlFor="image">Imagen</FormBootstrap.Label>
-            {imgPreview && <img src={imgPreview} alt="preview" />}
-            <FormBootstrap.Control
-              data-testid="image-element"
-              type="file"
-              name="image"
-              accept="image/*"
-              onChange={handleFileChange}
-              isInvalid={formik.touched.image && formik.errors.image}
-            />
-            <FormBootstrap.Control.Feedback type="invalid">
-              {formik.errors.image}
-            </FormBootstrap.Control.Feedback>
-          </FormBootstrap.Group>
+            <FormBootstrap.Group className="d-flex flex-column mb-3">
+              <FormBootstrap.Label htmlFor="image">Imagen</FormBootstrap.Label>
+              {imgPreview && <img src={imgPreview} alt="preview" />}
+              <FormBootstrap.Control
+                data-testid="image-element"
+                type="file"
+                name="image"
+                accept="image/*"
+                onChange={handleFileChange}
+                isInvalid={formik.touched.image && formik.errors.image}
+              />
+              <FormBootstrap.Control.Feedback type="invalid">
+                {formik.errors.image}
+              </FormBootstrap.Control.Feedback>
+            </FormBootstrap.Group>
 
-          <FormBootstrap.Group className="d-flex flex-column mb-3">
-            <FormBootstrap.Label htmlFor="content">
-              Contenido
-            </FormBootstrap.Label>
-            <FormBootstrap.Control
-              as={CKEditor}
-              name="content"
-              data={initialValues.content}
-              editor={ClassicEditor}
-              onChange={handleEditorChange}
-            />
-            <ErrorMessage
-              name="content"
-              component="div"
-              className="text-danger mt-1"
-              style={{ fontSize: ".9rem" }}
-            />
-          </FormBootstrap.Group>
+            <FormBootstrap.Group className="d-flex flex-column mb-3">
+              <FormBootstrap.Label htmlFor="image">Imagen</FormBootstrap.Label>
+              {imgPreview && <img src={imgPreview} alt="preview" />}
+              <FormBootstrap.Control
+                type="file"
+                id="image"
+                name="image"
+                accept="image/*"
+                onChange={handleFileChange}
+                isInvalid={formik.touched.image && formik.errors.image}
+              />
+              <FormBootstrap.Control.Feedback type="invalid">
+                {formik.errors.image}
+              </FormBootstrap.Control.Feedback>
+            </FormBootstrap.Group>
 
-          <FormBootstrap.Group className="d-flex flex-column mb-3">
-            <FormBootstrap.Label htmlFor="category">
-              Categoría
-            </FormBootstrap.Label>
-
-            <Field
-              as={FormBootstrap.Select}
-              name="category"
-              data-testid="category-element"
-              isInvalid={formik.touched.category && formik.errors.category}
-            >
-              <option value="" disabled>
-                Seleccionar
-              </option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
+            <FormBootstrap.Group className="d-flex flex-column mb-3">
+              <FormBootstrap.Label htmlFor="content">
+                Contenido
+              </FormBootstrap.Label>
+              <FormBootstrap.Control
+                as={CKEditor}
+                id="content"
+                name="content"
+                data={initialValues.content}
+                editor={ClassicEditor}
+                onChange={handleEditorChange}
+              />
+              <ErrorMessage
+                name="content"
+                component="div"
+                className="text-danger mt-1"
+                style={{ fontSize: ".9rem" }}
+              />
+            </FormBootstrap.Group>
+            <FormBootstrap.Group className="d-flex flex-column mb-3">
+              <Field
+                as={FormBootstrap.Select}
+                name="category"
+                data-testid="category-element"
+                isInvalid={formik.touched.category && formik.errors.category}
+              >
+                <option value="" disabled>
+                  Seleccionar
                 </option>
-              ))}
-            </Field>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </Field>
 
-            <FormBootstrap.Control.Feedback type="invalid">
-              {formik.errors.category}
-            </FormBootstrap.Control.Feedback>
-          </FormBootstrap.Group>
+              <FormBootstrap.Control.Feedback type="invalid">
+                {formik.errors.category}
+              </FormBootstrap.Control.Feedback>
+            </FormBootstrap.Group>
 
-          <Button type="submit" disabled={formik.isSubmitting && true}>
-            {formik.isSubmitting ? "Enviando" : "Enviar"}
-          </Button>
-        </Form>
-      </FormikProvider>
-    </Container>
+            <Button
+              type="submit"
+              className="w-100"
+              disabled={formik.isSubmitting && true}
+            >
+              {formik.isSubmitting ? "Enviando" : "Enviar"}
+            </Button>
+          </Form>
+        </FormikProvider>
+      </div>
+    </Stack>
   );
 };
 
