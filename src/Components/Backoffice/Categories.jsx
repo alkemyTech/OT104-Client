@@ -50,10 +50,6 @@ export default function Categories() {
             Nueva categoria
           </Button>
         </Col>
-        {/* <div className="row"> */}
-        {/* <div className="col"> */}
-
-        {/* </div> */}
       </Row>
 
       <Table striped bordered hover className="align-middle">
@@ -92,7 +88,6 @@ export default function Categories() {
             ))}
         </tbody>
       </Table>
-      {/* </div> */}
     </Container >
   );
 }
