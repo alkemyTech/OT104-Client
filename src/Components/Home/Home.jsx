@@ -14,8 +14,8 @@ function Home() {
       alertServiceError("Error loading slides");
       return;
     }
-    //   const slidesFromServer = res.data.data;
-    //   setSlides([...slidesFromServer]);
+    const slidesFromServer = res.data.data;
+    setSlides([...slidesFromServer]);
   };
   React.useEffect(() => {
     getSlides();
