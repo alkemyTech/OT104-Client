@@ -5,7 +5,7 @@ import service from "../../Services/slidesService";
 import newsServices from "../../Services/novedadesService";
 import { alertServiceError } from "../Alert/AlertService";
 import Spinner from "../Spinner/Spinner";
-
+import Title from "../Title/Title";
 function Home() {
   const [slides, setSlides] = React.useState([]);
   const getSlides = async () => {
@@ -30,7 +30,6 @@ function Home() {
         Bienvenidos <br />a <br />
         Somos más
       </h1>
-
       <h2 className="text-center mt-3">Ultimas Novedades</h2>
       <Newness news={news} />
     </>

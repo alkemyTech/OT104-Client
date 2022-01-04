@@ -1,33 +1,26 @@
 import React from "react";
-import { Container } from "react-bootstrap";
-import { Card } from "react-bootstrap";
-import { Button } from "react-bootstrap";
-import "./styles/newness.css";
-import { alertServiceError } from "../Alert/AlertService";
+import Card from "../Card/Card";
+import { Container, Row } from "react-bootstrap";
 
 function Newness({ news }) {
   return (
-    <Container id="news-container">
-      <Container id="cards-container" className="p-1">
-        {news.map((data, index) => {
-          return (
-            <Card id="card" key={index} className="mb-2">
-              <Card.Img variant="top" src={data.image} />
-              <Card.Body>
-                <Card.Title>{data.name}</Card.Title>
-                <Button variant="primary" data-id={data.id}>
-                  Leer mas
-                </Button>
-              </Card.Body>
-            </Card>
-          );
-        })}
-        <Container className="text-center">
-          <Button>Ver mas</Button>
-        </Container>
-      </Container>
+    <Container
+      style={{ width: "auto" }}
+      className="d-flex flex-wrap flex-row mb-3 mt-3 p-2"
+    >
+      {news.map((data) => {
+        return (
+          <Card
+            image={data.image}
+            title={data.name}
+            description={data.content}
+            equals={true}
+            buttonOnLine={true}
+            id={data.id}
+          ></Card>
+        );
+      })}
     </Container>
   );
 }
-
 export default Newness;
