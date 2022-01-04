@@ -1,25 +1,24 @@
-import React, {useEffect} from "react";
-import {fetchOrgData} from "../../features/about/aboutReducer";
-import {useDispatch, useSelector} from "react-redux";
+import React, { useEffect } from "react";
+import { fetchOrgData } from "../../features/about/aboutReducer";
+import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import facebookLogo from "./facebook.png"
-import instagramLogo from "./instagram.png"
-import linkedinLogo from "./linkedin.png"
-
+import SubNewsletter from "./SubNewsletter";
+import facebookLogo from "./facebook.png";
+import instagramLogo from "./instagram.png";
+import linkedinLogo from "./linkedin.png";
 
 const Footer = () => {
-    const dispatch = useDispatch();
-    const {orgData} = useSelector(state=>state.about)
-    
-    useEffect(() => {
-        dispatch(fetchOrgData());
-    }, [dispatch])
+  const dispatch = useDispatch();
+  const { orgData } = useSelector((state) => state.about);
 
     return (
     <div style={{backgroundColor:"#9AC9FB"}} className="d-flex">
         <Container 
             className="text-center">
+        <Row className="my-3">
+          <SubNewsletter />
+        </Row>
             <Row className="justify-content-center align-items-center">
                 <Col>
                     <Link to="/">
@@ -42,8 +41,7 @@ const Footer = () => {
             </Row>
         </Container>
     </div>
-
-    );
-}
+  );
+};
 
 export default Footer;

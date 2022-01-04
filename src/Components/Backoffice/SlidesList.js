@@ -38,50 +38,55 @@ const SlidesList = () => {
   return (
     <Container>
       <h3>Slides</h3>
-      <Button as={Link} className="mb-3" to="/backoffice/slides/create">
+      <Button as={Link} className="mb-3" to="/backoffice/create-slide">
         Crear Slide
       </Button>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Título</th>
-            <th>Imagen</th>
-            <th>Orden</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {slides.length !== 0 &&
-            slides.map((slide) => (
-              <tr key={slide.id}>
-                <td>{slide.name}</td>
-                <td>
-                  <Button
-                    id={slide.image}
-                    onClick={handleShowImage}
-                    variant="link"
-                  >
-                    {slide.image}
-                  </Button>
-                </td>
-                <td>{slide.order}</td>
-                <td className="d-flex justify-content-center">
-                  <div
-                    className="text-center d-grid gap-1"
-                    style={{ gridTemplateColumns: "min-content min-content" }}
-                  >
-                    <Button onClick={handleOpenDelete} variant="outline-danger">
-                      <i className="bi bi-trash" />
+      <div class="table-responsive">
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Imagen</th>
+              <th>Orden</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {slides.length !== 0 &&
+              slides.map((slide) => (
+                <tr key={slide.id}>
+                  <td>{slide.name}</td>
+                  <td>
+                    <Button
+                      id={slide.image}
+                      onClick={handleShowImage}
+                      variant="link"
+                    >
+                      {slide.image}
                     </Button>
-                    <Button variant="outline-primary">
-                      <i className="bi bi-pencil" />
-                    </Button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </Table>
+                  </td>
+                  <td>{slide.order}</td>
+                  <td className="d-flex justify-content-center">
+                    <div
+                      className="text-center d-grid gap-1"
+                      style={{ gridTemplateColumns: "min-content min-content" }}
+                    >
+                      <Button
+                        onClick={handleOpenDelete}
+                        variant="outline-danger"
+                      >
+                        <i className="bi bi-trash-fill" />
+                      </Button>
+                      <Button variant="outline-primary">
+                        <i className="bi bi-pencil-fill" />
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
+      </div>
       <Modal show={showImage} onHide={handleCloseImage}>
         <img src={imagePath} />
       </Modal>
