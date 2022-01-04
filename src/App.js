@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import { AnimatedSwitch } from "react-router-transition";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
 import Home from "./Components/Home/Home";
-import CategoriesForm from "./Components/Categories/CategoriesForm";
 import NewsForm from "./Components/News/NewsForm";
 import NewsDetail from "./Components/News/Detail/NewsDetail";
 import TestimonialForm from "./Components/Testimonials/TestimonialsForm";
@@ -60,7 +59,6 @@ function App() {
         <Route path="/login" component={LoginForm} />
         <Route path="/toys-campaign" component={ToysCampaign} />
         <Route path="/create-activity" component={ActivitiesForm} />
-        <Route path="/create-category" component={CategoriesForm} />
         <Route path="/create-news" component={NewsForm} />
         <Route path="/create-testimonials" component={TestimonialForm} />
         <Route path="/create-user" component={UserForm} />
