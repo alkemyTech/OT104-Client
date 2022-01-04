@@ -2,69 +2,108 @@ import React, { useState, useEffect } from "react";
 import SlidesForm from "../Slides/SlidesForm";
 import Categories from "./Categories";
 import NewsList from "../News/NewsSection";
+import UserForm from "../Users/UsersForm";
 import EditForm from "../Organization/EditForm";
 import ActivitiesList from "./ActivitiesList";
 import SlidesList from "./SlidesList";
 import BackOfficeMembersList from "./BackOfficeMembersList";
 import BackofficeUserList from "./BackofficeUserList";
+import OrganizationInfoList from "./OrganizationInfo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import LoginForm from "../Auth/LoginForm";
-import { checkToken, VerifyToken } from "../../Services/privateApiService";
+import { checkToken } from "../../Services/privateApiService";
 import BackofficeLayout from "./BackofficeLayout";
-import { useSelector } from "react-redux";
+import MembersForm from "../Members/MembersForm";
+import Spinner from "../Spinner/Spinner";
+import Title from "../Title/Title";
+import { Container } from "react-bootstrap";
+import NewsDetail from "../News/Detail/NewsDetail";
 
 export const backofficeRoutes = () => {
-  const [tokenVerification, setTokenVerification] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+  const [loading, setLoading] = useState(true);
   const USER_ROLES = { admin: 1, regular: 2 };
-  const userRole = useSelector((state) => state.auth.user?.role_id);
+
   useEffect(() => {
     const getInfo = async () => {
+      setLoading(true);
       const res = await checkToken();
-      setTokenVerification(res.success);
+      setIsAuth(res.success);
+      setUserRole(res.data?.user?.role_id || null);
+      setLoading(false);
     };
     getInfo();
   }, []);
 
   return (
     <>
-      {userRole == USER_ROLES.admin && tokenVerification ? (
-        <BackofficeLayout />
-      ) : (
-        <Redirect to="/" />
-      )}
-
+      <Container className="mb-4 mt-5 w-100">
+        <Title>
+          {loading ? (
+            <Spinner />
+          ) : userRole == USER_ROLES.admin && isAuth ? (
+            <BackofficeLayout />
+          ) : (
+            <Redirect to="/login" />
+          )}
+        </Title>
+      </Container>
+  
       <Switch>
         <Route
           path="/backoffice/create-slide"
-          component={tokenVerification ? SlidesForm : LoginForm}
+          component={isAuth ? SlidesForm : LoginForm}
         />
         <Route
           path="/backoffice/categories"
-          component={tokenVerification ? Categories : LoginForm}
+          component={isAuth ? Categories : LoginForm}
         />
         <Route
           path="/backoffice/news"
-          component={tokenVerification ? NewsList : LoginForm}
+          component={isAuth ? NewsList : LoginForm}
+        />
+        <Route
+          path="/novedades/:id"
+          component={isAuth ? NewsDetail : LoginForm}
+        />
+        <Route
+          exact
+          path="/backoffice/organization"
+          component={isAuth ? OrganizationInfoList : LoginForm}
         />
         <Route
           path="/backoffice/organization/edit"
-          component={tokenVerification ? EditForm : LoginForm}
+          component={isAuth ? EditForm : LoginForm}
         />
         <Route
           path="/backoffice/activities"
-          component={tokenVerification ? ActivitiesList : LoginForm}
+          component={isAuth ? ActivitiesList : LoginForm}
         />
         <Route
           path="/backoffice/slides"
-          component={tokenVerification ? SlidesList : LoginForm}
+          component={isAuth ? SlidesList : LoginForm}
+        />
+        <Route
+          path="/backoffice/members/create"
+          component={isAuth ? MembersForm : LoginForm}
         />
         <Route
           path="/backoffice/members"
-          component={tokenVerification ? BackOfficeMembersList : LoginForm}
+          component={isAuth ? BackOfficeMembersList : LoginForm}
         />
         <Route
+          exact
           path="/backoffice/users"
-          component={tokenVerification ? BackofficeUserList : LoginForm}
+          component={isAuth ? BackofficeUserList : LoginForm}
+        />
+        <Route
+          path="/backoffice/users/create"
+          component={isAuth ? UserForm : LoginForm}
+        />
+        <Route
+          path="/backoffice/users/edit/:id"
+          component={isAuth ? UserForm : LoginForm}
         />
       </Switch>
     </>
