@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import SlidesForm from "../Slides/SlidesForm";
 import Categories from "./Categories";
+import NewsList from "./NewsList";
 import CategoriesForm from "./../Categories/CategoriesForm";
-import NewsList from "../News/NewsSection";
 import UserForm from "../Users/UsersForm";
 import EditForm from "../Organization/EditForm";
 import ActivitiesList from "./ActivitiesList";
