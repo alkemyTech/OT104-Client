@@ -7,26 +7,15 @@ const Breadcrumb = () => {
 
   return (
     <BreadcrumbBS className="mt-3">
-      {route.map((item, index) =>
-        index + 1 !== route.length ? (
-          <Link
-            className="breadcrumb-item"
-            to={`/${item}`}
-            key={index.toString()}
-            style={{ textTransform: "capitalize" }}
-          >
-            {item}
-          </Link>
-        ) : (
-          <BreadcrumbBS.Item
-            key={index.toString()}
-            active
-            style={{ textTransform: "capitalize" }}
-          >
-            {item}
-          </BreadcrumbBS.Item>
-        )
-      )}
+      {route.map((item, index) => (
+        <BreadcrumbBS.Item
+          key={index.toString()}
+          active
+          style={{ textTransform: "capitalize" }}
+        >
+          {item}
+        </BreadcrumbBS.Item>
+      ))}
     </BreadcrumbBS>
   );
 };
