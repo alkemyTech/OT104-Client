@@ -86,8 +86,8 @@ const ContactForm = () => {
   }
 
   return (
-    <Container className="d-flex flex-column justify-content-center text-center p-3">
-      <h1 className="p-3">Contacto</h1>
+    <Container style={{ maxWidth: "30rem" }} className="card bg-light p-3 my-4">
+      {<h3 className="text mt-4 text-center">Contacto</h3>}
       {position && (
         <MapContainer
           center={JSON.parse(position)}
@@ -108,28 +108,43 @@ const ContactForm = () => {
         validate={handleErrors}
       >
         {() => (
-          <Form>
+          <Form className="p-3">
             <div>
-              <FormLabel htmlFor="name">Nombre:</FormLabel>
+              <FormLabel className="mt-3" htmlFor="name">
+                Nombre:
+              </FormLabel>
               <Field id="name" name="name" type="text" as={FormControl} />
               <ErrorMessage name="name" variant="danger" component={Alert} />
             </div>
             <div>
-              <FormLabel htmlFor="email">E-mail:</FormLabel>
+              <FormLabel className="mt-3" htmlFor="email">
+                E-mail:
+              </FormLabel>
               <Field id="email" name="email" type="text" as={FormControl} />
               <ErrorMessage name="email" variant="danger" component={Alert} />
             </div>
             <div>
-              <FormLabel htmlFor="phone">Teléfono:</FormLabel>
+              <FormLabel className="mt-3" htmlFor="phone">
+                Teléfono:
+              </FormLabel>
               <Field id="phone" name="phone" type="number" as={FormControl} />
               <ErrorMessage name="phone" variant="danger" component={Alert} />
             </div>
             <div>
-              <FormLabel htmlFor="message">Mensaje:</FormLabel>
+              <FormLabel className="mt-4" htmlFor="message">
+                Mensaje:
+              </FormLabel>
               <Field id="message" name="message" as={FormControl} />
               <ErrorMessage name="message" variant="danger" component={Alert} />
             </div>
-            <Button type="submit">Enviar Mensaje</Button>
+            <Button
+              className="mt-4 mb-3"
+              style={{ width: "100%" }}
+              variant="primary"
+              type="submit"
+            >
+              Enviar Mensaje
+            </Button>
           </Form>
         )}
       </Formik>
