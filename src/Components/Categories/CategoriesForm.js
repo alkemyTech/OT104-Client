@@ -1,7 +1,7 @@
 import React from "react";
 import "../FormStyles.css";
 import Title from "./../Title/Title";
-import { Formik, ErrorMessage } from "formik";
+import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -10,7 +10,8 @@ import categoryService from "../../Services/categoriesService";
 // React Bootstrap
 import { Form, Container, Button } from "react-bootstrap";
 
-const CategoriesForm = ({ cateroryToEdit }) => {
+const CategoriesForm = ({ location }) => {
+  const cateroryToEdit = location.state?.categoryToEdit;
   const [category, setCategory] = React.useState({});
   const [imageState, setImageState] = React.useState(null);
   const [initialValues, setInitialValues] = React.useState({
@@ -47,7 +48,11 @@ const CategoriesForm = ({ cateroryToEdit }) => {
   const ConditionalForm = () => {
     return (
       <Container style={{ maxWidth: "30rem" }} className="card bg-light my-2">
-        {cateroryToEdit ? <Title>Editar Categoria</Title> : <Title>Crear Categoria</Title> }
+        {cateroryToEdit ? (
+          <Title>Editar Categoria</Title>
+        ) : (
+          <Title>Crear Categoria</Title>
+        )}
         <Formik
           initialValues={initialValues}
           validationSchema={validateYupSchema}
@@ -59,7 +64,7 @@ const CategoriesForm = ({ cateroryToEdit }) => {
               }
             } else {
               const res = await categoryService.create(values);
-              console.log({...res});
+              console.log({ ...res });
               if (res.status === 200) {
                 alert("Categoría creada con éxito");
               }
@@ -81,14 +86,14 @@ const CategoriesForm = ({ cateroryToEdit }) => {
               <Form noValidate onSubmit={handleSubmit} className="p-3">
                 <Form.Group className="mb-3">
                   <Form.Label>Nombre</Form.Label>
-                  <Form.Control
+                  <Field
+                    as={Form.Control}
                     className="input-field"
                     name="name"
                     type="text"
                     placeholder="Nombre"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    setFieldValue={category.name}
                     isValid={touched.name && !errors.name}
                     isInvalid={touched.name && errors.name}
                   />
@@ -148,7 +153,7 @@ const CategoriesForm = ({ cateroryToEdit }) => {
     );
   };
 
-  return initialValues.id ? <ConditionalForm /> : <ConditionalForm />;
+  return cateroryToEdit ? <ConditionalForm /> : <ConditionalForm />;
 };
 
 export default CategoriesForm;
