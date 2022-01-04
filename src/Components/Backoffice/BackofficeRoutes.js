@@ -8,12 +8,14 @@ import ActivitiesList from "./ActivitiesList";
 import SlidesList from "./SlidesList";
 import BackOfficeMembersList from "./BackOfficeMembersList";
 import BackofficeUserList from "./BackofficeUserList";
+import OrganizationInfoList from "./OrganizationInfo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import LoginForm from "../Auth/LoginForm";
 import { checkToken } from "../../Services/privateApiService";
 import BackofficeLayout from "./BackofficeLayout";
 import MembersForm from "../Members/MembersForm";
 import Spinner from "../Spinner/Spinner";
+import NewsDetail from "../News/Detail/NewsDetail";
 
 export const backofficeRoutes = () => {
   const [isAuth, setIsAuth] = useState(false);
@@ -54,6 +56,15 @@ export const backofficeRoutes = () => {
         <Route
           path="/backoffice/news"
           component={isAuth ? NewsList : LoginForm}
+        />
+        <Route
+          path="/novedades/:id"
+          component={isAuth ? NewsDetail : LoginForm}
+        />
+        <Route
+          exact
+          path="/backoffice/organization"
+          component={isAuth ? OrganizationInfoList : LoginForm}
         />
         <Route
           path="/backoffice/organization/edit"

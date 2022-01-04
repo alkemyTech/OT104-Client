@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import axios from "axios";
 import { ErrorMessage, Form, Field, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import { Form as FormBootstrap, Button, Stack } from "react-bootstrap";
-import Title from "../Title/Title";
+import {
+  Form as FormBootstrap,
+  Container,
+  Button,
+  Stack,
+} from "react-bootstrap";
+import categoriesService from "./../../../Services/categoriesService";
+import Title from "../../Title/Title";
 
-const NewsForm = ({ newToEdit = false }) => {
-  const history = useHistory();
+const NewsForm = ({ newToEdit, edit, onSubmit }) => {
   const [imgPreview, setImgPreview] = useState("");
   const [imageState, setImageState] = useState("");
   const [categories, setCategories] = useState([]);
   const initialValues = {
-    name: newToEdit.name || "",
-    image: newToEdit.image || "",
-    content: newToEdit.content || "",
-    category: newToEdit.category || "",
+    name: newToEdit?.name || "",
+    image: newToEdit?.image || "",
+    content: newToEdit?.content || "",
+    category: newToEdit?.category || "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -26,15 +29,14 @@ const NewsForm = ({ newToEdit = false }) => {
       .required("El titulo es requerido"),
     image: Yup.string().required("La imagen es requerida"),
     content: Yup.string().required("El contenido es requerido"),
-    category: Yup.string().required("La categoria es requerida"),
+    category: Yup.string().required("La categoría es requerida"),
   });
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://ongapi.alkemy.org/api/categories");
-        const data = await response.json();
-        setCategories(data.data);
+        const response = await categoriesService.getAll();
+        setCategories(response.data.data);
       } catch (error) {
         return error;
       }
@@ -69,40 +71,6 @@ const NewsForm = ({ newToEdit = false }) => {
     formik.setFieldValue("content", data);
   };
 
-  const onSubmit = async (values) => {
-    let isError = false;
-
-    const newsSubmission = axios.create({
-      baseURL: process.env.REACT_APP_URL_ONG,
-    });
-
-    if (newToEdit) {
-      //if we are editing a news
-      const { image, ...rest } = values;
-      let edited = rest;
-      if (values.image.slice(0, 4) === "data") edited = values;
-      try {
-        await newsSubmission.put(`news/${newToEdit.id}`, edited);
-      } catch (error) {
-        isError = error;
-      }
-    } else {
-      //if we are creating a new news
-      try {
-        await newsSubmission.post("news", values);
-      } catch (error) {
-        isError = error;
-      }
-    }
-
-    if (!isError) {
-      alert("News guardada con éxito");
-      history.go(0);
-    } else {
-      alert("Error al guardar la news: " + isError.toString());
-    }
-  };
-
   const formik = useFormik({
     initialValues,
     onSubmit,
@@ -111,25 +79,38 @@ const NewsForm = ({ newToEdit = false }) => {
 
   return (
     <Stack>
-      <div>
-        <Title bg={"images/campaigns/Foto6.jpg"}>Crear Novedad</Title>
-      </div>
-
+      <Title>Crear Novedad</Title>
       <div style={{ maxWidth: "30rem" }} className="card bg-light my-4 mx-auto">
         <FormikProvider value={formik}>
-          <Form className="p-3">
+          <Form className="p-3" data-testid="form-element">
             <FormBootstrap.Group className="d-flex flex-column mb-3">
               <FormBootstrap.Label htmlFor="name">Título</FormBootstrap.Label>
               <Field
+                data-testid="title-element"
                 as={FormBootstrap.Control}
                 type="text"
-                id="name"
                 name="name"
-                placeholder="Titulo"
+                placeholder="Título"
                 isInvalid={formik.touched.name && formik.errors.name}
               />
               <FormBootstrap.Control.Feedback type="invalid">
                 {formik.errors.name}
+              </FormBootstrap.Control.Feedback>
+            </FormBootstrap.Group>
+
+            <FormBootstrap.Group className="d-flex flex-column mb-3">
+              <FormBootstrap.Label htmlFor="image">Imagen</FormBootstrap.Label>
+              {imgPreview && <img src={imgPreview} alt="preview" />}
+              <FormBootstrap.Control
+                data-testid="image-element"
+                type="file"
+                name="image"
+                accept="image/*"
+                onChange={handleFileChange}
+                isInvalid={formik.touched.image && formik.errors.image}
+              />
+              <FormBootstrap.Control.Feedback type="invalid">
+                {formik.errors.image}
               </FormBootstrap.Control.Feedback>
             </FormBootstrap.Group>
 
@@ -168,15 +149,11 @@ const NewsForm = ({ newToEdit = false }) => {
                 style={{ fontSize: ".9rem" }}
               />
             </FormBootstrap.Group>
-
             <FormBootstrap.Group className="d-flex flex-column mb-3">
-              <FormBootstrap.Label htmlFor="category">
-                Categoría
-              </FormBootstrap.Label>
-
               <Field
                 as={FormBootstrap.Select}
                 name="category"
+                data-testid="category-element"
                 isInvalid={formik.touched.category && formik.errors.category}
               >
                 <option value="" disabled>
@@ -190,7 +167,7 @@ const NewsForm = ({ newToEdit = false }) => {
               </Field>
 
               <FormBootstrap.Control.Feedback type="invalid">
-                {formik.errors.image}
+                {formik.errors.category}
               </FormBootstrap.Control.Feedback>
             </FormBootstrap.Group>
 

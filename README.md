@@ -108,10 +108,18 @@ Recommendation when rendering and using <Skeleton /> keep the final structure. E
           </Table>
 ```
 
+### Members Form test
+
+[see the file](src/Components/Members/MembersForm.test.js)
+
+- Render title component to check component render success.
+- Send form without information to check errors responses.
+- Send data & get error to check error in method.
+- Send & ok process to check success response.
+
 ### Login Test
 
 [see the file](src\Components\Auth\LoginForm.test.js)
-
 
 LoginForm.js was tested using React Testing and Jest libraries. It was checked that the file renders correctly through verifying the existence of the input labels. It also displays alert messages when the user tries to submit
 the form without completing all of its fields. Finally, the test confirms that the user is correctly redirected to
