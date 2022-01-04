@@ -12,8 +12,8 @@ import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
 
 const ProjectsForm = ({ project = null }) => {
-  const [imageString, setImageString] = useState("") //imageString is the base64 string of the image
-  const [imageUrl, setImageUrl] = useState(()=>project?.image || ""); //ImageUrl is the url of the image to be displayed
+  const [imageString, setImageString] = useState(""); //imageString is the base64 string of the image
+  const [imageUrl, setImageUrl] = useState(() => project?.image || ""); //ImageUrl is the url of the image to be displayed
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const isEditing = !!project;
@@ -37,150 +37,175 @@ const ProjectsForm = ({ project = null }) => {
     due_date: Yup.date(),
   });
 
-  const { handleSubmit, handleChange, handleBlur, values, errors, touched, isValid} =
-    useFormik({
-      initialValues,
-      validationSchema,
-      onSubmit: async (values) => {
-        setLoading(true);
-        setMessage("");
-        const {...projectData} = values;
-        projectData.image = imageString;
-        projectData.image = "ejemplo.png"
-        // INTERNAL SERVER ERROR: "Data too long for column 'image'" when sending base64 string
-        if (isEditing) {
-          try {
-            await axios.put(`http://ongapi.alkemy.org/public/api/projects/${project.id}`, projectData);
-            setMessage("Proyecto editado con éxito");
-            setLoading(false);
-          } catch (error) {
-            console.log(error);
-            setMessage("Error al editar el proyecto");
-            setLoading(false);
-          }
-        } else {
-          try{
-            await axios.post(`http://ongapi.alkemy.org/public/api/projects`, projectData);
-            setMessage("Proyecto creado con éxito");
-            setLoading(false);
-          }catch(error){
-            setMessage("Error al crear el proyecto"); 
-            setLoading(false);             
-          }
+  const {
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    values,
+    errors,
+    touched,
+    isValid,
+  } = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async (values) => {
+      setLoading(true);
+      setMessage("");
+      const { ...projectData } = values;
+      projectData.image = imageString;
+      projectData.image = "ejemplo.png";
+      // INTERNAL SERVER ERROR: "Data too long for column 'image'" when sending base64 string
+      if (isEditing) {
+        try {
+          await axios.put(
+            `http://ongapi.alkemy.org/public/api/projects/${project.id}`,
+            projectData
+          );
+          setMessage("Proyecto editado con éxito");
+          setLoading(false);
+        } catch (error) {
+          console.log(error);
+          setMessage("Error al editar el proyecto");
+          setLoading(false);
         }
-      },
-    });
+      } else {
+        try {
+          await axios.post(
+            `http://ongapi.alkemy.org/public/api/projects`,
+            projectData
+          );
+          setMessage("Proyecto creado con éxito");
+          setLoading(false);
+        } catch (error) {
+          setMessage("Error al crear el proyecto");
+          setLoading(false);
+        }
+      }
+    },
+  });
 
   const handleChangeImg = (event) => {
     handleChange(event);
     touched.image = true;
     const file = event.target.files[0];
     if (file) {
-      setImageUrl(URL.createObjectURL(file)) // Create a URL from the file
-      const reader = new FileReader(); 
+      setImageUrl(URL.createObjectURL(file)); // Create a URL from the file
+      const reader = new FileReader();
       reader.onloadend = () => {
-        setImageString(reader.result) // Set the base64 string
-      }
+        setImageString(reader.result); // Set the base64 string
+      };
       reader.readAsDataURL(file);
     }
   };
 
   return (
-    <Container style={{maxWidth:"30rem"}}>
+    <>
       <Row>
-        <h1 style={{ textAlign: "center", marginTop:"1em"}}>
+        <h1 style={{ textAlign: "center", marginTop: "1em" }}>
           {isEditing ? "Editar proyecto" : "Crear proyecto"}
         </h1>
       </Row>
-      <Row>
-        <Form  onSubmit={handleSubmit} className="mb-3" encType="multipart/form-data">
-          <Form.Group className="mb-3">
-            <Form.Label htmlFor="title"> Título </Form.Label>
-            <Form.Control
-              className="input-field"
-              type="text"
-              name="title"
-              value={values.title}
-              onChange={handleChange}
-              placeholder="Título"
-              onBlur={handleBlur}
-              isInvalid={errors.title && touched.title}
-              isValid={!errors.title && touched.title}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.title}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label htmlFor="description"> Descripción </Form.Label>
-            <Form.Control
-              className="input-field"
-              type="text"
-              name="description"
-              value={values.description}
-              onChange={handleChange}
-              placeholder="Escribe una descripción"
-              onBlur={handleBlur}
-              isInvalid={errors.description && touched.description}
-              isValid={!errors.description && touched.description}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.description}
-            </Form.Control.Feedback>
-          </Form.Group>
+      <Container
+        style={{ maxWidth: "30rem" }}
+        className="card bg-light p-3 my-4"
+      >
+        <Row>
+          <Form
+            onSubmit={handleSubmit}
+            className="mb-3"
+            encType="multipart/form-data"
+          >
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="title"> Título </Form.Label>
+              <Form.Control
+                className="input-field"
+                type="text"
+                name="title"
+                id="title"
+                value={values.title}
+                onChange={handleChange}
+                placeholder="Título"
+                onBlur={handleBlur}
+                isInvalid={errors.title && touched.title}
+                isValid={!errors.title && touched.title}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.title}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="description"> Descripción </Form.Label>
+              <Form.Control
+                id="description"
+                className="input-field"
+                type="text"
+                name="description"
+                value={values.description}
+                onChange={handleChange}
+                placeholder="Escribe una descripción"
+                onBlur={handleBlur}
+                isInvalid={errors.description && touched.description}
+                isValid={!errors.description && touched.description}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.description}
+              </Form.Control.Feedback>
+            </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label htmlFor="due_date"> Fecha límite </Form.Label>
-            <Form.Control
-              className="input-field"
-              type="date"
-              name="due_date"
-              value={values.due_date}
-              onChange={handleChange}
-              placeholder="Due date"
-              isInvalid={errors.due_date && touched.due_date}
-              isValid={!errors.due_date && touched.due_date}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.due_date}
-            </Form.Control.Feedback>
-          </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="due_date"> Fecha límite </Form.Label>
+              <Form.Control
+                id="due_date"
+                className="input-field"
+                type="date"
+                name="due_date"
+                value={values.due_date}
+                onChange={handleChange}
+                placeholder="Due date"
+                isInvalid={errors.due_date && touched.due_date}
+                isValid={!errors.due_date && touched.due_date}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.due_date}
+              </Form.Control.Feedback>
+            </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label htmlFor="image"> Imágen </Form.Label>
-            <Form.Control
-              className="input-field"
-              type="file"
-              name="image"
-              onChange={handleChangeImg}
-              accept=".png, .jpeg"
-              isInvalid={errors.image && touched.image}
-              isValid={!errors.image && touched.image}
-            />
-            {(errors.image && touched.image) 
-              ?
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="image"> Imágen </Form.Label>
+              <Form.Control
+                id="image"
+                className="input-field"
+                type="file"
+                name="image"
+                onChange={handleChangeImg}
+                accept=".png, .jpeg"
+                isInvalid={errors.image && touched.image}
+                isValid={!errors.image && touched.image}
+              />
+              {errors.image && touched.image ? (
                 <Form.Control.Feedback type="invalid">
                   {errors.image}
                 </Form.Control.Feedback>
-              :
+              ) : (
                 <Form.Text className="text-muted">
                   La imagen debe ser un archivo .jpg o .png
                 </Form.Text>
-            }
-          </Form.Group>
+              )}
+            </Form.Group>
 
-          <Form.Group className="mb-3">
-            {imageUrl && !errors.image 
-              ? 
+            <Form.Group className="mb-3">
+              {imageUrl && !errors.image ? (
                 <Image src={imageUrl} fluid alt="Imagen del proyecto" />
-              : null
-            }
-          </Form.Group>
+              ) : null}
+            </Form.Group>
 
-          {
-            <Button type="submit" disabled={!isValid || loading}>
-              {loading 
-                ?
+            {
+              <Button
+                type="submit"
+                className="w-100"
+                disabled={!isValid || loading}
+              >
+                {loading ? (
                   <Spinner
                     as="span"
                     animation="border"
@@ -188,21 +213,18 @@ const ProjectsForm = ({ project = null }) => {
                     role="status"
                     aria-hidden="true"
                   />
-                :
-                  isEditing ? "Actualizar" : "Crear"
-              }
-            </Button>
-          }
-        </Form>
-      </Row>
-      <Row>
-        {message && 
-          <Alert variant="info">
-            {message}
-          </Alert>
-        }
-      </Row>
-    </Container>
+                ) : isEditing ? (
+                  "Actualizar"
+                ) : (
+                  "Crear"
+                )}
+              </Button>
+            }
+          </Form>
+        </Row>
+        <Row>{message && <Alert variant="info">{message}</Alert>}</Row>
+      </Container>
+    </>
   );
 };
 
