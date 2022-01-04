@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import { AnimatedSwitch } from "react-router-transition";
 import ActivitiesForm from "./Components/Activities/ActivitiesForm";
 import Home from "./Components/Home/Home";
-import CategoriesForm from "./Components/Categories/CategoriesForm";
 import NewsForm from "./Components/News/NewsForm";
 import NewsDetail from "./Components/News/Detail/NewsDetail";
 import TestimonialForm from "./Components/Testimonials/TestimonialsForm";
@@ -58,8 +57,9 @@ function App() {
         <Route path="/" exact component={Home} />
         <Route path="/login" component={LoginForm} />
         <Route path="/toys-campaign" component={ToysCampaign} />
+        <Route path="/create-activity/:id" component={ActivitiesForm} />
         <Route path="/create-activity" component={ActivitiesForm} />
-        <Route path="/create-category" component={CategoriesForm} />
+        <Route path="/create-news" component={NewsForm} />
         <Route path="/newsform/:id" component={NewsForm} />
         <Route path="/newsform" component={NewsForm} />
         <Route path="/create-testimonials" component={TestimonialForm} />
@@ -69,10 +69,11 @@ function App() {
         <Route path="/contact" component={ContactForm} />
         <Route path="/about" component={About} />
         <Route path="/novedades/:id" component={NewsDetail} />
-        <Route path="/Actividades" component={Activities} />
-        <Route path="/donar">
-          <Donation text={"!Hacé tu donación ya mismo :)"} />
-        </Route>
+        <Route path="/actividades" component={Activities} />
+        <Route
+          path="/donar"
+          render={() => <Donation text={"¡Hacé tu donación ahora mismo!"} />}
+        />
         <Route path="/gracias" component={Thanks} />
         <Route path="/Novedades" component={News} />
         <Route path="/backoffice" component={backofficeRoutes} />

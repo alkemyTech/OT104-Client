@@ -1,16 +1,15 @@
-// TODO >>> we need to replace the baseUrl with the one from .env variable
-// const baseUrl = process.env.REACT_APP_HERE_THE_BASE_URL_FOR_ACTIVITIES;
-const baseUrl = "http://ongapi.alkemy.org/api/activities";
+const baseUrl = process.env.REACT_APP_ACTIVITY_URL;
 
 import {
   putRequest,
   deleteRequest,
   postRequest,
-  getRequest,
 } from "./privateApiService";
 
+import {get} from "../Services/publicApiService"
+
 const getActivities = () => {
-  return getRequest(baseUrl);
+  return get(baseUrl);
 };
 const getActivity = (activityId) => {
   return getRequest(`${baseUrl}/${activityId}`);
@@ -21,7 +20,7 @@ const createActivity = (dataToCreateActivity) => {
 };
 
 const updateActivity = (activityId, dataToUpdate) => {
-  return putRequest(`${baseUrl}/${activityId}`, dataToUpdate);
+  return putRequest(`${baseUrl}`, activityId, dataToUpdate);
 };
 
 const deleteActivity = (activityId) => {
