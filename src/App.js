@@ -8,7 +8,6 @@ import CategoriesForm from "./Components/Categories/CategoriesForm";
 import NewsForm from "./Components/News/NewsForm";
 import NewsDetail from "./Components/News/Detail/NewsDetail";
 import TestimonialForm from "./Components/Testimonials/TestimonialsForm";
-import UserForm from "./Components/Users/UsersForm";
 import SchoolCampaign from "./Campaigns/School/SchoolCampaign";
 import ToysCampaign from "./Campaigns/Toys/ToysCampaign";
 import MembersForm from "./Components/Members/MembersForm";
@@ -62,15 +61,15 @@ function App() {
         <Route path="/create-activity/:id" component={ActivitiesForm} />
         <Route path="/create-activity" component={ActivitiesForm} />
         <Route path="/create-category" component={CategoriesForm} />
-        <Route path="/create-news" component={NewsForm} />
+        <Route path="/newsform/:id" component={NewsForm} />
+        <Route path="/newsform" component={NewsForm} />
         <Route path="/create-testimonials" component={TestimonialForm} />
-        <Route path="/create-user" component={UserForm} />
         <Route path="/create-project" component={ProjectsForm} />
         <Route path="/create-contact" component={ContactForm} />
         <Route path="/school-campaign" component={SchoolCampaign} />
         <Route path="/contact" component={ContactForm} />
         <Route path="/about" component={About} />
-        <Route path="/Novedades/:id" component={NewsDetail} />
+        <Route path="/novedades/:id" component={NewsDetail} />
         <Route path="/Actividades" component={Activities} />
         <Route path="/donar">
           <Donation text={"!Hacé tu donación ya mismo :)"} />
@@ -84,7 +83,7 @@ function App() {
           <Redirect to="/" />
         )}
       </AnimatedSwitch>
-      <Footer/>
+      <Footer />
     </BrowserRouter>
   );
 }

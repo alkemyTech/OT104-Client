@@ -1,28 +1,109 @@
 import React, { useEffect, useState } from "react";
-import "../FormStyles.css";
-import { useFormik } from "formik";
+import * as Formik from "formik";
 import * as Yup from "yup";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Image from "react-bootstrap/Image";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Alert from "react-bootstrap/Alert";
-import Spinner from "react-bootstrap/Spinner";
+import {
+  Form,
+  Button,
+  Image,
+  Container,
+  Row,
+  ButtonGroup,
+  ToggleButton,
+  Stack,
+} from "react-bootstrap";
+
 import userService from "../../Services/userService";
 import UseGeoLocation from "./useGeoLocation";
 import axios from "axios";
 import SearchAddress from "./SearchAddress";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-import ToggleButton from "react-bootstrap/ToggleButton";
-import { alertServiceError } from "../Alert/AlertService";
+import {
+  alertServiceError,
+  alertServiceInfoTimer,
+} from "../Alert/AlertService";
+import { useParams } from "react-router-dom";
+import Title from "../Title/Title";
+import Spinner from "../Spinner/Spinner";
 
-const UserForm = ({ user = null }) => {
-  const [imageString, setImageString] = useState(""); //imageString is the base64 string of the image
-  const [imageUrl, setImageUrl] = useState(() => user?.profile_image || ""); //ImageUrl is the url of the image to be displayed
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const isEditing = !!user;
+const SUPPORTED_FORMATS = ["image/jpeg", "image/jpg", "image/png"];
+const ROLES = {
+  admin: 1,
+  user: 2,
+};
+
+const validationSchema = Yup.object({
+  name: Yup.string()
+    .min(4, "El nombre debe contener al menos 4 caracteres.")
+    .required("El nombre es obligatorio."),
+  email: Yup.string().email("Email inválido").required("Obligatorio"),
+  role_id: Yup.number()
+    .oneOf(
+      [ROLES.admin, ROLES.user],
+      "Opciones válidas: administrador, usuario."
+    )
+    .required("Obligatorio"),
+  profile_image: Yup.mixed().test((value, { createError }) => {
+    if (!value) {
+      return createError({
+        path: "profile_image",
+        message: "La imagen es obligatoria.",
+      });
+    }
+    if (typeof value === "string") {
+      return true;
+    }
+    if (value.type) {
+      if (!SUPPORTED_FORMATS.includes(value.type)) {
+        return createError({
+          path: "profile_image",
+          message: `Los formatos validos son ${SUPPORTED_FORMATS}`,
+        });
+      }
+    }
+    return true;
+  }),
+  password: Yup.string()
+    .min(8, "La contraseña debe contener al menos 8 caracteres.")
+    .required("Obligatorio"),
+  address: Yup.string().nullable(),
+});
+
+const InputFile = ({ name, setValue, initialValue, ...props }) => {
+  const [img, setImg] = useState(initialValue);
+
+  const handleFile = (event) => {
+    setValue(name, event.currentTarget.files[0]);
+    if (event.currentTarget.files[0]) {
+      setImg(URL.createObjectURL(event.currentTarget.files[0]));
+    } else {
+      URL.revokeObjectURL(img);
+      setImg(null);
+    }
+  };
+
+  useEffect(() => {
+    if (initialValue) {
+      setImg(initialValue);
+    }
+  }, [initialValue]);
+
+  return (
+    <Stack gap={3}>
+      {img && <Image src={img} alt="" fluid />}
+      <Form.Control
+        {...props}
+        name={name}
+        id={name}
+        type="file"
+        accept=".jpg, .png"
+        onChange={handleFile}
+      />
+    </Stack>
+  );
+};
+
+const UserForm = () => {
+  const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
   const [addressState, setAddressState] = useState("");
   const [geoOption, setGeoOption] = useState(false);
   const location = UseGeoLocation();
@@ -30,6 +111,15 @@ const UserForm = ({ user = null }) => {
   const [coordinates, setCoordinates] = useState({
     lat: location.coordinates?.lat,
     lng: location.coordinates?.lng,
+  });
+  const { id } = useParams();
+  const [initialValues, setInitialValues] = useState({
+    name: "",
+    email: "",
+    role_id: "",
+    profile_image: null,
+    password: "",
+    address: "",
   });
 
   const getAdress = async () => {
@@ -45,301 +135,277 @@ const UserForm = ({ user = null }) => {
       );
     }
   };
-  useEffect(() => {
-    getAdress();
-  }, []);
-  const roles = {
-    admin: 1,
-    user: 2,
-  };
 
-  const initialValues = {
-    name: user?.name || "",
-    email: user?.email || "",
-    role_id: user?.role || "",
-    profile_image: user?.profile_image || "",
-    password: user?.password || "",
-    address: user?.address || "",
-  };
-
-  const validationSchema = Yup.object({
-    name: Yup.string()
-      .min(4, "El nombre debe contener al menos 4 caracteres.")
-      .required("El nombre es obligatorio."),
-    email: Yup.string().email("Email inválido").required("Obligatorio"),
-    role_id: Yup.number()
-      .oneOf(
-        [roles.admin, roles.user],
-        "Opciones válidas: administrador, usuario."
-      )
-      .required("Obligatorio"),
-    profile_image: Yup.string()
-      .matches(
-        /\.(jpg|png)$/,
-        "Formato de imagen inválido. Selecciona un archivo .jpg o .png"
-      )
-      .required("Obligatorio"),
-    password: Yup.string()
-      .min(8, "La contraseña debe contener al menos 8 caracteres.")
-      .required("Obligatorio"),
-    address: Yup.string(),
-  });
-
-  const { handleSubmit, handleChange, handleBlur, values, errors, touched } =
-    useFormik({
-      initialValues,
-      validationSchema,
-      onSubmit: async (values) => {
-        console.log(values);
-        setLoading(true);
-        setMessage("");
-        let { profile_image, ...userData } = values;
-        userData = {
-          ...userData,
-          profile_image: imageString,
-          latitude: coordinates.lat,
-          longitude: coordinates.lng,
-        };
-        // if the response is successful will have a data property with the user data and success property with true
-        //Otherwise will have a response property with a data property whit an array of errors
-        if (isEditing) {
-          const res = await userService.update(user.id, userData);
-          setLoading(false);
-          if (res.response) {
-            res.response.data.errors?.email // if the error is from the email field
-              ? setMessage(
-                  "No se pudo editar el usuario, el email ya está registrado."
-                )
-              : setMessage("No se pudo editar el usuario.");
-          } else if (res.data.success) {
-            setMessage("Usuario actualizado correctamente.");
-          } else {
-            setMessage("No se pudo aditar el usuario.");
-          }
-        } else {
-          const res = await userService.create(userData);
-          setLoading(false);
-          if (res.response) {
-            res.response.data.errors?.email // if the error is from the email field
-              ? setMessage(
-                  "No se pudo crear el usuario, el email ya está registrado."
-                )
-              : setMessage("No se pudo crear el usuario.");
-          } else if (res.data.success) {
-            setMessage("Usuario creado correctamente.");
-          } else {
-            setMessage("No se pudo crear el usuario.");
-          }
-        }
-      },
-    });
-
-  const handleChangeImg = (event) => {
-    handleChange(event);
-    touched.profile_image = true;
-    const file = event.target.files[0];
-    if (file) {
-      setImageUrl(URL.createObjectURL(file)); // Create a URL from the file
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageString(reader.result); // Set the base64 string
+  const getUserByParams = async (id) => {
+    try {
+      setLoading(true);
+      let {
+        data: { data: user },
+      } = await userService.getById(id);
+      let dataUser = {
+        name: user.name,
+        email: user.email,
+        role_id: user.role_id,
+        profile_image: user.profile_image,
+        password: user.password,
+        address: user.address,
       };
-      reader.readAsDataURL(file);
+      setInitialValues(dataUser);
+      setLoading(false);
+    } catch (err) {
+      alertServiceError(
+        "Error",
+        "Ocurrio un error al intentar encontrar el usuario"
+      );
     }
   };
-  console.log(location);
+
+  const toBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+
+  const handleSubmit = async (values) => {
+    setLoading(true);
+    let formToSend = {};
+    let { profile_image, ...rest } = values;
+
+    if (typeof profile_image === "object") {
+      profile_image = await toBase64(profile_image);
+      formToSend = {
+        profile_image,
+        latitude: coordinates.lat,
+        longitude: coordinates.lng,
+        ...rest,
+      };
+    } else {
+      formToSend = {
+        ...rest,
+        latitude: coordinates.lat,
+        longitude: coordinates.lng,
+      };
+    }
+    if (isEditing) {
+      try {
+        await userService.update(id, formToSend);
+        setLoading(false);
+        alertServiceInfoTimer(
+          "center",
+          "success",
+          "Usuario actualizado correctamente."
+        );
+      } catch (err) {
+        setLoading(false);
+        alertServiceError("Error", "No se pudo aditar el usuario.");
+      }
+    } else {
+      try {
+        await userService.create(formToSend);
+        setLoading(false);
+        alertServiceInfoTimer(
+          "center",
+          "success",
+          "Usuario creado correctamente."
+        );
+      } catch (err) {
+        setLoading(false);
+        alertServiceError("Error", "No se pudo crear el usuario.");
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      setIsEditing(true);
+      getUserByParams(id);
+    } else {
+      setLoading(false);
+    }
+    getAdress();
+  }, [id]);
+
   return (
-    <Container style={{ maxWidth: "30rem" }}>
-      <Row>
-        <h1 style={{ textAlign: "center", marginTop: "1em" }}>
-          {isEditing ? "Editar usuario" : "Crear usuario"}
-        </h1>
-      </Row>
-      <Row>
-        <Form
-          onSubmit={handleSubmit}
-          className="mb-3"
-          encType="multipart/form-data"
-        >
-          <Form.Group className="mb-3">
-            <Form.Label> Nombre</Form.Label>
-            <Form.Control
-              type="text"
-              name="name"
-              value={values.name}
-              onChange={handleChange}
-              placeholder="Nombre"
-              onBlur={handleBlur}
-              isInvalid={errors.name && touched.name}
-              isValid={!errors.name && touched.name}
-            />
-            {errors.name && touched.name ? (
-              <Form.Control.Feedback type="invalid">
-                {errors.name}
-              </Form.Control.Feedback>
-            ) : (
-              <Form.Text className="text-muted">
-                El nombre debe contener al menos 4 caracteres.
-              </Form.Text>
-            )}
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label> Correo electrónico </Form.Label>
-            <Form.Control
-              className="input-field"
-              type="email"
-              name="email"
-              value={values.email}
-              onChange={handleChange}
-              placeholder="Correo electrónico"
-              onBlur={handleBlur}
-              isInvalid={errors.email && touched.email}
-              isValid={touched.email && !errors.email}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.email}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label> Contraseña </Form.Label>
-            <Form.Control
-              className="input-field"
-              type="password"
-              name="password"
-              value={values.password}
-              onChange={handleChange}
-              placeholder="Contraseña"
-              onBlur={handleBlur}
-              isInvalid={errors.password && touched.password}
-              isValid={touched.password && !errors.password}
-            />
-            {errors.password && touched.password ? (
-              <Form.Control.Feedback type="invalid">
-                {errors.password}
-              </Form.Control.Feedback>
-            ) : (
-              <Form.Text className="text-muted">
-                La contraseña debe contener al menos 8 caracteres.
-              </Form.Text>
-            )}
-          </Form.Group>
-          <ButtonGroup className="mb-2">
-            <ToggleButton
-              id="toggle-check"
-              type="checkbox"
-              variant="outline-primary"
-              checked={geoOption}
-              value="1"
-              onChange={(e) => setGeoOption(e.currentTarget.checked)}
-            >
-              Usar Ubicación Actual
-            </ToggleButton>
-          </ButtonGroup>
-
-          <Form.Group className="mb-3">
-            {location.loaded && geoOption ? (
-              <>
-                <Form.Label> Confirmar Ubicación Actual </Form.Label>
-                <Form.Control
-                  className="input-field"
-                  type="text"
-                  name="address"
-                  value={values.address}
-                  onChange={handleChange}
-                  placeholder={!addressState ? "address" : addressState}
-                  onBlur={handleBlur}
-                  isInvalid={errors.address && touched.address}
-                  isValid={touched.address && !errors.address}
-                />
-                {errors.address && touched.address ? (
+    <Stack>
+      <Title>{isEditing ? "Editar usuario" : "Crear usuario"}</Title>
+      <div style={{ maxWidth: "30rem" }} className="card bg-light my-4 mx-auto">
+        {loading ? (
+          <Spinner />
+        ) : (
+          <Formik.Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={(values) => {
+              handleSubmit(values);
+            }}
+          >
+            {({
+              dirty,
+              isValid,
+              touched,
+              errors,
+              isSubmitting,
+              setFieldTouched,
+              setFieldValue,
+            }) => (
+              <Formik.Form as={Form} className="p-3">
+                <Form.Group className="mb-3">
+                  <Form.Label htmlFor="name"> Nombre</Form.Label>
+                  <Formik.Field
+                    as={Form.Control}
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Nombre"
+                    isInvalid={errors.name && touched.name}
+                    isValid={!errors.name && touched.name}
+                  />
+                  {errors.name && touched.name ? (
+                    <Form.Control.Feedback type="invalid">
+                      {errors.name}
+                    </Form.Control.Feedback>
+                  ) : (
+                    <Form.Text className="text-muted">
+                      El nombre debe contener al menos 4 caracteres.
+                    </Form.Text>
+                  )}
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label htmlFor="email"> Correo electrónico </Form.Label>
+                  <Formik.Field
+                    as={Form.Control}
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Correo electrónico"
+                    isInvalid={errors.email && touched.email}
+                    isValid={touched.email && !errors.email}
+                  />
                   <Form.Control.Feedback type="invalid">
-                    {errors.address}
+                    {errors.email}
                   </Form.Control.Feedback>
-                ) : (
-                  <Form.Text className="text-muted">
-                    Debe ingresar una Ubicación valida.
-                  </Form.Text>
-                )}
-                <img
-                  src={`https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinates.lat},${location.coordinates.lng}&zoom=14&size=400x300&sensor=false&markers=color:blue%7C${location.coordinates.lat},${location.coordinates.lng}&key=${api_key}`}
-                  alt="Mapa del Ususario"
-                />
-              </>
-            ) : (
-              <SearchAddress
-                setCoordinates={setCoordinates}
-                coordinates={coordinates}
-              />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label htmlFor="password"> Contraseña </Form.Label>
+                  <Formik.Field
+                    as={Form.Control}
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Contraseña"
+                    isInvalid={errors.password && touched.password}
+                    isValid={touched.password && !errors.password}
+                  />
+                  {errors.password && touched.password ? (
+                    <Form.Control.Feedback type="invalid">
+                      {errors.password}
+                    </Form.Control.Feedback>
+                  ) : (
+                    <Form.Text className="text-muted">
+                      La contraseña debe contener al menos 8 caracteres.
+                    </Form.Text>
+                  )}
+                </Form.Group>
+                <ButtonGroup className="mb-3">
+                  <ToggleButton
+                    id="toggle-check"
+                    type="checkbox"
+                    variant="outline-primary"
+                    checked={geoOption}
+                    value="1"
+                    onChange={(e) => setGeoOption(e.currentTarget.checked)}
+                  >
+                    Usar Ubicación Actual
+                  </ToggleButton>
+                </ButtonGroup>
+                <Form.Group className="mb-3">
+                  {location.loaded && geoOption ? (
+                    <>
+                      <Form.Label htmlFor="address">
+                        Confirmar Ubicación Actual
+                      </Form.Label>
+                      <Formik.Field
+                        as={Form.Control}
+                        type="text"
+                        id="address"
+                        name="address"
+                        placeholder={!addressState ? "address" : addressState}
+                        isInvalid={errors.address && touched.address}
+                        isValid={touched.address && !errors.address}
+                      />
+                      {errors.address && touched.address ? (
+                        <Form.Control.Feedback type="invalid">
+                          {errors.address}
+                        </Form.Control.Feedback>
+                      ) : (
+                        <Form.Text className="text-muted">
+                          Debe ingresar una Ubicación valida.
+                        </Form.Text>
+                      )}
+                      <img
+                        src={`https://maps.googleapis.com/maps/api/staticmap?center=${location.coordinates.lat},${location.coordinates.lng}&zoom=14&size=400x300&sensor=false&markers=color:blue%7C${location.coordinates.lat},${location.coordinates.lng}&key=${api_key}`}
+                        alt="Mapa del Ususario"
+                      />
+                    </>
+                  ) : (
+                    <SearchAddress
+                      setCoordinates={setCoordinates}
+                      coordinates={coordinates}
+                    />
+                  )}
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label htmlFor="role_id"> Rol de usuario </Form.Label>
+                  <Formik.Field
+                    as={Form.Select}
+                    id="role_id"
+                    name="role_id"
+                    isInvalid={errors.role_id && touched.role_id}
+                  >
+                    <option value="" disabled>
+                      Rol del usuario
+                    </option>
+                    <option value={ROLES.admin}>Administrador</option>
+                    <option value={ROLES.user}>Usuario</option>
+                  </Formik.Field>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.role_id}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label htmlFor="profile_image">
+                    Foto de Perfil
+                  </Form.Label>
+                  <InputFile
+                    name="profile_image"
+                    onBlur={() => setFieldTouched("profile_image")}
+                    setValue={setFieldValue}
+                    initialValue={initialValues.profile_image}
+                    isValid={touched.profile_image && !errors.profile_image}
+                    isInvalid={touched.profile_image && errors.profile_image}
+                    disabled={isSubmitting}
+                  />
+                  {errors.profile_image && touched.profile_image ? (
+                    <Form.Control.Feedback type="invalid">
+                      {errors.profile_image}
+                    </Form.Control.Feedback>
+                  ) : (
+                    <Form.Text className="text-muted">
+                      Debe ingresar una Ubicación valida.
+                    </Form.Text>
+                  )}
+                </Form.Group>
+                <Button className="w-100" type="submit">
+                  {isEditing ? "Actualizar" : "Crear"}
+                </Button>
+              </Formik.Form>
             )}
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label htmlFor="role"> Rol de usuario </Form.Label>
-            <Form.Select
-              className="input-field"
-              value={values.role_id}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              name="role_id"
-              isInvalid={errors.role_id && touched.role_id}
-            >
-              <option value="" disabled>
-                Rol del usuario
-              </option>
-              <option value={roles.admin}>Administrador</option>
-              <option value={roles.user}>Usuario</option>
-            </Form.Select>
-            <Form.Control.Feedback type="invalid">
-              {errors.role_id}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label> Foto de Perfil </Form.Label>
-            <Form.Control
-              className="input-field"
-              type="file"
-              name="profile_image"
-              onChange={handleChangeImg}
-              accept=".png, .jpeg"
-              isInvalid={errors.profile_image && touched.profile_image}
-              isValid={touched.profile_image && !errors.profile_image}
-            />
-            {errors.profile_image && touched.profile_image ? (
-              <Form.Control.Feedback type="invalid">
-                {errors.profile_image}
-              </Form.Control.Feedback>
-            ) : (
-              <Form.Text className="text-muted">
-                La imagen debe ser un archivo .png o .jpg
-              </Form.Text>
-            )}
-          </Form.Group>
-          <Form.Group className="mb-3">
-            {imageUrl && !errors.profile_image ? (
-              <Image src={imageUrl} alt="foto de perfil" rounded fluid />
-            ) : null}
-          </Form.Group>
-          {
-            <Button type="submit" disabled={loading}>
-              {loading ? (
-                <Spinner
-                  as="span"
-                  animation="border"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                />
-              ) : isEditing ? (
-                "Actualizar"
-              ) : (
-                "Crear"
-              )}
-            </Button>
-          }
-        </Form>
-      </Row>
-      <Row>{message && <Alert variant="info">{message}</Alert>}</Row>
-    </Container>
+          </Formik.Formik>
+        )}
+      </div>
+    </Stack>
   );
 };
 

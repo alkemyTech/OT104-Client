@@ -3,10 +3,18 @@ import "../FormStyles.css";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { FormikProvider, Form, ErrorMessage, useFormik } from "formik";
-import { FormLabel, FormControl, Button, Alert } from "react-bootstrap";
 import * as activitiesService from "../../Services/activitiesService" ;
 import Spinner from "../Spinner/Spinner";
 import { alertServiceError } from "../Alert/AlertService";
+import {
+  Form as FormBootstrap,
+  FormGroup,
+  FormLabel,
+  FormControl,
+  Button,
+  Alert,
+  Container,
+} from "react-bootstrap";
 
 const ActivitiesForm = ({
   match, 
@@ -39,6 +47,9 @@ const ActivitiesForm = ({
     }
     if (!values.image) {
       errors.image = "Por favor, ingrese una imagen.";
+    }
+    if (!values.description) {
+      errors.description = "Por favor, ingrese una descripción.";
     }
     return errors;
   };
@@ -120,29 +131,34 @@ const ActivitiesForm = ({
     }
     getCurrentActivity();
   },[])
-    return (
-      loaded ? 
+
+  return (
+    <Container style={{ maxWidth: "30rem" }} className="card bg-light my-4">
+      <h2 className="text-center p-3">Crear actividades</h2>
       <FormikProvider value={formik}>
-        <Form data-testid="form" className="form-container" encType="multipart/form-data">
-          <div>
-            <FormLabel>Nombre</FormLabel>
+        <Form data-testid="form" className="p-3" encType="multipart/form-data">
+          <FormGroup className="d-flex flex-column mb-3">
+            <FormLabel htmlFor="name">Nombre</FormLabel>
             <FormControl
+              as={FormBootstrap.Control}
+              id="name"
               name="name"
               data-testid="name"
               type={"text"}
               value={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              isInvalid={formik.touched.name && formik.errors.name}
             />
-            <ErrorMessage
-              name="name"
-              component={() => (
-                <Alert variant={"danger"}>{formik.errors.name}</Alert>
-              )}
-            />
-          </div>
-          <div>
+            <FormBootstrap.Control.Feedback type="invalid">
+              {formik.errors.name}
+            </FormBootstrap.Control.Feedback>
+          </FormGroup>
+
+          <FormGroup className="d-flex flex-column mb-3">
+            <FormLabel htmlFor="image">Imagen</FormLabel>
             <FormControl
+              id="image"
               type="file"
               name="image"
               data-testid="image"
@@ -150,30 +166,37 @@ const ActivitiesForm = ({
               accept="image/png, image/jpeg"
               ref={fileInput}
               onBlur={formik.handleBlur}
+              isInvalid={formik.touched.image && formik.errors.image}
             />
-            <ErrorMessage
-              name="image"
-              component={() => (
-                <Alert variant={"danger"}>{formik.errors.image}</Alert>
-              )}
-            />
-          </div>
-          <div>
-            {/* <CKEditor
+            <FormBootstrap.Control.Feedback type="invalid">
+              {formik.errors.image}
+            </FormBootstrap.Control.Feedback>
+          </FormGroup>
+          <FormGroup className="d-flex flex-column mb-3">
+            <FormLabel htmlFor="description">Descripción</FormLabel>
+           {/*  <FormControl
+              as={CKEditor}
               id="description"
-              data-testid="description"
+              name="description"
               editor={ClassicEditor}
               data={formik.values.description}
               ref={descriptionInput}
               onChange={handleDescriptionChange}
             /> */}
-          </div>
-          <Button type="submit">Enviar</Button>
+            <ErrorMessage
+              name="description"
+              component="div"
+              className="text-danger mt-1"
+              style={{ fontSize: ".9rem" }}
+            />
+          </FormGroup>
+          <Button type="submit" className="w-100">
+            Enviar
+          </Button>
         </Form>
-      </FormikProvider>    
-      :
-      <Spinner/>
-    );
+      </FormikProvider>
+    </Container>
+  );
 };
 
 export default ActivitiesForm;
