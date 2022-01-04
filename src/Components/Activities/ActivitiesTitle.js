@@ -3,7 +3,7 @@ import React from 'react'
 const ActivitiesTitle = (props) => {
   return (
     <>
-        <h1>{props.title}</h1>
+        <h1 className="text-center">{props.title}</h1>
     </>
   )
 }

@@ -45,6 +45,7 @@ const Content = () => {
   return (
     <Container fluid className={styles.container}>
       <Row>
+        <h1 className="text-center p-3">Acércate a donar los juguetes que ya no uses!</h1>
         <Col xl={8} xxl={6} className="mx-auto p-3">
           <Stack className="text-center" gap={3}>
             <Stack>
@@ -67,7 +68,7 @@ const Content = () => {
               ) : (
                 <Card body border="secondary" className="bg-transparent">
                   Faltan <strong>{campaign.countdown}</strong> para esta
-                  camapaña.
+                  campaña.
                 </Card>
               )}
             </Stack>
