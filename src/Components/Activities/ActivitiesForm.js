@@ -174,7 +174,7 @@ const ActivitiesForm = ({
           </FormGroup>
           <FormGroup className="d-flex flex-column mb-3">
             <FormLabel htmlFor="description">Descripción</FormLabel>
-           {/*  <FormControl
+            <FormControl
               as={CKEditor}
               id="description"
               name="description"
@@ -182,7 +182,7 @@ const ActivitiesForm = ({
               data={formik.values.description}
               ref={descriptionInput}
               onChange={handleDescriptionChange}
-            /> */}
+            />
             <ErrorMessage
               name="description"
               component="div"
