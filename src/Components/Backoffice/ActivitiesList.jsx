@@ -10,7 +10,7 @@ import Modal from "react-bootstrap/Modal";
 import { PencilFill, TrashFill } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getActividades } from "../../features/activities/activitiesSlice";
-import BackofficeLayout from './BackofficeLayout'
+import BackofficeLayout from "./BackofficeLayout";
 
 const ActivitiesList = () => {
   const activities = useSelector((state) => state.activities.data);
@@ -58,7 +58,7 @@ const ActivitiesList = () => {
   return (
     <Container fluid>
       <Row>
-        <Col>
+        <Col className="text-center mt-3 mb-3">
           <h3>Listado de actividades</h3>
           <Button as={Link} to="/backoffice/activities/create" className="mb-3">
             Nueva actividad

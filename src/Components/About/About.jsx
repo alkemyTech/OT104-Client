@@ -28,9 +28,7 @@ const About = () => {
     <>
       <Row style={{ marginTop: "5%" }}>
         <Col></Col>
-        <Col xs={5}>
-          <TituloAbout ongName={orgData.name} />
-        </Col>
+        <TituloAbout ongName={orgData.name} />
         <Col></Col>
       </Row>
       <Row style={{ marginTop: "2%" }}>

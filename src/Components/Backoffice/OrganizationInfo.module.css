@@ -4,6 +4,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 16px;
+  text-align: center;
 }
 
 img {
@@ -15,8 +16,10 @@ img {
 }
 
 .info {
-  display: flex;
   flex-direction: column;
+  background-color: #f2f2f2;
+  padding: 15px;
+  border-radius: 30px;
 }
 
 .name {
@@ -29,20 +32,6 @@ img {
   margin: 0;
   margin-bottom: 16px;
   text-align: center;
-}
-
-.button {
-  margin: 0 auto;
-  background-color: #2e86c1;
-  padding: 10px 15px;
-  border: none;
-  color: #fff;
-  text-decoration: none;
-}
-
-.button:hover {
-  cursor: pointer;
-  background-color: #3498db;
 }
 
 @media screen and (min-width: 768px) {
@@ -58,5 +47,12 @@ img {
 @media screen and (min-width: 992px) {
   .container {
     padding: 48px;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 414px) {
+  .description {
+    text-align: justify;
+    text-justify: inter-word;
   }
 }
