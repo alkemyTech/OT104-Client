@@ -19,17 +19,18 @@ const MiembrosAbout = ({ membersData }) => {
               className="gap-2"
               bg="light"
               key={activity.id.toString()}
-              style={{ width: "18rem"}}
+              style={{ width: "18rem" }}
             >
-              <Card.Img variant="top" src={activity.image} />
+              <Card.Img variant="top" src={activity.image} style={{ height: "18rem", objectFit: "cover", aspectRatio: "1"}}/>
               <Card.Body>
                 <Card.Title>
-                  {" "}
-                  <h3>{activity.name}</h3>{" "}
+                  <h3>{activity.name}</h3>
                 </Card.Title>
                 <br />
                 <Card.Text>
-                  <h5 dangerouslySetInnerHTML={{ __html: activity.description }}></h5>
+                  <h5
+                    dangerouslySetInnerHTML={{ __html: activity.description }}
+                  ></h5>
                 </Card.Text>
                 <br />
                 <div
@@ -39,7 +40,6 @@ const MiembrosAbout = ({ membersData }) => {
                     columnGap: "15%",
                   }}
                 >
-                  {" "}
                   <Button variant="outline-success" href={activity.linkedinUrl}>
                     Linkdin
                   </Button>
