@@ -3,7 +3,7 @@ import Carousel from "react-bootstrap/Carousel";
 
 function SliderBS({ slides }) {
   return (
-    <Carousel style={{ height: "487px" }}>
+    <Carousel>
       {Array.isArray(slides) &&
         slides.map((slide) => {
           return (
@@ -12,10 +12,14 @@ function SliderBS({ slides }) {
                 className="d-block w-100 overflow-hidden"
                 src={slide.image}
                 alt="First slide"
+                style={{
+                  objectFit: "cover",
+                  aspectRatio: "16 / 9",
+                }}
               />
               <Carousel.Caption>
                 <h3>{slide.name}</h3>
-                <p>{slide.description}</p>
+                <p dangerouslySetInnerHTML={{ __html: slide.description }}></p>
               </Carousel.Caption>
             </Carousel.Item>
           );
