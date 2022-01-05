@@ -24,7 +24,7 @@ const ActivitiesList = ({ data }) => {
               <h5 style={{ color: "Crimson" }}>{activity.name}</h5>
             </Card.Header>
             <Card.Body>
-              <Card.Text>{activity.description}</Card.Text>
+              <Card.Text dangerouslySetInnerHTML={{ __html: activity.description }}></Card.Text>
             </Card.Body>
           </Card>
         );
