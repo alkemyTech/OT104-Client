@@ -17,6 +17,7 @@ function Newness({ news }) {
             equals={true}
             buttonOnLine={true}
             id={data.id}
+            key={data.id}
           ></Card>
         );
       })}
