@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Table, Container, Button, Row, Col } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import { TrashFill, PencilFill } from "react-bootstrap-icons";
+import { TrashFill, PencilFill, Windows } from "react-bootstrap-icons";
 import ConfirmModal from "../Categories/ConfirmModal";
 import { useSelector, useDispatch } from "react-redux";
 import { getCategories } from "../../features/categories/categoriesSlice";
-
+import categoriesServices from "../../Services/categoriesService";
 //format the date to local time
 const formatDate = (date) => {
   const dateFormatted = new Date(date);
@@ -30,6 +30,8 @@ export default function Categories() {
       onConfirm: () => {
         setShowModal(false);
         alert(`${category.name} borrado con exito.`);
+        categoriesServices.delete(category.id);
+        dispatch(getCategories());
       },
       onCancel: () => {
         setShowModal(false);
@@ -45,15 +47,21 @@ export default function Categories() {
         categoryToEdit: category,
       },
     });
-
   };
 
   return (
     <Container fluid>
       <ConfirmModal showModal={showModal} data={modalData} />
       <Row>
-        <Col className="text-center mt-3 mb-3"><h3>Listado de categorias</h3>
-          <Button as={Link} to="/backoffice/categories/create" className="mb-3">
+        <Col className="text-center mt-3 mb-3">
+          <h3>Listado de categorias</h3>
+          <Button
+            as={Link}
+            onClick={() => {
+              history.push("/backoffice/categories/form");
+            }}
+            className="mb-3"
+          >
             Nueva categoria
           </Button>
         </Col>
@@ -95,6 +103,6 @@ export default function Categories() {
             ))}
         </tbody>
       </Table>
-    </Container >
+    </Container>
   );
 }
