@@ -8,7 +8,7 @@ import Title from "./../../Title/Title";
 import Comments from "./Comments";
 import "./styles/cardnew.css";
 import { alertServiceError } from "../../Alert/AlertService";
-import { getRequest } from "../../../Services/privateApiService";
+import { get } from "../../../Services/publicApiService";
 
 function NewsDetail(props) {
   const [news, setNews] = useState(null);
@@ -19,7 +19,7 @@ function NewsDetail(props) {
 
   useEffect(() => {
     (async () => {
-      let res = await getRequest(process.env.REACT_APP_URL_GET_NEWS + `/${id}`);
+      let res = await get(process.env.REACT_APP_URL_GET_NEWS + `/${id}`);
       setNews(res.data.data);
       setLoading(false);
     })();
