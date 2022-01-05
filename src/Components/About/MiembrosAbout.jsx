@@ -19,7 +19,7 @@ const MiembrosAbout = ({ membersData }) => {
               className="gap-2"
               bg="light"
               key={activity.id.toString()}
-              style={{ width: "18rem", height: "25rem" }}
+              style={{ width: "18rem" }}
             >
               <Card.Img variant="top" src={activity.image} />
               <Card.Body>
@@ -29,7 +29,7 @@ const MiembrosAbout = ({ membersData }) => {
                 </Card.Title>
                 <br />
                 <Card.Text>
-                  <h5>{activity.description}</h5>
+                  <h5 dangerouslySetInnerHTML={{ __html: activity.description }}></h5>
                 </Card.Text>
                 <br />
                 <div
