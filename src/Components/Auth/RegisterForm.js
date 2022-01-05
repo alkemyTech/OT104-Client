@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik } from "formik";
 import { Container, Row, Form, Button, Modal, Stack } from "react-bootstrap";
 import { Document, Page } from "react-pdf/dist/umd/entry.webpack";
-import { alertServiceError } from "../Alert/AlertService";
+import { alertServiceError, alertServiceConfirm } from "../Alert/AlertService";
 import pdf from "./terminos-y-condiciones.pdf";
 import { useDispatch } from "react-redux";
 import { register } from "../../features/auth/authReducer";
@@ -87,7 +87,7 @@ const RegisterForm = () => {
         const postData = async (data) => {
           const res = await dispatch(register(data));
           if (res.payload.success) {
-            alert("Usuario registrado con éxito");
+            alertServiceConfirm("Usuario registrado con éxito");
           } else {
             alertServiceError(
               "Algo anda mal",
