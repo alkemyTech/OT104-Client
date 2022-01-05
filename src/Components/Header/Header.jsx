@@ -3,22 +3,20 @@ import { Navbar, Container, Nav, Image } from "react-bootstrap";
 import somosMasLogo from "../../images/LOGO-SOMOS-MAS.png";
 import "./style.scss";
 import { useHistory } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authReducer";
 
 const publicLinks = [
   { name: "Inicio", path: "/", id: 1 },
   { name: "Nosotros", path: "/about", id: 2 },
-  {name: "Actividades", path: "/Actividades", id: 3},
+  { name: "Actividades", path: "/Actividades", id: 3 },
   { name: "Novedades", path: "/Novedades", id: 4 },
-]
+];
 
-
-function Header({userRole}) {
+function Header({ userRole }) {
   let history = useHistory();
   const dispatch = useDispatch();
-  const isAuth = useSelector(state => state.auth.isAuthenticated)
-  console.log(isAuth)
+  const isAuth = useSelector((state) => state.auth.isAuthenticated);
 
   return (
     <Navbar collapseOnSelect expand="lg" className="navbar-container">
@@ -29,9 +27,8 @@ function Header({userRole}) {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            {  
-              publicLinks.map((item) => {
-                return (
+            {publicLinks.map((item) => {
+              return (
                 <Nav.Link
                   key={item.id.toString()}
                   href={item.path}
@@ -39,10 +36,9 @@ function Header({userRole}) {
                 >
                   {item.name}
                 </Nav.Link>
-                )
-              })
-            }
-            {!isAuth && 
+              );
+            })}
+            {!isAuth && (
               <>
                 <Nav.Link href="/contact" className="link-to-section">
                   Contacto
@@ -57,8 +53,8 @@ function Header({userRole}) {
                   Registrarse
                 </Nav.Link>
               </>
-            }
-            {isAuth && userRole === 2 && 
+            )}
+            {isAuth && userRole === 2 && (
               <>
                 <Nav.Link href="/contact" className="link-to-section">
                   Contacto
@@ -67,24 +63,27 @@ function Header({userRole}) {
                   Contribuir
                 </Nav.Link>
               </>
-            }
-            {isAuth && userRole === 1 && 
+            )}
+            {isAuth && userRole === 1 && (
               <>
-               <Nav.Link href="/backoffice" className="link-to-section">
+                <Nav.Link href="/backoffice" className="link-to-section">
                   Backoffice
                 </Nav.Link>
               </>
-            }
-            {isAuth && 
+            )}
+            {isAuth && (
               <>
-                <button className="btn text-danger text-start" onClick={()=>{
-                  dispatch(logout());
-                  history.push("/");
-                }}>
+                <button
+                  className="btn text-danger text-start"
+                  onClick={() => {
+                    dispatch(logout());
+                    history.push("/");
+                  }}
+                >
                   Cerrar sesión
                 </button>
               </>
-            }
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
